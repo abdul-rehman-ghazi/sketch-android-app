@@ -1,0 +1,65 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "assembleDevDebug",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleDevDebug"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "assembleQaDebug",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleQaDebug"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "assembleStagDebug",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleStagDebug"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "assembleProdDebug",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "assembleProdDebug"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "clean"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "test",
+            "type": "shell",
+            "command": "./gradlew",
+            "args": [
+                "test"
+            ],
+            "group": "test",
+            "problemMatcher": []
+        }
+    ]
+}

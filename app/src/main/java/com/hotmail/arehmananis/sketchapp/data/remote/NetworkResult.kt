@@ -54,7 +54,7 @@ suspend fun <T> safeApiCall(
     } catch (e: ResponseException) {
         // Other HTTP errors
         NetworkResult.Error(
-            NetworkException.ServerException(e.response.status.value, e.message),
+            NetworkException.ServerException(e.response.status.value, e.message ?: "Unknown error"),
             "HTTP error occurred"
         )
     } catch (e: Exception) {

@@ -1,0 +1,49 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Android Launch (Dev)",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/dev/debug/app-dev-debug.apk",
+            "adbPath": "${env:ANDROID_HOME}/platform-tools/adb",
+            "preLaunchTask": "assembleDevDebug"
+        },
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Android Launch (QA)",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/qa/debug/app-qa-debug.apk",
+            "adbPath": "${env:ANDROID_HOME}/platform-tools/adb",
+            "preLaunchTask": "assembleQaDebug"
+        },
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Android Launch (Staging)",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/stag/debug/app-stag-debug.apk",
+            "adbPath": "${env:ANDROID_HOME}/platform-tools/adb",
+            "preLaunchTask": "assembleStagDebug"
+        },
+        {
+            "type": "android",
+            "request": "launch",
+            "name": "Android Launch (Prod)",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "apkFile": "${workspaceFolder}/app/build/outputs/apk/prod/debug/app-prod-debug.apk",
+            "adbPath": "${env:ANDROID_HOME}/platform-tools/adb",
+            "preLaunchTask": "assembleProdDebug"
+        },
+        {
+            "type": "android",
+            "request": "attach",
+            "name": "Android Attach",
+            "appSrcRoot": "${workspaceFolder}/app/src/main",
+            "adbPath": "${env:ANDROID_HOME}/platform-tools/adb",
+            "processId": "${command:pickAndroidProcess}"
+        }
+    ]
+}
