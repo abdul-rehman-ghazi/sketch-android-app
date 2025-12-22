@@ -11,7 +11,7 @@ import com.hotmail.arehmananis.sketchapp.domain.usecase.UpdateUserUseCase
 import com.hotmail.arehmananis.sketchapp.presentation.feature.home.HomeViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.profile.ProfileViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.settings.SettingsViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 /**
@@ -37,7 +37,7 @@ val repositoryModule = module {
     /**
      * ViewModel bindings
      */
-    viewModel { HomeViewModel(get()) }
-    viewModel { ProfileViewModel(get(), get()) }
-    viewModel { SettingsViewModel(get(), get()) }
+    viewModelOf(::HomeViewModel)
+    viewModelOf(::ProfileViewModel)
+    viewModelOf(::SettingsViewModel)
 }
