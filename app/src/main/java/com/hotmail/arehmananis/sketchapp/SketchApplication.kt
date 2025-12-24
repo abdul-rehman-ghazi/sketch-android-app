@@ -1,7 +1,11 @@
 package com.hotmail.arehmananis.sketchapp
 
 import android.app.Application
+import com.hotmail.arehmananis.sketchapp.data.sync.SketchSyncWorker
 import com.hotmail.arehmananis.sketchapp.di.appModule
+import com.hotmail.arehmananis.sketchapp.di.cloudinaryModule
+import com.hotmail.arehmananis.sketchapp.di.databaseModule
+import com.hotmail.arehmananis.sketchapp.di.firebaseModule
 import com.hotmail.arehmananis.sketchapp.di.networkModule
 import com.hotmail.arehmananis.sketchapp.di.repositoryModule
 import org.koin.android.ext.koin.androidContext
@@ -32,8 +36,14 @@ class SketchApplication : Application() {
             modules(
                 appModule,
                 networkModule,
+                firebaseModule,
+                cloudinaryModule,
+                databaseModule,
                 repositoryModule
             )
         }
+
+        // Schedule periodic sketch sync
+        SketchSyncWorker.schedule(this)
     }
 }

@@ -1,0 +1,86 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        flavor: [dev, qa, stag, prod]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Create local.properties
+        run: |
+          cat > local.properties << EOF
+          sdk.dir=$ANDROID_SDK_ROOT
+
+          # Google OAuth
+          google.dev.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          google.qa.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          google.stag.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          google.prod.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+
+          # Cloudinary Dev
+          cloudinary.dev.cloudName=${{ secrets.CLOUDINARY_DEV_CLOUD_NAME }}
+          cloudinary.dev.apiKey=${{ secrets.CLOUDINARY_DEV_API_KEY }}
+          cloudinary.dev.apiSecret=${{ secrets.CLOUDINARY_DEV_API_SECRET }}
+
+          # Cloudinary QA
+          cloudinary.qa.cloudName=${{ secrets.CLOUDINARY_QA_CLOUD_NAME }}
+          cloudinary.qa.apiKey=${{ secrets.CLOUDINARY_QA_API_KEY }}
+          cloudinary.qa.apiSecret=${{ secrets.CLOUDINARY_QA_API_SECRET }}
+
+          # Cloudinary Staging
+          cloudinary.stag.cloudName=${{ secrets.CLOUDINARY_STAG_CLOUD_NAME }}
+          cloudinary.stag.apiKey=${{ secrets.CLOUDINARY_STAG_API_KEY }}
+          cloudinary.stag.apiSecret=${{ secrets.CLOUDINARY_STAG_API_SECRET }}
+
+          # Cloudinary Production
+          cloudinary.prod.cloudName=${{ secrets.CLOUDINARY_PROD_CLOUD_NAME }}
+          cloudinary.prod.apiKey=${{ secrets.CLOUDINARY_PROD_API_KEY }}
+          cloudinary.prod.apiSecret=${{ secrets.CLOUDINARY_PROD_API_SECRET }}
+          EOF
+
+      - name: Create google-services.json
+        run: |
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
+
+      - name: Build ${{ matrix.flavor }} Debug APK
+        run: ./gradlew assemble${{ matrix.flavor }}Debug
+
+      - name: Run unit tests
+        run: ./gradlew test${{ matrix.flavor }}DebugUnitTest
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ matrix.flavor }}-debug
+          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
+          retention-days: 7
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.flavor }}
+          path: app/build/test-results/test${{ matrix.flavor }}DebugUnitTest/
+          retention-days: 7

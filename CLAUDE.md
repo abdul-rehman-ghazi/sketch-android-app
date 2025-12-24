@@ -303,6 +303,43 @@ When adding dependencies, update `libs.versions.toml` first, then reference in `
 - Keep ViewModels thin - business logic goes in use cases
 - **ViewModels are now KMP-compatible with androidx.lifecycle 2.8.0+**
 
+## Secrets Management
+
+**CRITICAL:** Never commit sensitive credentials to version control!
+
+### Protected Files (gitignored):
+
+- `local.properties` - Contains API keys and OAuth credentials
+- `app/google-services.json` - Firebase configuration with project credentials
+- `*.keystore`, `*.jks` - Signing keys for release builds
+
+### Configuration:
+
+- All secrets live in `local.properties`
+- Template available: `local.properties.template`
+- BuildConfig reads secrets at compile time
+- CI/CD uses GitHub Secrets (see `.github/workflows/build.yml`)
+
+### For new developers:
+
+See [SECRETS_SETUP.md](SECRETS_SETUP.md) for complete setup instructions.
+
+### Adding new secrets:
+
+1. Add to `local.properties.template` with placeholder
+2. Add to `local.properties` with real value (gitignored)
+3. Update `app/build.gradle.kts` to read the value
+4. Add validation to `validateSecrets()` function
+5. Document in `SECRETS_SETUP.md`
+6. Add to GitHub Secrets for CI/CD
+
+### KMP Note:
+
+Current secrets management uses Android Gradle BuildConfig. For KMP migration:
+- Replace BuildConfig with expect/actual configuration objects
+- Use multiplatform-settings for encrypted local storage
+- Keep Firebase/Cloudinary credentials in platform-specific implementations
+
 ## Multiplatform Migration Path
 
 If/when migrating to Compose Multiplatform:

@@ -1,0 +1,158 @@
+{
+  "project_info": {
+    "project_number": "<YOUR_PROJECT_NUMBER>",
+    "project_id": "<YOUR_PROJECT_ID>",
+    "storage_bucket": "<YOUR_PROJECT_ID>.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "<YOUR_PROD_MOBILE_SDK_APP_ID>",
+        "android_client_info": {
+          "package_name": "com.hotmail.arehmananis.sketchapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "<YOUR_ANDROID_CLIENT_ID_PROD>",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hotmail.arehmananis.sketchapp",
+            "certificate_hash": "<YOUR_SHA1_CERTIFICATE_HASH>"
+          }
+        },
+        {
+          "client_id": "<YOUR_WEB_CLIENT_ID>",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "<YOUR_FIREBASE_API_KEY>"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "<YOUR_WEB_CLIENT_ID>",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "<YOUR_DEV_MOBILE_SDK_APP_ID>",
+        "android_client_info": {
+          "package_name": "com.hotmail.arehmananis.sketchapp.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "<YOUR_ANDROID_CLIENT_ID_DEV>",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hotmail.arehmananis.sketchapp.dev",
+            "certificate_hash": "<YOUR_SHA1_CERTIFICATE_HASH>"
+          }
+        },
+        {
+          "client_id": "<YOUR_WEB_CLIENT_ID>",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "<YOUR_FIREBASE_API_KEY>"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "<YOUR_WEB_CLIENT_ID>",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "<YOUR_QA_MOBILE_SDK_APP_ID>",
+        "android_client_info": {
+          "package_name": "com.hotmail.arehmananis.sketchapp.qa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "<YOUR_ANDROID_CLIENT_ID_QA>",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hotmail.arehmananis.sketchapp.qa",
+            "certificate_hash": "<YOUR_SHA1_CERTIFICATE_HASH>"
+          }
+        },
+        {
+          "client_id": "<YOUR_WEB_CLIENT_ID>",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "<YOUR_FIREBASE_API_KEY>"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "<YOUR_WEB_CLIENT_ID>",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "<YOUR_STAG_MOBILE_SDK_APP_ID>",
+        "android_client_info": {
+          "package_name": "com.hotmail.arehmananis.sketchapp.stag"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "<YOUR_ANDROID_CLIENT_ID_STAG>",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hotmail.arehmananis.sketchapp.stag",
+            "certificate_hash": "<YOUR_SHA1_CERTIFICATE_HASH>"
+          }
+        },
+        {
+          "client_id": "<YOUR_WEB_CLIENT_ID>",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "<YOUR_FIREBASE_API_KEY>"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "<YOUR_WEB_CLIENT_ID>",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

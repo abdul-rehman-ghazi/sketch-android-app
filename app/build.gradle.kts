@@ -1,8 +1,54 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
+}
+
+// Read local.properties for sensitive credentials
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
+// Validate that required secrets are configured
+fun validateSecrets(flavor: String) {
+    val requiredSecrets = listOf(
+        "google.${flavor}.webClientId",
+        "cloudinary.${flavor}.cloudName",
+        "cloudinary.${flavor}.apiKey",
+        "cloudinary.${flavor}.apiSecret"
+    )
+
+    val missingSecrets = requiredSecrets.filter {
+        localProperties[it]?.toString().isNullOrBlank()
+    }
+
+    if (missingSecrets.isNotEmpty()) {
+        throw GradleException(
+            """
+            |
+            |========================================================================
+            | MISSING SECRETS FOR FLAVOR: $flavor
+            |========================================================================
+            |
+            | The following secrets are not configured in local.properties:
+            | ${missingSecrets.joinToString("\n| - ")}
+            |
+            | Please copy local.properties.template to local.properties
+            | and fill in the required values.
+            |
+            | See SECRETS_SETUP.md for detailed instructions.
+            |========================================================================
+            |
+            """.trimMargin()
+        )
+    }
 }
 
 android {
@@ -20,12 +66,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // NOTE: GOOGLE_CLIENT_ID is now set per-flavor in productFlavors block
+        // See local.properties.template for configuration instructions
     }
 
     flavorDimensions += "environment"
 
     productFlavors {
         create("dev") {
+            validateSecrets("dev")
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
@@ -33,10 +83,23 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api-dev.sketchapp.com/\"")
             buildConfigField("String", "ENVIRONMENT", "\"Development\"")
 
+            // Google OAuth Web Client ID from local.properties
+            buildConfigField("String", "GOOGLE_CLIENT_ID",
+                "\"${localProperties["google.dev.webClientId"] ?: ""}\"")
+
+            // Cloudinary configuration from local.properties
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME",
+                "\"${localProperties["cloudinary.dev.cloudName"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY",
+                "\"${localProperties["cloudinary.dev.apiKey"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET",
+                "\"${localProperties["cloudinary.dev.apiSecret"] ?: ""}\"")
+
             resValue("string", "app_name", "Sketch Dev")
         }
 
         create("qa") {
+            validateSecrets("qa")
             dimension = "environment"
             applicationIdSuffix = ".qa"
             versionNameSuffix = "-qa"
@@ -44,10 +107,23 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api-qa.sketchapp.com/\"")
             buildConfigField("String", "ENVIRONMENT", "\"QA\"")
 
+            // Google OAuth Web Client ID from local.properties
+            buildConfigField("String", "GOOGLE_CLIENT_ID",
+                "\"${localProperties["google.qa.webClientId"] ?: ""}\"")
+
+            // Cloudinary configuration from local.properties
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME",
+                "\"${localProperties["cloudinary.qa.cloudName"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY",
+                "\"${localProperties["cloudinary.qa.apiKey"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET",
+                "\"${localProperties["cloudinary.qa.apiSecret"] ?: ""}\"")
+
             resValue("string", "app_name", "Sketch QA")
         }
 
         create("stag") {
+            validateSecrets("stag")
             dimension = "environment"
             applicationIdSuffix = ".stag"
             versionNameSuffix = "-stag"
@@ -55,15 +131,40 @@ android {
             buildConfigField("String", "BASE_URL", "\"https://api-stag.sketchapp.com/\"")
             buildConfigField("String", "ENVIRONMENT", "\"Staging\"")
 
+            // Google OAuth Web Client ID from local.properties
+            buildConfigField("String", "GOOGLE_CLIENT_ID",
+                "\"${localProperties["google.stag.webClientId"] ?: ""}\"")
+
+            // Cloudinary configuration from local.properties
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME",
+                "\"${localProperties["cloudinary.stag.cloudName"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY",
+                "\"${localProperties["cloudinary.stag.apiKey"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET",
+                "\"${localProperties["cloudinary.stag.apiSecret"] ?: ""}\"")
+
             resValue("string", "app_name", "Sketch Staging")
         }
 
         create("prod") {
+            validateSecrets("prod")
             dimension = "environment"
             // No suffix for production
 
             buildConfigField("String", "BASE_URL", "\"https://api.sketchapp.com/\"")
             buildConfigField("String", "ENVIRONMENT", "\"Production\"")
+
+            // Google OAuth Web Client ID from local.properties
+            buildConfigField("String", "GOOGLE_CLIENT_ID",
+                "\"${localProperties["google.prod.webClientId"] ?: ""}\"")
+
+            // Cloudinary configuration from local.properties
+            buildConfigField("String", "CLOUDINARY_CLOUD_NAME",
+                "\"${localProperties["cloudinary.prod.cloudName"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_KEY",
+                "\"${localProperties["cloudinary.prod.apiKey"] ?: ""}\"")
+            buildConfigField("String", "CLOUDINARY_API_SECRET",
+                "\"${localProperties["cloudinary.prod.apiSecret"] ?: ""}\"")
 
             resValue("string", "app_name", "Sketch App")
         }
@@ -141,6 +242,31 @@ dependencies {
 
     // Kotlinx Serialization - KMP JSON Parsing
     implementation(libs.kotlinx.serialization.json)
+
+    // Firebase (BOM handles versions)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
+
+    // Room Database
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
+    // Image Loading
+    implementation(libs.coil.compose)
+
+    // Google Sign-In (Credentials Manager)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
+    implementation(libs.googleid)
+
+    // WorkManager for background sync
+    implementation(libs.androidx.work.runtime.ktx)
+
+    // Cloudinary for cloud image storage
+    implementation(libs.cloudinary.android)
 
     // Testing
     testImplementation(libs.junit)
