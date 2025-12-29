@@ -51,7 +51,9 @@ val repositoryModule = module {
 
     // Sketch use cases
     factory { GetUserSketchesUseCase(get()) }
+    factory { GetSketchByIdUseCase(get()) }
     factory { CreateSketchUseCase(get()) }
+    factory { UpdateSketchUseCase(get()) }
     factory { DeleteSketchUseCase(get()) }
     factory { SyncSketchesUseCase(get()) }
 

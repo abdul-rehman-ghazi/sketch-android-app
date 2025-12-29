@@ -1,19 +1,24 @@
 package com.hotmail.arehmananis.sketchapp.presentation.common
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -40,6 +45,7 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
             "drawing/new"
         }
     }
+
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
     object Settings : Screen("settings", "Settings", Icons.Default.Settings)
 }
@@ -119,31 +125,51 @@ fun AppNavigation(
         composable(Screen.Settings.route) {
             Scaffold(
                 bottomBar = { BottomNavigationBar(navController = navController) }
-            ) { padding ->
+            ) {
                 SettingsScreen()
             }
         }
     }
 }
 
+/**
+ * Modern bottom navigation bar with smooth animations and gradient accents
+ */
 @Composable
 private fun BottomNavigationBar(navController: NavHostController) {
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surface,
+        tonalElevation = 3.dp
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
 
         bottomNavItems.forEach { screen ->
+            val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
+
+            // Smooth scale animation for selected items
+            val scale by animateFloatAsState(
+                targetValue = if (isSelected) 1.15f else 1f,
+                label = "nav_item_scale"
+            )
+
             NavigationBarItem(
                 icon = {
                     screen.icon?.let { iconVector ->
                         Icon(
                             imageVector = iconVector,
-                            contentDescription = screen.title
+                            contentDescription = screen.title,
+                            modifier = Modifier.scale(scale)
                         )
                     }
                 },
-                label = { Text(screen.title) },
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                label = {
+                    Text(
+                        text = screen.title,
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                },
+                selected = isSelected,
                 onClick = {
                     navController.navigate(screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {
@@ -152,7 +178,14 @@ private fun BottomNavigationBar(navController: NavHostController) {
                         launchSingleTop = true
                         restoreState = true
                     }
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    selectedTextColor = MaterialTheme.colorScheme.primary,
+                    indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             )
         }
     }

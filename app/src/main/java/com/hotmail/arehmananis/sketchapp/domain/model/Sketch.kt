@@ -13,9 +13,11 @@ data class Sketch(
     val localImagePath: String? = null,
     val remoteImageUrl: String? = null,
     val thumbnailUrl: String? = null,
+    val remotePathsUrl: String? = null, // Cloudinary URL to paths JSON file
     val syncStatus: SyncStatus = SyncStatus.SYNCED,
     val width: Int,
-    val height: Int
+    val height: Int,
+    val drawingPaths: List<DrawingPath>? = null // Vector path data for editing
 )
 
 /**

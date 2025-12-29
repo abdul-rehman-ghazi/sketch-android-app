@@ -1,9 +1,12 @@
 package com.hotmail.arehmananis.sketchapp.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Represents a drawing path with its properties
  * Pure Kotlin - KMP Ready
  */
+@Serializable
 data class DrawingPath(
     val points: List<PathPoint>,
     val brush: BrushType,
@@ -15,6 +18,7 @@ data class DrawingPath(
 /**
  * Represents a single point in a drawing path
  */
+@Serializable
 data class PathPoint(
     val x: Float,
     val y: Float,

@@ -2,16 +2,19 @@ package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.hotmail.arehmananis.sketchapp.presentation.common.components.GradientButton
 import org.koin.androidx.compose.koinViewModel
 
 /**
@@ -25,6 +28,11 @@ fun DrawingScreen(
     onBack: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    // Initialize - load existing sketch or start fresh
+    LaunchedEffect(sketchId) {
+        viewModel.initialize(sketchId)
+    }
 
     // Get canvas dimensions
     val configuration = LocalConfiguration.current
@@ -43,25 +51,52 @@ fun DrawingScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Drawing") },
+                title = {
+                    Text(
+                        text = "Drawing",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, "Back")
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Back"
+                        )
                     }
                 },
                 actions = {
+                    // Undo button
                     IconButton(
                         onClick = { viewModel.undo() },
                         enabled = uiState.canUndo
                     ) {
-                        Icon(Icons.Default.Undo, "Undo")
+                        Icon(
+                            imageVector = Icons.Default.Undo,
+                            contentDescription = "Undo",
+                            tint = if (uiState.canUndo) {
+                                MaterialTheme.colorScheme.onSurface
+                            } else {
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                            }
+                        )
                     }
+                    // Redo button
                     IconButton(
                         onClick = { viewModel.redo() },
                         enabled = uiState.canRedo
                     ) {
-                        Icon(Icons.Default.Redo, "Redo")
+                        Icon(
+                            imageVector = Icons.Default.Redo,
+                            contentDescription = "Redo",
+                            tint = if (uiState.canRedo) {
+                                MaterialTheme.colorScheme.onSurface
+                            } else {
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                            }
+                        )
                     }
+                    // Save button
                     IconButton(
                         onClick = {
                             // Save sketch - create bitmap from current paths
@@ -75,12 +110,29 @@ fun DrawingScreen(
                         },
                         enabled = !uiState.isSaving && uiState.paths.isNotEmpty()
                     ) {
-                        Icon(Icons.Default.Save, "Save")
+                        Icon(
+                            imageVector = Icons.Default.Save,
+                            contentDescription = "Save",
+                            tint = if (!uiState.isSaving && uiState.paths.isNotEmpty()) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                            }
+                        )
                     }
+                    // Clear button
                     IconButton(onClick = { viewModel.clearCanvas() }) {
-                        Icon(Icons.Default.DeleteForever, "Clear")
+                        Icon(
+                            imageVector = Icons.Default.DeleteForever,
+                            contentDescription = "Clear",
+                            tint = MaterialTheme.colorScheme.error
+                        )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface
+                )
             )
         },
         bottomBar = {
@@ -104,24 +156,89 @@ fun DrawingScreen(
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Saving indicator
+            // Loading indicator
+            if (uiState.isLoading) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text("Loading sketch...")
+                    }
+                }
+            }
+
+            // Saving indicator - modern gradient
             if (uiState.isSaving) {
                 LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             }
 
-            // Error snackbar
-            uiState.saveError?.let { error ->
-                Snackbar(
-                    modifier = Modifier.padding(16.dp),
-                    action = {
-                        TextButton(onClick = { viewModel.clearSaveState() }) {
-                            Text("Dismiss")
-                        }
-                    }
+            // Load error snackbar - modern styled
+            uiState.loadError?.let { error ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.BottomCenter
                 ) {
-                    Text(error)
+                    Snackbar(
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        action = {
+                            GradientButton(
+                                text = "Go Back",
+                                onClick = onBack
+                            )
+                        },
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            text = "Error: $error",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+                }
+            }
+
+            // Save error snackbar - modern styled
+            uiState.saveError?.let { error ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    contentAlignment = Alignment.BottomCenter
+                ) {
+                    Snackbar(
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        action = {
+                            TextButton(
+                                onClick = { viewModel.clearSaveState() }
+                            ) {
+                                Text(
+                                    text = "Dismiss",
+                                    style = MaterialTheme.typography.labelLarge
+                                )
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.errorContainer,
+                        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text(
+                            text = error,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
         }
@@ -140,19 +257,29 @@ private fun createBitmapFromPaths(
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = android.graphics.Canvas(bitmap)
 
-    // Fill with white background
+    // Fill with white background (on canvas, beneath the layer)
     canvas.drawColor(android.graphics.Color.WHITE)
+
+    // Save layer to support blend modes like CLEAR
+    val layerPaint = android.graphics.Paint()
+    canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), layerPaint)
 
     // Draw each path
     paths.forEach { drawingPath ->
         val paint = android.graphics.Paint().apply {
-            color = drawingPath.color.toInt()
             strokeWidth = drawingPath.strokeWidth
             style = android.graphics.Paint.Style.STROKE
             strokeCap = android.graphics.Paint.Cap.ROUND
             strokeJoin = android.graphics.Paint.Join.ROUND
             isAntiAlias = true
-            alpha = (drawingPath.opacity * 255).toInt()
+
+            // Handle eraser with CLEAR blend mode
+            if (drawingPath.brush == com.hotmail.arehmananis.sketchapp.domain.model.BrushType.ERASER) {
+                xfermode = android.graphics.PorterDuffXfermode(android.graphics.PorterDuff.Mode.CLEAR)
+            } else {
+                color = drawingPath.color.toInt()
+                alpha = (drawingPath.opacity * 255).toInt()
+            }
         }
 
         val path = android.graphics.Path()
@@ -166,6 +293,9 @@ private fun createBitmapFromPaths(
 
         canvas.drawPath(path, paint)
     }
+
+    // Restore layer
+    canvas.restore()
 
     return bitmap
 }

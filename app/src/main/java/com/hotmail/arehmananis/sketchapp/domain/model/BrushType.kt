@@ -1,9 +1,12 @@
 package com.hotmail.arehmananis.sketchapp.domain.model
 
+import kotlinx.serialization.Serializable
+
 /**
  * Types of brushes available for drawing
  * Pure Kotlin - KMP Ready
  */
+@Serializable
 enum class BrushType {
     PEN,
     PENCIL,
@@ -35,6 +38,7 @@ data class BrushConfig(
                 supportsOpacity = true,
                 defaultOpacity = 1f
             )
+
             BrushType.PENCIL -> BrushConfig(
                 type = type,
                 minWidth = 1f,
@@ -43,6 +47,7 @@ data class BrushConfig(
                 supportsOpacity = true,
                 defaultOpacity = 0.7f
             )
+
             BrushType.ERASER -> BrushConfig(
                 type = type,
                 minWidth = 5f,
@@ -51,6 +56,7 @@ data class BrushConfig(
                 supportsOpacity = false,
                 defaultOpacity = 1f
             )
+
             BrushType.MARKER -> BrushConfig(
                 type = type,
                 minWidth = 5f,
@@ -59,6 +65,7 @@ data class BrushConfig(
                 supportsOpacity = true,
                 defaultOpacity = 0.6f
             )
+
             BrushType.HIGHLIGHTER -> BrushConfig(
                 type = type,
                 minWidth = 10f,
@@ -67,6 +74,7 @@ data class BrushConfig(
                 supportsOpacity = true,
                 defaultOpacity = 0.3f
             )
+
             BrushType.AIRBRUSH -> BrushConfig(
                 type = type,
                 minWidth = 10f,
@@ -75,6 +83,7 @@ data class BrushConfig(
                 supportsOpacity = true,
                 defaultOpacity = 0.2f
             )
+
             BrushType.CALLIGRAPHY -> BrushConfig(
                 type = type,
                 minWidth = 2f,

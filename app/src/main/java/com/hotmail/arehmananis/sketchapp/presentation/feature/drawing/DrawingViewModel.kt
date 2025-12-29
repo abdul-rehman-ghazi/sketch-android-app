@@ -6,14 +6,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hotmail.arehmananis.sketchapp.domain.model.*
+import com.hotmail.arehmananis.sketchapp.domain.model.BrushConfig
+import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
+import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
+import com.hotmail.arehmananis.sketchapp.domain.model.PathPoint
+import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
+import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
+import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
 import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.GetCurrentAuthUserUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.drawing.SaveDrawingUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.CreateSketchUseCase
-import kotlinx.coroutines.flow.*
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.GetSketchByIdUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 /**
  * ViewModel for drawing screen with undo/redo functionality
@@ -21,7 +34,8 @@ import java.util.*
 class DrawingViewModel(
     private val getCurrentAuthUserUseCase: GetCurrentAuthUserUseCase,
     private val saveDrawingUseCase: SaveDrawingUseCase,
-    private val createSketchUseCase: CreateSketchUseCase
+    private val createSketchUseCase: CreateSketchUseCase,
+    private val getSketchByIdUseCase: GetSketchByIdUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DrawingUiState())
@@ -138,8 +152,77 @@ class DrawingViewModel(
                 paths = emptyList(),
                 currentPath = null,
                 canUndo = false,
-                canRedo = false
+                canRedo = false,
+                loadedSketchId = null
             )
+        }
+    }
+
+    /**
+     * Initialize drawing screen - load existing sketch or start fresh
+     * @param sketchId The sketch ID to load, or null for a new sketch
+     */
+    fun initialize(sketchId: String?) {
+        if (sketchId == null) {
+            // New sketch - clear canvas
+            clearCanvas()
+        } else {
+            // Load existing sketch
+            loadSketch(sketchId)
+        }
+    }
+
+    /**
+     * Load an existing sketch by ID
+     * Downloads drawing paths from Cloudinary if needed
+     * @param sketchId The ID of the sketch to load
+     */
+    private fun loadSketch(sketchId: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, loadError = null) }
+
+            try {
+                // Get sketch with paths (will download from Cloudinary if needed)
+                val result = getSketchByIdUseCase(sketchId, downloadPaths = true)
+
+                result.fold(
+                    onSuccess = { sketch ->
+                        // Load drawing paths
+                        val paths = sketch.drawingPaths ?: emptyList()
+
+                        // Initialize path history for undo/redo
+                        pathHistory.clear()
+                        pathHistory.addAll(paths)
+                        redoStack.clear()
+
+                        // Update UI state
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                loadedSketchId = sketchId,
+                                paths = paths,
+                                canUndo = paths.isNotEmpty(),
+                                canRedo = false
+                            )
+                        }
+                    },
+                    onFailure = { error ->
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                loadError = error.message ?: "Failed to load sketch"
+                            )
+                        }
+                    }
+                )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        loadError = e.message ?: "Failed to load sketch"
+                    )
+                }
+            }
         }
     }
 
@@ -164,8 +247,10 @@ class DrawingViewModel(
                     onSuccess = { filePath ->
                         // Create sketch entity
                         val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+                        val currentState = _uiState.value
+
                         val sketch = Sketch(
-                            id = UUID.randomUUID().toString(),
+                            id = currentState.loadedSketchId ?: UUID.randomUUID().toString(),
                             title = "Sketch ${dateFormat.format(Date())}",
                             userId = user.uid,
                             createdAt = System.currentTimeMillis(),
@@ -175,7 +260,8 @@ class DrawingViewModel(
                             thumbnailUrl = null,
                             syncStatus = SyncStatus.PENDING_UPLOAD,
                             width = canvasWidth,
-                            height = canvasHeight
+                            height = canvasHeight,
+                            drawingPaths = currentState.paths
                         )
 
                         // Save to database
@@ -229,10 +315,13 @@ class DrawingViewModel(
  * UI state for drawing screen
  */
 data class DrawingUiState(
+    val isLoading: Boolean = false,
+    val loadError: String? = null,
+    val loadedSketchId: String? = null,
     val paths: List<DrawingPath> = emptyList(),
     val currentPath: DrawingPath? = null,
     val currentBrush: BrushType = BrushType.PEN,
-    val currentColor: Long = Color.Black.toArgb().toLong(),
+    val currentColor: Long = 0xFF000000, // ARGB as Long for KMP compatibility
     val strokeWidth: Float = 3f,
     val opacity: Float = 1f,
     val shapeTool: ShapeTool = ShapeTool.NONE,

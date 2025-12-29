@@ -5,7 +5,13 @@ import android.util.Log
 import com.cloudinary.android.MediaManager
 import com.cloudinary.android.callback.ErrorInfo
 import com.cloudinary.android.callback.UploadCallback
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
+import java.security.MessageDigest
 import kotlin.coroutines.resume
 
 /**
@@ -95,6 +101,7 @@ class CloudinaryDataSourceImpl(
                         val exception = when {
                             error.description.contains("network", ignoreCase = true) ->
                                 CloudinaryNetworkException(error.description)
+
                             else ->
                                 CloudinaryUploadException(error.description)
                         }
@@ -123,26 +130,87 @@ class CloudinaryDataSourceImpl(
         }
     }
 
-    override suspend fun deleteImage(publicId: String): Result<Unit> {
-        return try {
-            // Note: Cloudinary delete requires Admin API which should be done server-side
-            // for security reasons (requires API secret).
-            //
-            // For now, we'll just log the deletion request.
-            // Actual deletion should be implemented via:
-            // 1. Backend API call that uses Cloudinary Admin API
-            // 2. Cloudinary auto-deletion policies (delete after X days of no access)
-            // 3. Manual cleanup via Cloudinary dashboard
+    override suspend fun deleteImage(publicId: String): Result<Unit> = withContext(Dispatchers.IO) {
+        return@withContext try {
+            Log.d(TAG, "Deleting resources for publicId: $publicId")
 
-            Log.w(TAG, "Delete requested for: $publicId")
-            Log.w(TAG, "Client-side deletion not implemented for security.")
-            Log.w(TAG, "Implement server-side deletion or use Cloudinary auto-deletion policies.")
+            // Delete image resource (resource_type=image)
+            val imagePublicId = "$FOLDER_PATH/$publicId"
+            deleteResource(imagePublicId, "image").getOrThrow()
+            Log.d(TAG, "Deleted image: $imagePublicId")
+
+            // Delete paths JSON (resource_type=raw)
+            val pathsPublicId = "sketch_paths/$publicId"
+            try {
+                deleteResource(pathsPublicId, "raw").getOrThrow()
+                Log.d(TAG, "Deleted paths JSON: $pathsPublicId")
+            } catch (e: Exception) {
+                // Paths might not exist for older sketches, just log
+                Log.w(TAG, "Failed to delete paths (may not exist): $pathsPublicId", e)
+            }
 
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e(TAG, "Delete error", e)
+            Log.e(TAG, "Delete error for: $publicId", e)
             Result.failure(CloudinaryDeleteException(e.message ?: "Unknown error"))
         }
+    }
+
+    /**
+     * Delete a resource from Cloudinary using Admin API
+     * Note: This exposes API secret client-side. For production, use backend proxy.
+     */
+    private fun deleteResource(publicId: String, resourceType: String): Result<Unit> {
+        return try {
+            val timestamp = (System.currentTimeMillis() / 1000).toString()
+
+            // Generate signature for authentication
+            // signature = SHA1(public_id={publicId}&timestamp={timestamp}{api_secret})
+            val stringToSign = "public_id=$publicId&timestamp=$timestamp${config.apiSecret}"
+            val signature = generateSHA1(stringToSign)
+
+            // Build request URL
+            val url = "https://api.cloudinary.com/v1_1/${config.cloudName}/$resourceType/destroy"
+
+            // Make HTTP POST request
+            val connection = URL(url).openConnection() as HttpURLConnection
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
+
+            // Build POST body
+            val postData = buildString {
+                append("public_id=").append(URLEncoder.encode(publicId, "UTF-8"))
+                append("&timestamp=").append(timestamp)
+                append("&api_key=").append(config.apiKey)
+                append("&signature=").append(signature)
+            }
+
+            // Send request
+            connection.outputStream.use { it.write(postData.toByteArray()) }
+
+            // Check response
+            val responseCode = connection.responseCode
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                Log.d(TAG, "Successfully deleted $resourceType: $publicId")
+                Result.success(Unit)
+            } else {
+                val errorBody = connection.errorStream?.bufferedReader()?.use { it.readText() }
+                Log.e(TAG, "Delete failed with code $responseCode: $errorBody")
+                Result.failure(CloudinaryDeleteException("Delete failed: HTTP $responseCode - $errorBody"))
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting resource: $publicId", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Generate SHA-1 hash for Cloudinary signature
+     */
+    private fun generateSHA1(input: String): String {
+        val bytes = MessageDigest.getInstance("SHA-1").digest(input.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
     }
 
     override fun generateThumbnailUrl(publicId: String, width: Int, height: Int): String {
@@ -162,4 +230,105 @@ class CloudinaryDataSourceImpl(
 
         return "$secure://res.cloudinary.com/$cloudName/image/upload/f_auto,q_auto/$publicId"
     }
+
+    override suspend fun uploadRawFile(
+        localFilePath: String,
+        publicId: String,
+        folder: String
+    ): Result<CloudinaryRawUploadResult> = suspendCancellableCoroutine { continuation ->
+        try {
+            Log.d(TAG, "Starting raw file upload: $publicId from $localFilePath")
+
+            val requestId = mediaManager.upload(localFilePath)
+                .option("public_id", publicId)
+                .option("folder", folder)
+                .option("resource_type", "raw") // Key: upload as raw file (not image)
+                .option("overwrite", true)
+                .callback(object : UploadCallback {
+                    override fun onStart(requestId: String) {
+                        Log.d(TAG, "Raw file upload started: $requestId")
+                    }
+
+                    override fun onProgress(requestId: String, bytes: Long, totalBytes: Long) {
+                        val progress = (bytes * 100 / totalBytes).toInt()
+                        Log.d(TAG, "Raw upload progress: $progress% ($bytes/$totalBytes bytes)")
+                    }
+
+                    override fun onSuccess(requestId: String, resultData: Map<*, *>) {
+                        Log.d(TAG, "Raw file upload successful: $resultData")
+
+                        try {
+                            val uploadedPublicId = resultData["public_id"] as? String ?: publicId
+                            val secureUrl = resultData["secure_url"] as? String
+                                ?: throw CloudinaryUploadException("No secure_url in response")
+
+                            val result = CloudinaryRawUploadResult(
+                                publicId = uploadedPublicId,
+                                secureUrl = secureUrl
+                            )
+
+                            Log.d(TAG, "Raw upload complete - URL: $secureUrl")
+                            continuation.resume(Result.success(result))
+                        } catch (e: Exception) {
+                            Log.e(TAG, "Error processing upload result", e)
+                            continuation.resume(
+                                Result.failure(CloudinaryUploadException("Upload succeeded but failed to process result: ${e.message}"))
+                            )
+                        }
+                    }
+
+                    override fun onError(requestId: String, error: ErrorInfo) {
+                        Log.e(TAG, "Raw file upload failed: ${error.description}")
+                        val exception = when {
+                            error.description.contains("network", ignoreCase = true) ->
+                                CloudinaryNetworkException(error.description)
+
+                            else ->
+                                CloudinaryUploadException(error.description)
+                        }
+                        continuation.resume(Result.failure(exception))
+                    }
+
+                    override fun onReschedule(requestId: String, error: ErrorInfo) {
+                        Log.w(TAG, "Raw file upload rescheduled: ${error.description}")
+                    }
+                })
+                .dispatch()
+
+            continuation.invokeOnCancellation {
+                Log.d(TAG, "Raw file upload cancelled, cancelling request: $requestId")
+                mediaManager.cancelRequest(requestId)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Raw file upload error", e)
+            continuation.resume(
+                Result.failure(CloudinaryUploadException("Failed to initiate upload: ${e.message}"))
+            )
+        }
+    }
+
+    override suspend fun downloadRawFile(url: String): Result<String> =
+        withContext(Dispatchers.IO) {
+            try {
+                Log.d(TAG, "Downloading raw file: $url")
+
+                val connection = URL(url).openConnection() as HttpURLConnection
+                connection.requestMethod = "GET"
+                connection.connectTimeout = 15000
+                connection.readTimeout = 15000
+
+                val responseCode = connection.responseCode
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    val content = connection.inputStream.bufferedReader().use { it.readText() }
+                    Log.d(TAG, "Raw file downloaded successfully, size: ${content.length} chars")
+                    Result.success(content)
+                } else {
+                    Log.e(TAG, "Download failed with code: $responseCode")
+                    Result.failure(CloudinaryUploadException("Download failed: HTTP $responseCode"))
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Download error", e)
+                Result.failure(CloudinaryNetworkException(e.message ?: "Download failed"))
+            }
+        }
 }

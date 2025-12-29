@@ -1,5 +1,6 @@
 package com.hotmail.arehmananis.sketchapp.domain.repository
 
+import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import kotlinx.coroutines.flow.Flow
 
@@ -52,4 +53,14 @@ interface SketchRepository {
      * @return Result indicating sync success or failure
      */
     suspend fun syncSketches(userId: String): Result<Unit>
+
+    /**
+     * Download and cache drawing paths from Cloudinary
+     * If paths already cached in Room, return cached version
+     * If remotePathsUrl exists, download and cache in Room
+     *
+     * @param sketchId Sketch ID to download paths for
+     * @return Result with list of DrawingPath on success, empty list if no paths available
+     */
+    suspend fun downloadAndCachePaths(sketchId: String): Result<List<DrawingPath>>
 }

@@ -4,8 +4,10 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hotmail.arehmananis.sketchapp.data.local.db.dao.SketchDao
 import com.hotmail.arehmananis.sketchapp.data.local.db.entity.SketchEntity
+import com.hotmail.arehmananis.sketchapp.data.local.serializer.PathSerializer
 import com.hotmail.arehmananis.sketchapp.data.remote.cloudinary.CloudinaryDataSource
 import com.hotmail.arehmananis.sketchapp.data.remote.firebase.dto.SketchDto
+import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
 import com.hotmail.arehmananis.sketchapp.domain.repository.SketchRepository
@@ -99,13 +101,19 @@ class SketchRepositoryImpl(
                         .document(id)
                         .delete()
                         .await()
-
-                    // Note: Cloudinary deletion should be done server-side for security
-                    // For now, just delete the Firestore metadata
-                    // The image will remain in Cloudinary until manually cleaned up
-                    // or through Cloudinary auto-deletion policies
-
                     Log.d(TAG, "Sketch deleted from Firestore: $id")
+
+                    // Delete from Cloudinary (image and paths JSON)
+                    if (sketch.remoteImageUrl != null || sketch.remotePathsUrl != null) {
+                        try {
+                            val publicId = "${sketch.userId}/${sketch.id}"
+                            cloudinary.deleteImage(publicId).getOrThrow()
+                            Log.d(TAG, "Deleted from Cloudinary: $publicId")
+                        } catch (e: Exception) {
+                            // Log but don't fail - local deletion already succeeded
+                            Log.w(TAG, "Failed to delete from Cloudinary: $id", e)
+                        }
+                    }
                 } catch (e: Exception) {
                     // Cloud deletion failed, but local deletion succeeded
                     Log.w(TAG, "Failed to delete from cloud: $id", e)
@@ -143,6 +151,103 @@ class SketchRepositoryImpl(
     }
 
     /**
+     * Upload drawing paths JSON to Cloudinary
+     * Creates temp file, uploads as raw file, returns URL
+     */
+    private suspend fun uploadPathsJson(
+        jsonContent: String,
+        publicId: String
+    ): Result<String> {
+        var tempFile: File? = null
+        return try {
+            // Create temp JSON file
+            tempFile = File.createTempFile("paths_${publicId.replace("/", "_")}", ".json")
+            tempFile.writeText(jsonContent)
+
+            Log.d(TAG, "Created temp paths file: ${tempFile.absolutePath}")
+
+            // Upload to Cloudinary with resource_type="raw"
+            val uploadResult = cloudinary.uploadRawFile(
+                localFilePath = tempFile.absolutePath,
+                publicId = publicId,
+                folder = "sketch_paths"
+            ).getOrThrow()
+
+            Log.d(TAG, "Paths JSON uploaded: ${uploadResult.secureUrl}")
+            Result.success(uploadResult.secureUrl)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to upload paths JSON for $publicId", e)
+            Result.failure(e)
+        } finally {
+            // Clean up temp file
+            tempFile?.let {
+                if (it.exists()) {
+                    it.delete()
+                    Log.d(TAG, "Deleted temp paths file: ${it.absolutePath}")
+                }
+            }
+        }
+    }
+
+    /**
+     * Download and cache drawing paths from Cloudinary
+     * If paths already cached in Room, return cached version
+     * If remotePathsUrl exists, download and cache in Room
+     *
+     * @param sketchId Sketch ID to download paths for
+     * @return List of DrawingPath on success, empty list if no paths available
+     */
+    override suspend fun downloadAndCachePaths(sketchId: String): Result<List<DrawingPath>> {
+        return try {
+            val entity = sketchDao.getSketchById(sketchId)
+                ?: return Result.failure(Exception("Sketch not found: $sketchId"))
+
+            // Check if paths already cached in Room
+            if (!entity.drawingPathsJson.isNullOrBlank()) {
+                Log.d(TAG, "Paths already cached for sketch: $sketchId")
+                val paths = PathSerializer.fromJson(entity.drawingPathsJson)
+                    ?: return Result.failure(Exception("Failed to deserialize cached paths"))
+                return Result.success(paths)
+            }
+
+            // Check if remotePathsUrl exists
+            val remoteUrl = entity.remotePathsUrl
+            if (remoteUrl.isNullOrBlank()) {
+                Log.d(TAG, "No remote paths URL for sketch: $sketchId (legacy sketch)")
+                return Result.success(emptyList())
+            }
+
+            // Download paths from Cloudinary
+            Log.d(TAG, "Downloading paths from: $remoteUrl")
+            val downloadResult = cloudinary.downloadRawFile(remoteUrl)
+
+            if (downloadResult.isFailure) {
+                Log.e(TAG, "Failed to download paths from Cloudinary", downloadResult.exceptionOrNull())
+                return Result.failure(downloadResult.exceptionOrNull() ?: Exception("Download failed"))
+            }
+
+            val jsonContent = downloadResult.getOrNull()
+                ?: return Result.failure(Exception("Downloaded content is null"))
+
+            // Deserialize JSON to DrawingPath list
+            val paths = PathSerializer.fromJson(jsonContent)
+                ?: return Result.failure(Exception("Failed to deserialize downloaded paths"))
+
+            Log.d(TAG, "Downloaded ${paths.size} paths for sketch: $sketchId")
+
+            // Cache in Room for offline access
+            val updatedEntity = entity.copy(drawingPathsJson = jsonContent)
+            sketchDao.updateSketch(updatedEntity)
+
+            Log.d(TAG, "Paths cached in Room for sketch: $sketchId")
+            Result.success(paths)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading and caching paths for $sketchId", e)
+            Result.failure(e)
+        }
+    }
+
+    /**
      * Upload a single sketch to Cloudinary + Firestore
      */
     private suspend fun uploadSketch(entity: SketchEntity) {
@@ -171,11 +276,28 @@ class SketchRepositoryImpl(
             Log.d(TAG, "Optimized URL: ${uploadResult.optimizedUrl}")
             Log.d(TAG, "Thumbnail URL: ${uploadResult.thumbnailUrl}")
 
+            // Upload drawing paths JSON to Cloudinary (if available)
+            var remotePathsUrl: String? = null
+            if (!entity.drawingPathsJson.isNullOrBlank()) {
+                Log.d(TAG, "Uploading drawing paths JSON for: ${entity.id}")
+                val pathsUploadResult = uploadPathsJson(entity.drawingPathsJson, publicId)
+
+                if (pathsUploadResult.isSuccess) {
+                    remotePathsUrl = pathsUploadResult.getOrNull()
+                    Log.d(TAG, "Paths uploaded successfully: $remotePathsUrl")
+                } else {
+                    // Log warning but don't fail the entire upload
+                    // Sketch can still work with image only
+                    Log.w(TAG, "Failed to upload paths JSON, continuing with image only", pathsUploadResult.exceptionOrNull())
+                }
+            }
+
             // Save metadata to Firestore with Cloudinary URLs
             val sketchDto = SketchDto.fromDomain(
                 entity.toDomain().copy(
                     remoteImageUrl = uploadResult.optimizedUrl,
-                    thumbnailUrl = uploadResult.thumbnailUrl
+                    thumbnailUrl = uploadResult.thumbnailUrl,
+                    remotePathsUrl = remotePathsUrl
                 )
             )
 
@@ -190,6 +312,7 @@ class SketchRepositoryImpl(
             val updated = entity.copy(
                 remoteImageUrl = uploadResult.optimizedUrl,
                 thumbnailUrl = uploadResult.thumbnailUrl,
+                remotePathsUrl = remotePathsUrl,
                 syncStatus = SyncStatus.SYNCED.name
             )
             sketchDao.updateSketch(updated)
@@ -236,6 +359,7 @@ class SketchRepositoryImpl(
                                     localImagePath = null, // Will show from Cloudinary URL
                                     remoteImageUrl = remoteSketch.remoteImageUrl,
                                     thumbnailUrl = remoteSketch.thumbnailUrl,
+                                    remotePathsUrl = remoteSketch.remotePathsUrl,
                                     syncStatus = SyncStatus.SYNCED,
                                     width = remoteSketch.width,
                                     height = remoteSketch.height
@@ -254,6 +378,7 @@ class SketchRepositoryImpl(
                                     updatedAt = remoteSketch.updatedAt,
                                     remoteImageUrl = remoteSketch.remoteImageUrl,
                                     thumbnailUrl = remoteSketch.thumbnailUrl,
+                                    remotePathsUrl = remoteSketch.remotePathsUrl,
                                     width = remoteSketch.width,
                                     height = remoteSketch.height
                                 )

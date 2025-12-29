@@ -6,9 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
@@ -30,6 +36,10 @@ fun DrawingCanvas(
     Canvas(
         modifier = modifier
             .fillMaxSize()
+            .graphicsLayer(
+                alpha = 0.99f,
+                compositingStrategy = CompositingStrategy.Offscreen
+            )
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->
@@ -194,8 +204,7 @@ private fun DrawScope.drawAirbrush(path: Path, config: DrawingPath) {
 }
 
 /**
- * Calligraphy: Variable width based on stroke direction
- * Note: Simplified version - full calligraphy would calculate angle per segment
+ * Calligraphy: Cut-marker style with flat chisel tip
  */
 private fun DrawScope.drawCalligraphy(path: Path, config: DrawingPath) {
     drawPath(
@@ -204,8 +213,8 @@ private fun DrawScope.drawCalligraphy(path: Path, config: DrawingPath) {
         alpha = config.opacity,
         style = Stroke(
             width = config.strokeWidth,
-            cap = StrokeCap.Round,
-            join = StrokeJoin.Round
+            cap = StrokeCap.Square,
+            join = StrokeJoin.Miter,
         )
     )
 }
