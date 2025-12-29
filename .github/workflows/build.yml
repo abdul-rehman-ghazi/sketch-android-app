@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        flavor: [dev, qa, stag, prod]
+        flavor: [ dev ] # qa, stag, prod]
 
     steps:
       - name: Checkout code
