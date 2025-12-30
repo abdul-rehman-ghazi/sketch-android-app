@@ -18,10 +18,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
           cache: gradle
 
@@ -33,31 +33,27 @@ jobs:
           cat > local.properties << EOF
           sdk.dir=$ANDROID_SDK_ROOT
 
-          # Google OAuth
+          # Google OAuth - Dev only
           google.dev.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.qa.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.stag.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.prod.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
+          google.qa.webClientId=dummy
+          google.stag.webClientId=dummy
+          google.prod.webClientId=dummy
 
-          # Cloudinary Dev
+          # Cloudinary Dev (real secrets)
           cloudinary.dev.cloudName=${{ secrets.CLOUDINARY_DEV_CLOUD_NAME }}
           cloudinary.dev.apiKey=${{ secrets.CLOUDINARY_DEV_API_KEY }}
           cloudinary.dev.apiSecret=${{ secrets.CLOUDINARY_DEV_API_SECRET }}
 
-          # Cloudinary QA
-          cloudinary.qa.cloudName=${{ secrets.CLOUDINARY_QA_CLOUD_NAME }}
-          cloudinary.qa.apiKey=${{ secrets.CLOUDINARY_QA_API_KEY }}
-          cloudinary.qa.apiSecret=${{ secrets.CLOUDINARY_QA_API_SECRET }}
-
-          # Cloudinary Staging
-          cloudinary.stag.cloudName=${{ secrets.CLOUDINARY_STAG_CLOUD_NAME }}
-          cloudinary.stag.apiKey=${{ secrets.CLOUDINARY_STAG_API_KEY }}
-          cloudinary.stag.apiSecret=${{ secrets.CLOUDINARY_STAG_API_SECRET }}
-
-          # Cloudinary Production
-          cloudinary.prod.cloudName=${{ secrets.CLOUDINARY_PROD_CLOUD_NAME }}
-          cloudinary.prod.apiKey=${{ secrets.CLOUDINARY_PROD_API_KEY }}
-          cloudinary.prod.apiSecret=${{ secrets.CLOUDINARY_PROD_API_SECRET }}
+          # Cloudinary QA/Stag/Prod (dummy values for validation)
+          cloudinary.qa.cloudName=dummy
+          cloudinary.qa.apiKey=dummy
+          cloudinary.qa.apiSecret=dummy
+          cloudinary.stag.cloudName=dummy
+          cloudinary.stag.apiKey=dummy
+          cloudinary.stag.apiSecret=dummy
+          cloudinary.prod.cloudName=dummy
+          cloudinary.prod.apiKey=dummy
+          cloudinary.prod.apiSecret=dummy
           EOF
 
       - name: Create google-services.json

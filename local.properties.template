@@ -14,12 +14,18 @@
 sdk.dir=<YOUR_ANDROID_SDK_PATH>
 
 # ============================================================================
-# SECRETS CONFIGURATION TEMPLATE
+# SECRETS CONFIGURATION TEMPLATE - DEV/QA ONLY
 # ============================================================================
 # Instructions:
 # 1. Copy this file: cp local.properties.template local.properties
 # 2. Replace all <PLACEHOLDER> values with your actual credentials
 # 3. NEVER commit local.properties to git
+#
+# SECURITY NOTE:
+# - This template only includes DEV and QA secrets for local development
+# - Production and Staging secrets should NEVER be stored locally
+# - Prod/Stag secrets are managed exclusively in CI/CD (GitHub Secrets)
+# - You only need secrets for environments you actually build locally
 #
 # For detailed setup instructions, see SECRETS_SETUP.md
 # ============================================================================
@@ -38,10 +44,11 @@ sdk.dir=<YOUR_ANDROID_SDK_PATH>
 # Only create separate IDs if you have separate Firebase projects per environment
 # ----------------------------------------------------------------------------
 
+# Development Environment (required for local dev)
 google.dev.webClientId=<YOUR_FIREBASE_WEB_CLIENT_ID>
+
+# QA Environment (optional - only if you build QA locally)
 google.qa.webClientId=<YOUR_FIREBASE_WEB_CLIENT_ID>
-google.stag.webClientId=<YOUR_FIREBASE_WEB_CLIENT_ID>
-google.prod.webClientId=<YOUR_FIREBASE_WEB_CLIENT_ID>
 
 # ----------------------------------------------------------------------------
 # Cloudinary Credentials
@@ -51,27 +58,28 @@ google.prod.webClientId=<YOUR_FIREBASE_WEB_CLIENT_ID>
 #   2. Dashboard shows: Cloud Name, API Key, API Secret
 #
 # Best Practice: Use separate Cloudinary accounts or folders for each environment
+# Security: DEV credentials only - never store production secrets locally!
 # ----------------------------------------------------------------------------
 
-# Development Environment
+# Development Environment (required for local dev)
 cloudinary.dev.cloudName=<YOUR_DEV_CLOUD_NAME>
 cloudinary.dev.apiKey=<YOUR_DEV_API_KEY>
 cloudinary.dev.apiSecret=<YOUR_DEV_API_SECRET>
 
-# QA Environment
+# QA Environment (optional - only if you build QA locally)
 cloudinary.qa.cloudName=<YOUR_QA_CLOUD_NAME>
 cloudinary.qa.apiKey=<YOUR_QA_API_KEY>
 cloudinary.qa.apiSecret=<YOUR_QA_API_SECRET>
 
-# Staging Environment
-cloudinary.stag.cloudName=<YOUR_STAG_CLOUD_NAME>
-cloudinary.stag.apiKey=<YOUR_STAG_API_KEY>
-cloudinary.stag.apiSecret=<YOUR_STAG_API_SECRET>
-
-# Production Environment
-cloudinary.prod.cloudName=<YOUR_PROD_CLOUD_NAME>
-cloudinary.prod.apiKey=<YOUR_PROD_API_KEY>
-cloudinary.prod.apiSecret=<YOUR_PROD_API_SECRET>
+# ----------------------------------------------------------------------------
+# PRODUCTION & STAGING SECRETS
+# ----------------------------------------------------------------------------
+# ❌ DO NOT add production or staging secrets to this file!
+# ✅ These are managed exclusively in CI/CD (GitHub Secrets)
+# ✅ Developers should never have access to production credentials
+#
+# If you need to build prod/stag locally (rare), contact your team lead
+# ----------------------------------------------------------------------------
 
 # ============================================================================
 # TROUBLESHOOTING

@@ -16,8 +16,22 @@ if (localPropertiesFile.exists()) {
     localPropertiesFile.inputStream().use { localProperties.load(it) }
 }
 
-// Validate that required secrets are configured
+// Validate that required secrets are configured for the flavor being built
 fun validateSecrets(flavor: String) {
+    // Check if this flavor is being built by examining the Gradle task
+    val taskNames = gradle.startParameter.taskNames.map { it.lowercase() }
+    val isFlavorBeingBuilt = taskNames.any { task ->
+        task.contains(flavor.lowercase()) ||
+        task.contains("all") ||
+        (task == "build" || task == "assemble")
+    }
+
+    // Skip validation if this flavor is not being built
+    if (!isFlavorBeingBuilt) {
+        println("ℹ️  Skipping secrets validation for '$flavor' (not being built)")
+        return
+    }
+
     val requiredSecrets = listOf(
         "google.${flavor}.webClientId",
         "cloudinary.${flavor}.cloudName",
@@ -44,6 +58,9 @@ fun validateSecrets(flavor: String) {
             | and fill in the required values.
             |
             | See SECRETS_SETUP.md for detailed instructions.
+            |
+            | NOTE: You only need to configure secrets for environments you build.
+            | For local development, you typically only need 'dev' secrets.
             |========================================================================
             |
             """.trimMargin()

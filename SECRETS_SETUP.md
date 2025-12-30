@@ -39,18 +39,35 @@ cp app/google-services.template.json app/google-services.json
 
 **Solution:** All secrets live in `local.properties` which is gitignored.
 
+**Security Best Practice (NEW):**
+- **Developers only need DEV (and optionally QA) secrets locally**
+- **Production and Staging secrets should NEVER be stored on developer machines**
+- **Prod/Stag credentials are managed exclusively in CI/CD (GitHub Secrets)**
+- The build system now validates only the secrets for flavors you're actually building
+
 ---
 
 ## Required Secrets
 
-Each environment (flavor) requires:
+**For local development, you only need DEV secrets:**
 
-| Secret | Purpose | Where to Find |
-|--------|---------|---------------|
-| `google.{flavor}.webClientId` | Google Sign-In OAuth | Firebase Console → Project Settings → OAuth 2.0 Client IDs |
-| `cloudinary.{flavor}.cloudName` | Cloud storage identifier | Cloudinary Dashboard → Account Details |
-| `cloudinary.{flavor}.apiKey` | Cloudinary authentication | Cloudinary Dashboard → Account Details |
-| `cloudinary.{flavor}.apiSecret` | Cloudinary authentication | Cloudinary Dashboard → Account Details |
+| Secret | Purpose | Where to Find | Required |
+|--------|---------|---------------|----------|
+| `google.dev.webClientId` | Google Sign-In OAuth | Firebase Console → Project Settings → OAuth 2.0 Client IDs | ✅ Yes |
+| `cloudinary.dev.cloudName` | Cloud storage identifier | Cloudinary Dashboard → Account Details | ✅ Yes |
+| `cloudinary.dev.apiKey` | Cloudinary authentication | Cloudinary Dashboard → Account Details | ✅ Yes |
+| `cloudinary.dev.apiSecret` | Cloudinary authentication | Cloudinary Dashboard → Account Details | ✅ Yes |
+
+**Optional - Only if you build QA flavor locally:**
+
+| Secret | Required |
+|--------|----------|
+| `google.qa.webClientId` | Only if building QA |
+| `cloudinary.qa.*` | Only if building QA |
+
+**Not needed locally:**
+- ❌ `*.stag.*` - Staging secrets (CI/CD only)
+- ❌ `*.prod.*` - Production secrets (CI/CD only)
 
 ---
 
@@ -77,13 +94,16 @@ If you need to create a new Firebase project, see [FIREBASE_SETUP.md](FIREBASE_S
 5. Paste into `local.properties`:
 
 ```properties
+# Required for local dev
 google.dev.webClientId=YOUR_WEB_CLIENT_ID
+
+# Optional - only if building QA locally
 google.qa.webClientId=YOUR_WEB_CLIENT_ID
-google.stag.webClientId=YOUR_WEB_CLIENT_ID
-google.prod.webClientId=YOUR_WEB_CLIENT_ID
 ```
 
 **Note:** All flavors typically use the SAME web client ID from your Firebase project.
+
+**Security:** You do NOT need to add `stag` or `prod` web client IDs locally - these are managed in CI/CD.
 
 ### Step 3: Configure SHA-1 Certificate (Required for Google Sign-In)
 
@@ -142,13 +162,18 @@ Cloudinary provides cloud storage for sketch images.
 3. Add to `local.properties`:
 
 ```properties
-# Development
+# Development (required)
 cloudinary.dev.cloudName=your-cloud-name
 cloudinary.dev.apiKey=123456789012345
 cloudinary.dev.apiSecret=abcdefghijklmnopqrstuvwx
 
-# Repeat for qa, stag, prod...
+# QA (optional - only if building QA locally)
+cloudinary.qa.cloudName=your-qa-cloud-name
+cloudinary.qa.apiKey=123456789012345
+cloudinary.qa.apiSecret=abcdefghijklmnopqrstuvwx
 ```
+
+**Security:** Do NOT add staging or production Cloudinary credentials locally. These are managed in CI/CD (GitHub Secrets).
 
 ---
 
@@ -156,13 +181,15 @@ cloudinary.dev.apiSecret=abcdefghijklmnopqrstuvwx
 
 ### Build Error: "MISSING SECRETS FOR FLAVOR"
 
-**Cause:** `local.properties` doesn't exist or is missing required values.
+**Cause:** `local.properties` doesn't exist or is missing required values for the flavor you're building.
 
 **Solution:**
 1. Ensure file is named `local.properties` (NOT `local.properties.template`)
 2. Check all placeholder values (`<YOUR_...>`) are replaced
 3. Verify no typos in property names
 4. Run `./gradlew clean && ./gradlew assembleDevDebug`
+
+**Note:** The build system now only validates secrets for the flavor you're actually building. If you're building `dev`, you only need dev secrets in `local.properties`. You do NOT need to configure stag or prod secrets locally.
 
 ### Google Sign-In Error: "Developer error" or "Sign-in failed"
 
@@ -201,7 +228,13 @@ Or in Android Studio: **Build** → **Clean Project** → **Rebuild Project**
 
 To build in CI/CD, secrets must be provided as environment variables or GitHub Secrets.
 
-**Example workflow:**
+**Current workflow (Dev only):**
+
+The project's GitHub Actions workflow (`.github/workflows/build.yml`) currently builds only the `dev` flavor. It uses:
+- Real secrets for dev environment
+- Dummy values for other flavors (to satisfy Gradle validation)
+
+**Example workflow for building dev:**
 
 ```yaml
 name: Build
@@ -217,21 +250,26 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Create local.properties
         run: |
           cat > local.properties << EOF
           sdk.dir=$ANDROID_SDK_ROOT
+
+          # Real dev secrets
           google.dev.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.qa.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.stag.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
-          google.prod.webClientId=${{ secrets.GOOGLE_WEB_CLIENT_ID }}
           cloudinary.dev.cloudName=${{ secrets.CLOUDINARY_DEV_CLOUD_NAME }}
           cloudinary.dev.apiKey=${{ secrets.CLOUDINARY_DEV_API_KEY }}
           cloudinary.dev.apiSecret=${{ secrets.CLOUDINARY_DEV_API_SECRET }}
-          # ... repeat for other flavors
+
+          # Dummy values for other flavors (not building these)
+          google.qa.webClientId=dummy
+          cloudinary.qa.cloudName=dummy
+          cloudinary.qa.apiKey=dummy
+          cloudinary.qa.apiSecret=dummy
+          # ... same for stag/prod
           EOF
 
       - name: Create google-services.json
@@ -242,11 +280,12 @@ jobs:
         run: ./gradlew assembleDevDebug
 ```
 
-**Required GitHub Secrets:**
+**Required GitHub Secrets (for dev builds):**
 - `GOOGLE_WEB_CLIENT_ID`
 - `GOOGLE_SERVICES_JSON` (entire file content as JSON string)
 - `CLOUDINARY_DEV_CLOUD_NAME`, `CLOUDINARY_DEV_API_KEY`, `CLOUDINARY_DEV_API_SECRET`
-- Repeat for qa, stag, prod
+
+**For production builds:** Add separate GitHub Secrets for prod environment and update the workflow. Never use production secrets in dev builds.
 
 **To add secrets:**
 1. Go to GitHub repository → **Settings** → **Secrets and variables** → **Actions**
@@ -260,16 +299,32 @@ jobs:
 ### DO:
 - ✅ Keep `local.properties` and `google-services.json` out of version control
 - ✅ Use separate credentials for each environment
+- ✅ **Only store DEV (and optionally QA) secrets on developer machines**
+- ✅ **Keep production/staging secrets exclusively in CI/CD**
 - ✅ Rotate credentials if they're accidentally committed
 - ✅ Use environment variables in CI/CD
-- ✅ Limit access to production credentials to authorized personnel
+- ✅ Limit access to production credentials to authorized personnel only
 
 ### DON'T:
 - ❌ Never commit `local.properties` or `google-services.json`
 - ❌ Never hardcode credentials in source code
 - ❌ Never share credentials via Slack, email, or unencrypted channels
+- ❌ **Never store production or staging credentials on your local machine**
 - ❌ Never use production credentials for development/testing
 - ❌ Never commit `.env`, `*.keystore`, `*.jks` files
+
+### Environment-Specific Security (NEW):
+
+**Development machines should have:**
+- ✅ Dev credentials (required)
+- ✅ QA credentials (optional, if you test QA builds)
+- ❌ NO staging credentials
+- ❌ NO production credentials
+
+**CI/CD should have:**
+- All environment credentials stored as GitHub Secrets
+- Separate workflows for each environment
+- Production builds should require approval/protection rules
 
 ### If Credentials Are Compromised:
 
@@ -316,15 +371,17 @@ For new developers joining the project:
 
 - [ ] Clone repository
 - [ ] Copy `local.properties.template` to `local.properties`
-- [ ] Request Firebase credentials from team lead
+- [ ] Request **DEV** Firebase credentials from team lead (NOT production!)
 - [ ] Download `google-services.json` from Firebase Console
-- [ ] Request Cloudinary credentials (or create separate dev account)
-- [ ] Fill in all values in `local.properties`
+- [ ] Request **DEV** Cloudinary credentials (or create separate dev account)
+- [ ] Fill in **only DEV values** in `local.properties` (QA optional)
 - [ ] Run `./gradlew signingReport` to get SHA-1
 - [ ] Add SHA-1 to Firebase Console (or ask team lead)
 - [ ] Download updated `google-services.json`
 - [ ] Test build: `./gradlew assembleDevDebug`
 - [ ] Test Google Sign-In on emulator/device
 - [ ] Verify you can create and save a sketch
+
+**Important:** You should only have DEV credentials on your machine. If someone asks you to configure production or staging secrets locally, verify with the team lead first.
 
 **Welcome to the team!**
