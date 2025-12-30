@@ -60,17 +60,26 @@ jobs:
         run: |
           echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > app/google-services.json
 
-      - name: Build ${{ matrix.flavor }} Debug APK
-        run: ./gradlew assemble${{ matrix.flavor }}Debug
+      - name: Decode and setup keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_FILE_BASE64 }}" | base64 -d > release.keystore
+
+      - name: Build ${{ matrix.flavor }} Release APK
+        env:
+          KEYSTORE_FILE: release.keystore
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assemble${{ matrix.flavor }}Release
 
       - name: Run unit tests
-        run: ./gradlew test${{ matrix.flavor }}DebugUnitTest
+        run: ./gradlew test${{ matrix.flavor }}ReleaseUnitTest
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.flavor }}-debug
-          path: app/build/outputs/apk/${{ matrix.flavor }}/debug/app-${{ matrix.flavor }}-debug.apk
+          name: app-${{ matrix.flavor }}-release
+          path: app/build/outputs/apk/${{ matrix.flavor }}/release/app-${{ matrix.flavor }}-release.apk
           retention-days: 7
 
       - name: Upload test results
@@ -78,5 +87,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.flavor }}
-          path: app/build/test-results/test${{ matrix.flavor }}DebugUnitTest/
+          path: app/build/test-results/test${{ matrix.flavor }}ReleaseUnitTest/
           retention-days: 7

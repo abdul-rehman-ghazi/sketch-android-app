@@ -11,7 +11,7 @@ import com.hotmail.arehmananis.sketchapp.data.local.db.entity.SketchEntity
 @Database(
     entities = [SketchEntity::class],
     version = 3,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class SketchDatabase : RoomDatabase() {
     abstract fun sketchDao(): SketchDao

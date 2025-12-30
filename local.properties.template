@@ -72,6 +72,35 @@ cloudinary.qa.apiKey=<YOUR_QA_API_KEY>
 cloudinary.qa.apiSecret=<YOUR_QA_API_SECRET>
 
 # ----------------------------------------------------------------------------
+# Release Signing Configuration (for release builds)
+# ----------------------------------------------------------------------------
+# Required for building release APKs (assembleDevRelease, etc.)
+#
+# To create a keystore:
+#   keytool -genkey -v -keystore release.keystore -alias sketchapp-release \
+#     -keyalg RSA -keysize 2048 -validity 10000
+#
+# CRITICAL: Keep keystore file and passwords secure!
+# - If lost, you cannot update your app on Play Store
+# - Store backups in a secure location
+# - Never commit keystore files to version control
+#
+# For detailed instructions, see SECRETS_SETUP.md > Release Signing Setup
+# ----------------------------------------------------------------------------
+
+# Path to your release keystore file (relative to project root)
+release.keystore.file=release.keystore
+
+# Keystore password
+release.keystore.password=<YOUR_KEYSTORE_PASSWORD>
+
+# Key alias (typically 'sketchapp-release')
+release.key.alias=sketchapp-release
+
+# Key password
+release.key.password=<YOUR_KEY_PASSWORD>
+
+# ----------------------------------------------------------------------------
 # PRODUCTION & STAGING SECRETS
 # ----------------------------------------------------------------------------
 # ❌ DO NOT add production or staging secrets to this file!

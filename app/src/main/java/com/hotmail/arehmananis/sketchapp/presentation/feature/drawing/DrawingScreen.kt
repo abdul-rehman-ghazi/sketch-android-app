@@ -1,12 +1,36 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import android.graphics.Bitmap
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -60,7 +84,7 @@ fun DrawingScreen(
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -72,7 +96,7 @@ fun DrawingScreen(
                         enabled = uiState.canUndo
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Undo,
+                            imageVector = Icons.AutoMirrored.Filled.Undo,
                             contentDescription = "Undo",
                             tint = if (uiState.canUndo) {
                                 MaterialTheme.colorScheme.onSurface
@@ -87,7 +111,7 @@ fun DrawingScreen(
                         enabled = uiState.canRedo
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Redo,
+                            imageVector = Icons.AutoMirrored.Filled.Redo,
                             contentDescription = "Redo",
                             tint = if (uiState.canRedo) {
                                 MaterialTheme.colorScheme.onSurface

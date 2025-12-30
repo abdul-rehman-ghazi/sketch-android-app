@@ -70,12 +70,12 @@ fun validateSecrets(flavor: String) {
 
 android {
     namespace = "com.hotmail.arehmananis.sketchapp"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.hotmail.arehmananis.sketchapp"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -187,6 +187,24 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            // Try to read from environment variables first (CI/CD)
+            // Fall back to local.properties for local builds
+            storeFile = file(
+                System.getenv("KEYSTORE_FILE")
+                    ?: localProperties["release.keystore.file"]?.toString()
+                    ?: "release.keystore"
+            )
+            storePassword = System.getenv("KEYSTORE_PASSWORD")
+                ?: localProperties["release.keystore.password"]?.toString()
+            keyAlias = System.getenv("KEY_ALIAS")
+                ?: localProperties["release.key.alias"]?.toString()
+            keyPassword = System.getenv("KEY_PASSWORD")
+                ?: localProperties["release.key.password"]?.toString()
+        }
+    }
+
     buildTypes {
         debug {
             buildConfigField("Boolean", "ENABLE_LOGGING", "true")
@@ -200,6 +218,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
@@ -226,16 +245,16 @@ dependencies {
     implementation(libs.material)
 
     // Compose
-    implementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    implementation(platform("androidx.compose:compose-bom:2025.12.01"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
-    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation("androidx.activity:activity-compose:1.12.2")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-compose:2.9.6")
 
     // Koin - KMP Dependency Injection
     implementation(libs.koin.core)
@@ -243,7 +262,7 @@ dependencies {
     implementation(libs.koin.androidx.compose)
 
     // DataStore
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation("androidx.datastore:datastore-preferences:1.2.0")
 
     // Lifecycle - KMP ViewModel
     implementation(libs.androidx.lifecycle.viewmodel)
@@ -255,7 +274,7 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
-    debugImplementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.logging)
 
     // Kotlinx Serialization - KMP JSON Parsing
     implementation(libs.kotlinx.serialization.json)
@@ -289,7 +308,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.00"))
+    androidTestImplementation(platform("androidx.compose:compose-bom:2025.12.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")

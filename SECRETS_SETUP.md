@@ -177,6 +177,137 @@ cloudinary.qa.apiSecret=abcdefghijklmnopqrstuvwx
 
 ---
 
+## Release Signing Setup
+
+Release builds require signing with a keystore to be installable on devices. This section explains how to set up release signing for both local and CI/CD builds.
+
+### Creating a Release Keystore
+
+**For local development or initial setup:**
+
+```bash
+# Create a new keystore (one-time setup)
+keytool -genkey -v -keystore release.keystore -alias sketchapp-release \
+  -keyalg RSA -keysize 2048 -validity 10000
+
+# You'll be prompted for:
+# - Keystore password (remember this!)
+# - Key password (can be same as keystore password)
+# - Your name, organization, etc.
+```
+
+**CRITICAL:**
+- ⚠️ **Save the keystore file and passwords securely!**
+- ⚠️ **If you lose the keystore, you cannot update your app on Play Store**
+- ⚠️ **Keystore file is gitignored - never commit it**
+
+### Local Signing Configuration
+
+Add signing credentials to `local.properties`:
+
+```properties
+# Release signing (for local release builds)
+release.keystore.file=release.keystore
+release.keystore.password=YOUR_KEYSTORE_PASSWORD
+release.key.alias=sketchapp-release
+release.key.password=YOUR_KEY_PASSWORD
+```
+
+**Test local release build:**
+```bash
+./gradlew assembleDevRelease
+```
+
+### CI/CD Signing Configuration
+
+For GitHub Actions to build signed release APKs, you need to add the keystore and credentials as GitHub Secrets.
+
+**Step 1: Encode keystore to Base64**
+
+```bash
+# On macOS/Linux:
+base64 -i release.keystore -o keystore.base64.txt
+
+# On Windows (PowerShell):
+[Convert]::ToBase64String([IO.File]::ReadAllBytes("release.keystore")) > keystore.base64.txt
+```
+
+**Step 2: Add GitHub Secrets**
+
+Go to GitHub repository → **Settings** → **Secrets and variables** → **Actions**
+
+Add these secrets:
+
+| Secret Name | Value | Description |
+|-------------|-------|-------------|
+| `KEYSTORE_FILE_BASE64` | Contents of `keystore.base64.txt` | Base64-encoded keystore |
+| `KEYSTORE_PASSWORD` | Your keystore password | Password for the keystore file |
+| `KEY_ALIAS` | `sketchapp-release` | Alias used when creating the key |
+| `KEY_PASSWORD` | Your key password | Password for the specific key |
+
+**Step 3: Delete the temporary Base64 file**
+
+```bash
+# IMPORTANT: Delete the base64 file after uploading to GitHub Secrets
+rm keystore.base64.txt
+```
+
+**The workflow is already configured** to use these secrets. It will:
+1. Decode the Base64 keystore
+2. Save it temporarily during the build
+3. Use it to sign the release APK
+4. Delete it after the build completes
+
+### Getting SHA-1 from Release Keystore
+
+For production Google Sign-In, you need the SHA-1 from your **release** keystore:
+
+```bash
+# Get SHA-1 from release keystore
+keytool -list -v -keystore release.keystore -alias sketchapp-release
+
+# Look for:
+# Certificate fingerprints:
+#      SHA1: XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX
+```
+
+**Add this SHA-1 to Firebase:**
+1. Firebase Console → **Project Settings** → **Your apps**
+2. Select the app package
+3. Click **"Add fingerprint"**
+4. Paste the release SHA-1
+5. Click **"Save"**
+6. Download updated `google-services.json`
+
+### Security Best Practices for Keystores
+
+**DO:**
+- ✅ Store keystore in a secure location (password manager, encrypted drive)
+- ✅ Make encrypted backups of the keystore
+- ✅ Use strong passwords (min 12 characters)
+- ✅ Keep keystore password separate from source code
+- ✅ Document the keystore location for team leads
+- ✅ Use GitHub Secrets for CI/CD signing
+
+**DON'T:**
+- ❌ Never commit keystore files (`.keystore`, `.jks`) to Git
+- ❌ Never share keystore via email or chat
+- ❌ Never use the debug keystore for production
+- ❌ Never store keystore passwords in plain text
+- ❌ Never give everyone access to production keystore
+
+**If keystore is lost:**
+- You cannot update existing app on Play Store
+- You must create new app listing with new package name
+- All existing users must uninstall and reinstall
+
+**If keystore is compromised:**
+- Immediately remove from Play Store if possible
+- Create new keystore and publish as new app
+- Notify users of security issue
+
+---
+
 ## Troubleshooting
 
 ### Build Error: "MISSING SECRETS FOR FLAVOR"
