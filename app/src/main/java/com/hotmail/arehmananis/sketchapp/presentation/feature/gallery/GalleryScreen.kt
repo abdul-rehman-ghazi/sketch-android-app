@@ -71,10 +71,10 @@ enum class MenuAction {
  */
 @Composable
 fun GalleryScreen(
-    viewModel: GalleryViewModel = koinViewModel(),
     onCreateNewSketch: () -> Unit,
     onSketchClick: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: GalleryViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val showDeleteDialog by viewModel.showDeleteDialog.collectAsStateWithLifecycle()

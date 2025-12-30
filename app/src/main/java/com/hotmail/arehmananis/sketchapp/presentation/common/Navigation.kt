@@ -117,7 +117,9 @@ fun AppNavigation(
             Scaffold(
                 bottomBar = { BottomNavigationBar(navController = navController) }
             ) { padding ->
-                ProfileScreen()
+                ProfileScreen(
+                    modifier = Modifier.padding(padding)
+                )
             }
         }
 
@@ -125,8 +127,10 @@ fun AppNavigation(
         composable(Screen.Settings.route) {
             Scaffold(
                 bottomBar = { BottomNavigationBar(navController = navController) }
-            ) {
-                SettingsScreen()
+            ) { padding ->
+                SettingsScreen(
+                    modifier = Modifier.padding(padding)
+                )
             }
         }
     }

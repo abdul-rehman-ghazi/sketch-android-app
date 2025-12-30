@@ -21,9 +21,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -33,6 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SettingsScreen(
+    modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -41,7 +39,8 @@ fun SettingsScreen(
         uiState = uiState,
         onThemeChange = viewModel::updateThemeMode,
         onNotificationsToggle = viewModel::toggleNotifications,
-        onAnalyticsToggle = viewModel::toggleAnalytics
+        onAnalyticsToggle = viewModel::toggleAnalytics,
+        modifier = modifier
     )
 }
 
@@ -50,10 +49,11 @@ private fun SettingsScreenContent(
     uiState: SettingsUiState,
     onThemeChange: (ThemeMode) -> Unit,
     onNotificationsToggle: (Boolean) -> Unit,
-    onAnalyticsToggle: (Boolean) -> Unit
+    onAnalyticsToggle: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {

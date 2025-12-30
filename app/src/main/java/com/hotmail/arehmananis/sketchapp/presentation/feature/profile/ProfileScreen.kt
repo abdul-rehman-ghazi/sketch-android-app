@@ -28,19 +28,24 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ProfileScreen(
+    modifier: Modifier = Modifier,
     viewModel: ProfileViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ProfileScreenContent(uiState = uiState)
+    ProfileScreenContent(
+        uiState = uiState,
+        modifier = modifier
+    )
 }
 
 @Composable
 private fun ProfileScreenContent(
-    uiState: ProfileUiState
+    uiState: ProfileUiState,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {

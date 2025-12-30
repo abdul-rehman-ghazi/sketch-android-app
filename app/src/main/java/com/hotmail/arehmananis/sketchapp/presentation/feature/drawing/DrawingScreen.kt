@@ -34,9 +34,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.hotmail.arehmananis.sketchapp.presentation.common.components.GradientButton
 import org.koin.androidx.compose.koinViewModel
@@ -59,10 +59,9 @@ fun DrawingScreen(
     }
 
     // Get canvas dimensions
-    val configuration = LocalConfiguration.current
-    val density = LocalDensity.current
-    val canvasWidth = with(density) { configuration.screenWidthDp.dp.toPx().toInt() }
-    val canvasHeight = with(density) { configuration.screenHeightDp.dp.toPx().toInt() }
+    val windowInfo = LocalWindowInfo.current
+    val canvasWidth = windowInfo.containerSize.width
+    val canvasHeight = windowInfo.containerSize.height
 
     // Show save success/error
     LaunchedEffect(uiState.saveSuccess, uiState.saveError) {
@@ -278,7 +277,7 @@ private fun createBitmapFromPaths(
     width: Int,
     height: Int
 ): Bitmap {
-    val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+    val bitmap = createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = android.graphics.Canvas(bitmap)
 
     // Fill with white background (on canvas, beneath the layer)
