@@ -31,10 +31,12 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.createBitmap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -58,10 +60,9 @@ fun DrawingScreen(
         viewModel.initialize(sketchId)
     }
 
-    // Get canvas dimensions
-    val windowInfo = LocalWindowInfo.current
-    val canvasWidth = windowInfo.containerSize.width
-    val canvasHeight = windowInfo.containerSize.height
+    // Track actual canvas dimensions (will be updated by DrawingCanvas)
+    var canvasWidth by remember { mutableStateOf(0) }
+    var canvasHeight by remember { mutableStateOf(0) }
 
     // Show save success/error
     LaunchedEffect(uiState.saveSuccess, uiState.saveError) {
@@ -176,7 +177,11 @@ fun DrawingScreen(
                 onDrawStart = viewModel::onDrawStart,
                 onDraw = viewModel::onDraw,
                 onDrawEnd = viewModel::onDrawEnd,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                onCanvasSizeChanged = { width, height ->
+                    canvasWidth = width
+                    canvasHeight = height
+                }
             )
 
             // Loading indicator
@@ -270,13 +275,14 @@ fun DrawingScreen(
 
 /**
  * Helper function to create a bitmap from drawing paths
- * Renders all paths to an Android Bitmap
+ * Renders all paths to an Android Bitmap using the actual canvas dimensions
  */
 private fun createBitmapFromPaths(
     paths: List<com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath>,
     width: Int,
     height: Int
 ): Bitmap {
+    // Create bitmap with actual canvas size (no toolbar space)
     val bitmap = createBitmap(width, height, Bitmap.Config.ARGB_8888)
     val canvas = android.graphics.Canvas(bitmap)
 

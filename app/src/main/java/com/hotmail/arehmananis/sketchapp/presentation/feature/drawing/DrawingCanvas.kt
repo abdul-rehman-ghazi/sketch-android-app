@@ -31,7 +31,8 @@ fun DrawingCanvas(
     onDraw: (Offset) -> Unit,
     onDrawEnd: () -> Unit,
     modifier: Modifier = Modifier,
-    backgroundColor: Color = Color.White
+    backgroundColor: Color = Color.White,
+    onCanvasSizeChanged: ((width: Int, height: Int) -> Unit)? = null
 ) {
     Canvas(
         modifier = modifier
@@ -54,6 +55,8 @@ fun DrawingCanvas(
                 )
             }
     ) {
+        // Report canvas size when it changes
+        onCanvasSizeChanged?.invoke(size.width.toInt(), size.height.toInt())
         // Draw background
         drawRect(color = backgroundColor)
 
