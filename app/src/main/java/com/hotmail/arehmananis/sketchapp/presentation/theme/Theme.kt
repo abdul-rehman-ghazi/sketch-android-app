@@ -7,7 +7,6 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
@@ -127,9 +126,7 @@ fun SketchAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            // Set status bar color to match background for seamless look
-            window.statusBarColor = colorScheme.background.toArgb()
-            // Set status bar icon color based on theme
+            // Set status bar icon color based on theme for edge-to-edge mode
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
