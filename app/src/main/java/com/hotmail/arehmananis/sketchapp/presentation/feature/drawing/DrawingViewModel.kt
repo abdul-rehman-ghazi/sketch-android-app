@@ -17,6 +17,7 @@ import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.GetCurrentAuthUserU
 import com.hotmail.arehmananis.sketchapp.domain.usecase.drawing.SaveDrawingUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.CreateSketchUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.GetSketchByIdUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.TriggerSketchSyncUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,8 @@ class DrawingViewModel(
     private val getCurrentAuthUserUseCase: GetCurrentAuthUserUseCase,
     private val saveDrawingUseCase: SaveDrawingUseCase,
     private val createSketchUseCase: CreateSketchUseCase,
-    private val getSketchByIdUseCase: GetSketchByIdUseCase
+    private val getSketchByIdUseCase: GetSketchByIdUseCase,
+    private val triggerSketchSyncUseCase: TriggerSketchSyncUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DrawingUiState())
@@ -273,6 +275,9 @@ class DrawingViewModel(
                                         saveSuccess = true
                                     )
                                 }
+
+                                // Trigger immediate sync to upload to cloud
+                                triggerSketchSyncUseCase()
                             },
                             onFailure = { error ->
                                 _uiState.update {

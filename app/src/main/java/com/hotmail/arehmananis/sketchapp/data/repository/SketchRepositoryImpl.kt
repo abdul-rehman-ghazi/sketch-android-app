@@ -254,8 +254,9 @@ class SketchRepositoryImpl(
         try {
             Log.d(TAG, "Uploading sketch: ${entity.id}")
 
-            // Update status to SYNCING
-            sketchDao.updateSyncStatus(entity.id, SyncStatus.SYNCING.name)
+            // Update status to SYNCING (use full update to trigger Flow emission)
+            val syncingEntity = entity.copy(syncStatus = SyncStatus.SYNCING.name)
+            sketchDao.updateSketch(syncingEntity)
 
             // Upload image to Cloudinary
             val localPath = entity.localImagePath
@@ -320,8 +321,9 @@ class SketchRepositoryImpl(
             Log.d(TAG, "Upload completed: ${entity.id}")
         } catch (e: Exception) {
             Log.e(TAG, "Failed to upload sketch: ${entity.id}", e)
-            // Revert to PENDING_UPLOAD on error
-            sketchDao.updateSyncStatus(entity.id, SyncStatus.PENDING_UPLOAD.name)
+            // Revert to PENDING_UPLOAD on error (use full update to trigger Flow emission)
+            val failedEntity = entity.copy(syncStatus = SyncStatus.PENDING_UPLOAD.name)
+            sketchDao.updateSketch(failedEntity)
         }
     }
 

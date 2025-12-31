@@ -62,6 +62,7 @@ class SketchSyncWorker(
     companion object {
         private const val TAG = "SketchSyncWorker"
         private const val WORK_NAME = "sketch_sync"
+        private const val IMMEDIATE_WORK_NAME = "sketch_sync_immediate"
 
         /**
          * Schedule periodic sync work
@@ -91,6 +92,33 @@ class SketchSyncWorker(
             )
 
             Log.d(TAG, "Scheduled periodic sketch sync")
+        }
+
+        /**
+         * Trigger immediate one-time sync
+         * Use this when creating/updating sketches to sync immediately instead of waiting 15 minutes
+         */
+        fun syncNow(context: Context) {
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
+
+            val syncRequest = OneTimeWorkRequestBuilder<SketchSyncWorker>()
+                .setConstraints(constraints)
+                .setBackoffCriteria(
+                    BackoffPolicy.EXPONENTIAL,
+                    WorkRequest.MIN_BACKOFF_MILLIS,
+                    TimeUnit.MILLISECONDS
+                )
+                .build()
+
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                IMMEDIATE_WORK_NAME,
+                ExistingWorkPolicy.REPLACE,
+                syncRequest
+            )
+
+            Log.d(TAG, "Triggered immediate sketch sync")
         }
 
         /**

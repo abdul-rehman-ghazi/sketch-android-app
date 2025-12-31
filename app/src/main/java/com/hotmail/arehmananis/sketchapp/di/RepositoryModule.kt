@@ -1,11 +1,32 @@
 package com.hotmail.arehmananis.sketchapp.di
 
-import com.hotmail.arehmananis.sketchapp.data.repository.*
-import com.hotmail.arehmananis.sketchapp.domain.repository.*
-import com.hotmail.arehmananis.sketchapp.domain.usecase.*
-import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.*
-import com.hotmail.arehmananis.sketchapp.domain.usecase.drawing.*
-import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.*
+import com.hotmail.arehmananis.sketchapp.data.repository.AuthRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.data.repository.DrawingRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.data.repository.PreferencesRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.data.repository.SketchRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.data.repository.SyncSchedulerRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.data.repository.UserRepositoryImpl
+import com.hotmail.arehmananis.sketchapp.domain.repository.AuthRepository
+import com.hotmail.arehmananis.sketchapp.domain.repository.DrawingRepository
+import com.hotmail.arehmananis.sketchapp.domain.repository.PreferencesRepository
+import com.hotmail.arehmananis.sketchapp.domain.repository.SketchRepository
+import com.hotmail.arehmananis.sketchapp.domain.repository.SyncSchedulerRepository
+import com.hotmail.arehmananis.sketchapp.domain.repository.UserRepository
+import com.hotmail.arehmananis.sketchapp.domain.usecase.GetCurrentUserUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.GetUserPreferencesUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.UpdateUserPreferencesUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.UpdateUserUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.GetCurrentAuthUserUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.SignInWithGoogleUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.SignOutUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.drawing.SaveDrawingUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.CreateSketchUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.DeleteSketchUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.GetSketchByIdUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.GetUserSketchesUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.SyncSketchesUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.TriggerSketchSyncUseCase
+import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.UpdateSketchUseCase
 import com.hotmail.arehmananis.sketchapp.presentation.AuthViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.auth.LoginViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.DrawingViewModel
@@ -34,6 +55,7 @@ val repositoryModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
     single<SketchRepository> { SketchRepositoryImpl(get(), get(), get()) }
     single<DrawingRepository> { DrawingRepositoryImpl(androidContext()) }
+    single<SyncSchedulerRepository> { SyncSchedulerRepositoryImpl(androidContext()) }
 
     /**
      * Use case bindings
@@ -56,6 +78,7 @@ val repositoryModule = module {
     factory { UpdateSketchUseCase(get()) }
     factory { DeleteSketchUseCase(get()) }
     factory { SyncSketchesUseCase(get()) }
+    factory { TriggerSketchSyncUseCase(get()) }
 
     // Drawing use cases
     factory { SaveDrawingUseCase(get()) }

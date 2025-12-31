@@ -301,7 +301,8 @@ private fun SketchCard(
                             else -> ""
                         },
                         modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
-                        style = MaterialTheme.typography.labelSmall
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }
