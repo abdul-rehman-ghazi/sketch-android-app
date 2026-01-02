@@ -37,15 +37,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Square
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Pentagon
+import androidx.compose.material.icons.filled.Close
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
+import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
 import com.hotmail.arehmananis.sketchapp.presentation.theme.DrawingColors
 import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantIndigo
 import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantPurple
 
 /**
- * Modern toolbar for selecting brush, color, and stroke width
+ * Modern toolbar for selecting brush, color, stroke width, shapes, and fill options
  * with expanded color palette and gradient accents
  */
 @Composable
@@ -53,9 +64,13 @@ fun DrawingToolbar(
     currentBrush: BrushType,
     currentColor: Color,
     strokeWidth: Float,
+    currentShapeTool: ShapeTool = ShapeTool.NONE,
+    isFilled: Boolean = false,
     onBrushChange: (BrushType) -> Unit,
     onColorChange: (Color) -> Unit,
     onStrokeWidthChange: (Float) -> Unit,
+    onShapeToolChange: (ShapeTool) -> Unit = {},
+    onFilledChange: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -83,6 +98,42 @@ fun DrawingToolbar(
                 currentBrush = currentBrush,
                 onBrushSelected = onBrushChange
             )
+
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+
+            // Shape tool selection
+            Text(
+                text = "Shapes",
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            ShapeToolSelector(
+                currentShapeTool = currentShapeTool,
+                onShapeToolSelected = onShapeToolChange
+            )
+
+            // Fill option (only show when a shape is selected)
+            if (currentShapeTool != ShapeTool.NONE && currentShapeTool != ShapeTool.LINE && currentShapeTool != ShapeTool.ARROW) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Fill Shape",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Switch(
+                        checked = isFilled,
+                        onCheckedChange = onFilledChange,
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = MaterialTheme.colorScheme.primary,
+                            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer
+                        )
+                    )
+                }
+            }
 
             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
@@ -251,7 +302,7 @@ private fun ColorPalette(
         items(allColors) { color ->
             ColorCircle(
                 color = color,
-                isSelected = color == selectedColor,
+                isSelected = color.toArgb() == selectedColor.toArgb(),
                 onClick = { onColorSelected(color) }
             )
         }
@@ -271,13 +322,36 @@ private fun ColorCircle(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
+    val scale by animateFloatAsState(
+        targetValue = if (isSelected) 1.15f else 1f,
+        label = "color_scale"
+    )
+
     Box(
         modifier = Modifier
             .size(48.dp)
             .clickable(onClick = onClick)
-            .padding(4.dp),
+            .padding(4.dp)
+            .scale(scale),
         contentAlignment = Alignment.Center
     ) {
+        // Outer glow ring for selected color
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .size(44.dp)
+                    .background(
+                        brush = Brush.radialGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+                                Color.Transparent
+                            )
+                        ),
+                        shape = CircleShape
+                    )
+            )
+        }
+
         // Color circle with border
         Box(
             modifier = Modifier
@@ -295,3 +369,56 @@ private fun ColorCircle(
         )
     }
 }
+
+/**
+ * Shape tool selector with gradient background for selected shape
+ */
+@Composable
+private fun ShapeToolSelector(
+    currentShapeTool: ShapeTool,
+    onShapeToolSelected: (ShapeTool) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Spacer(modifier = Modifier.width(4.dp))
+
+        ShapeTool.entries.forEach { shapeTool ->
+            val iconData = shapeTool.toIconData()
+            BrushButton(
+                icon = iconData.icon,
+                label = iconData.label,
+                isSelected = currentShapeTool == shapeTool,
+                onClick = { onShapeToolSelected(shapeTool) }
+            )
+        }
+
+        Spacer(modifier = Modifier.width(4.dp))
+    }
+}
+
+/**
+ * Extension function to map ShapeTool to icon and label
+ */
+private fun ShapeTool.toIconData(): IconData {
+    return when (this) {
+        ShapeTool.NONE -> IconData(Icons.Default.Close, "None")
+        ShapeTool.LINE -> IconData(Icons.Default.Remove, "Line")
+        ShapeTool.RECTANGLE -> IconData(Icons.Default.Square, "Rectangle")
+        ShapeTool.CIRCLE -> IconData(Icons.Default.Circle, "Circle")
+        ShapeTool.ARROW -> IconData(Icons.AutoMirrored.Filled.ArrowForward, "Arrow")
+        ShapeTool.POLYGON -> IconData(Icons.Default.Pentagon, "Polygon")
+    }
+}
+
+/**
+ * Data class to hold icon and label
+ */
+private data class IconData(
+    val icon: ImageVector,
+    val label: String
+)

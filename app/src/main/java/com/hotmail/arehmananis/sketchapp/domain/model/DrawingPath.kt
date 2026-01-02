@@ -12,7 +12,9 @@ data class DrawingPath(
     val brush: BrushType,
     val color: Long, // ARGB as Long for KMP compatibility
     val strokeWidth: Float,
-    val opacity: Float = 1f
+    val opacity: Float = 1f,
+    val shapeTool: ShapeTool = ShapeTool.NONE,
+    val isFilled: Boolean = false
 )
 
 /**

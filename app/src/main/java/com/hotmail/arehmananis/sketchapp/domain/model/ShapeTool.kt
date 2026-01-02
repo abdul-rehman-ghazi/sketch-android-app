@@ -5,8 +5,10 @@ package com.hotmail.arehmananis.sketchapp.domain.model
  * Pure Kotlin - KMP Ready
  */
 enum class ShapeTool {
+    NONE,
     LINE,
-    CIRCLE,
     RECTANGLE,
-    NONE
+    CIRCLE,
+    ARROW,
+    POLYGON
 }

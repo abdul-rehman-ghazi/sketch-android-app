@@ -11,9 +11,10 @@ interface DrawingRepository {
      * Save a bitmap to local storage
      * @param bitmap The bitmap to save
      * @param fileName The file name (e.g., "sketch_123.png")
-     * @return Result with file path on success
+     * @param saveToMediaStore If true, saves to MediaStore (Photos app), otherwise to private storage
+     * @return Result with file path or content URI on success
      */
-    suspend fun saveBitmapToLocal(bitmap: Bitmap, fileName: String): Result<String>
+    suspend fun saveBitmapToLocal(bitmap: Bitmap, fileName: String, saveToMediaStore: Boolean = false): Result<String>
 
     /**
      * Load a bitmap from local storage

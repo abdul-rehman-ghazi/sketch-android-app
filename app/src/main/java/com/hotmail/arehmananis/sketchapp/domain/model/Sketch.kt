@@ -17,7 +17,9 @@ data class Sketch(
     val syncStatus: SyncStatus = SyncStatus.SYNCED,
     val width: Int,
     val height: Int,
-    val drawingPaths: List<DrawingPath>? = null // Vector path data for editing
+    val drawingPaths: List<DrawingPath>? = null, // Vector path data for editing
+    val emojiElements: List<EmojiElement>? = null, // Emoji elements on canvas
+    val imageElements: List<ImageElement>? = null // Imported image elements on canvas
 )
 
 /**

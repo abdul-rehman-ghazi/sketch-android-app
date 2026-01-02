@@ -52,9 +52,11 @@ class DrawingViewModel(
         val newPath = DrawingPath(
             points = listOf(point),
             brush = _uiState.value.currentBrush,
-            color = _uiState.value.currentColor,
+            color = _uiState.value.currentColor.toLong(),
             strokeWidth = _uiState.value.strokeWidth,
-            opacity = _uiState.value.opacity
+            opacity = _uiState.value.opacity,
+            shapeTool = _uiState.value.shapeTool,
+            isFilled = _uiState.value.isFilled
         )
         _uiState.update { it.copy(currentPath = newPath) }
     }
@@ -123,14 +125,15 @@ class DrawingViewModel(
             it.copy(
                 currentBrush = brush,
                 strokeWidth = config.defaultWidth,
-                opacity = config.defaultOpacity
+                opacity = config.defaultOpacity,
+                shapeTool = ShapeTool.NONE // Reset shape tool when brush is selected
             )
         }
     }
 
     fun setColor(color: Color) {
         _uiState.update {
-            it.copy(currentColor = color.toArgb().toLong())
+            it.copy(currentColor = color.toArgb())
         }
     }
 
@@ -143,7 +146,17 @@ class DrawingViewModel(
     }
 
     fun setShapeTool(tool: ShapeTool) {
-        _uiState.update { it.copy(shapeTool = tool) }
+        _uiState.update {
+            it.copy(
+                shapeTool = tool,
+                // When selecting NONE, don't change anything else
+                // When selecting a shape, the shape takes precedence over freehand brush drawing
+            )
+        }
+    }
+
+    fun setIsFilled(filled: Boolean) {
+        _uiState.update { it.copy(isFilled = filled) }
     }
 
     fun clearCanvas() {
@@ -191,6 +204,7 @@ class DrawingViewModel(
                     onSuccess = { sketch ->
                         // Load drawing paths
                         val paths = sketch.drawingPaths ?: emptyList()
+                        val emojis = sketch.emojiElements ?: emptyList()
 
                         // Initialize path history for undo/redo
                         pathHistory.clear()
@@ -203,6 +217,7 @@ class DrawingViewModel(
                                 isLoading = false,
                                 loadedSketchId = sketchId,
                                 paths = paths,
+                                emojiElements = emojis,
                                 canUndo = paths.isNotEmpty(),
                                 canRedo = false
                             )
@@ -263,7 +278,8 @@ class DrawingViewModel(
                             syncStatus = SyncStatus.PENDING_UPLOAD,
                             width = canvasWidth,
                             height = canvasHeight,
-                            drawingPaths = currentState.paths
+                            drawingPaths = currentState.paths,
+                            emojiElements = currentState.emojiElements
                         )
 
                         // Save to database
@@ -314,6 +330,190 @@ class DrawingViewModel(
             it.copy(saveSuccess = false, saveError = null)
         }
     }
+
+    // Emoji-related methods
+    fun toggleEmojiPicker() {
+        _uiState.update { it.copy(showEmojiPicker = !it.showEmojiPicker) }
+    }
+
+    fun addEmoji(emoji: String, x: Float, y: Float) {
+        val newEmoji = com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement(
+            id = UUID.randomUUID().toString(),
+            emoji = emoji,
+            x = x,
+            y = y,
+            size = 48f
+        )
+        _uiState.update {
+            it.copy(
+                emojiElements = it.emojiElements + newEmoji,
+                showEmojiPicker = false
+            )
+        }
+    }
+
+    fun selectEmoji(emojiId: String?) {
+        _uiState.update { it.copy(selectedEmojiId = emojiId) }
+    }
+
+    fun moveEmoji(emojiId: String, deltaX: Float, deltaY: Float) {
+        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
+            if (emoji.id == emojiId) {
+                emoji.copy(x = emoji.x + deltaX, y = emoji.y + deltaY)
+            } else {
+                emoji
+            }
+        }
+        _uiState.update { it.copy(emojiElements = updatedEmojis) }
+    }
+
+    fun resizeEmoji(emojiId: String, newSize: Float) {
+        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
+            if (emoji.id == emojiId) {
+                emoji.copy(size = newSize.coerceIn(24f, 200f))
+            } else {
+                emoji
+            }
+        }
+        _uiState.update { it.copy(emojiElements = updatedEmojis) }
+    }
+
+    fun deleteEmoji(emojiId: String) {
+        val updatedEmojis = _uiState.value.emojiElements.filter { it.id != emojiId }
+        _uiState.update {
+            it.copy(
+                emojiElements = updatedEmojis,
+                selectedEmojiId = null
+            )
+        }
+    }
+
+    fun rotateEmoji(emojiId: String, rotation: Float) {
+        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
+            if (emoji.id == emojiId) {
+                emoji.copy(rotation = rotation)
+            } else {
+                emoji
+            }
+        }
+        _uiState.update { it.copy(emojiElements = updatedEmojis) }
+    }
+
+    // Share options dialog
+    fun toggleShareDialog() {
+        _uiState.update { it.copy(showShareDialog = !it.showShareDialog) }
+    }
+
+    /**
+     * Share sketch - exports to MediaStore (Photos app) without saving to database
+     */
+    fun shareSketch(
+        canvasWidth: Int,
+        canvasHeight: Int,
+        createBitmap: (Int, Int, Boolean) -> Bitmap,
+        exportOptions: com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.ExportOptions
+    ) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isSaving = true, saveError = null, showShareDialog = false) }
+
+            try {
+                val width = exportOptions.customWidth ?: canvasWidth
+                val height = exportOptions.customHeight ?: canvasHeight
+
+                val bitmap = createBitmap(width, height, exportOptions.transparentBackground)
+
+                val fileName = "sketch_export_${System.currentTimeMillis()}.png"
+                // Save to MediaStore (Photos app) instead of private storage
+                val saveResult = saveDrawingUseCase(bitmap, fileName, saveToMediaStore = true)
+
+                saveResult.fold(
+                    onSuccess = { filePath ->
+                        // Only set the path for sharing, don't save to database
+                        _uiState.update {
+                            it.copy(
+                                isSaving = false,
+                                lastExportedPath = filePath
+                            )
+                        }
+                    },
+                    onFailure = { error ->
+                        _uiState.update {
+                            it.copy(isSaving = false, saveError = error.message)
+                        }
+                    }
+                )
+            } catch (e: Exception) {
+                _uiState.update {
+                    it.copy(isSaving = false, saveError = e.message ?: "Failed to share sketch")
+                }
+            }
+        }
+    }
+
+    // Image-related methods
+    fun addImage(imagePath: String, x: Float, y: Float, width: Float, height: Float) {
+        val newImage = com.hotmail.arehmananis.sketchapp.domain.model.ImageElement(
+            id = UUID.randomUUID().toString(),
+            imagePath = imagePath,
+            x = x,
+            y = y,
+            width = width,
+            height = height
+        )
+        _uiState.update {
+            it.copy(imageElements = it.imageElements + newImage)
+        }
+    }
+
+    fun selectImage(imageId: String?) {
+        _uiState.update { it.copy(selectedImageId = imageId) }
+    }
+
+    fun moveImage(imageId: String, deltaX: Float, deltaY: Float) {
+        val updatedImages = _uiState.value.imageElements.map { image ->
+            if (image.id == imageId) {
+                image.copy(x = image.x + deltaX, y = image.y + deltaY)
+            } else {
+                image
+            }
+        }
+        _uiState.update { it.copy(imageElements = updatedImages) }
+    }
+
+    fun resizeImage(imageId: String, newWidth: Float, newHeight: Float) {
+        val updatedImages = _uiState.value.imageElements.map { image ->
+            if (image.id == imageId) {
+                image.copy(
+                    width = newWidth.coerceIn(50f, 2000f),
+                    height = newHeight.coerceIn(50f, 2000f)
+                )
+            } else {
+                image
+            }
+        }
+        _uiState.update { it.copy(imageElements = updatedImages) }
+    }
+
+    fun deleteImage(imageId: String) {
+        val updatedImages = _uiState.value.imageElements.filter { it.id != imageId }
+        _uiState.update {
+            it.copy(
+                imageElements = updatedImages,
+                selectedImageId = null
+            )
+        }
+    }
+
+    fun rotateImage(imageId: String, rotation: Float) {
+        val updatedImages = _uiState.value.imageElements.map { image ->
+            if (image.id == imageId) {
+                image.copy(rotation = rotation)
+            } else {
+                image
+            }
+        }
+        _uiState.update { it.copy(imageElements = updatedImages) }
+    }
 }
 
 /**
@@ -326,10 +526,18 @@ data class DrawingUiState(
     val paths: List<DrawingPath> = emptyList(),
     val currentPath: DrawingPath? = null,
     val currentBrush: BrushType = BrushType.PEN,
-    val currentColor: Long = 0xFF000000, // ARGB as Long for KMP compatibility
+    val currentColor: Int = android.graphics.Color.BLACK, // ARGB as Int
     val strokeWidth: Float = 3f,
     val opacity: Float = 1f,
     val shapeTool: ShapeTool = ShapeTool.NONE,
+    val isFilled: Boolean = false,
+    val emojiElements: List<com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement> = emptyList(),
+    val selectedEmojiId: String? = null,
+    val imageElements: List<com.hotmail.arehmananis.sketchapp.domain.model.ImageElement> = emptyList(),
+    val selectedImageId: String? = null,
+    val showEmojiPicker: Boolean = false,
+    val showShareDialog: Boolean = false,
+    val lastExportedPath: String? = null,
     val canUndo: Boolean = false,
     val canRedo: Boolean = false,
     val isSaving: Boolean = false,
