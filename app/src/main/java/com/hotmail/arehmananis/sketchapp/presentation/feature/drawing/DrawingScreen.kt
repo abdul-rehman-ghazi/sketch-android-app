@@ -35,6 +35,7 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.background
 import androidx.compose.ui.draw.rotate
 import androidx.compose.foundation.border
@@ -59,6 +60,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -416,14 +418,16 @@ private fun EmojiOverlay(
     val density = LocalDensity.current
     var dragOffset by remember { mutableStateOf(Offset.Zero) }
 
+    val containerSize = emoji.size * 1.2f // 20% larger container to prevent clipping
+
     Box(
         modifier = Modifier
             .offset(
-                // Position from center by subtracting half the size
-                x = with(density) { (emoji.x + dragOffset.x - emoji.size / 2).toDp() },
-                y = with(density) { (emoji.y + dragOffset.y - emoji.size / 2).toDp() }
+                // Position from center by subtracting half the CONTAINER size
+                x = with(density) { (emoji.x + dragOffset.x - containerSize / 2).toDp() },
+                y = with(density) { (emoji.y + dragOffset.y - containerSize / 2).toDp() }
             )
-            .size(with(density) { emoji.size.toDp() })
+            .size(with(density) { containerSize.toDp() })
             .then(
                 if (isSelected) {
                     Modifier
@@ -463,7 +467,7 @@ private fun EmojiOverlay(
     ) {
         Text(
             text = emoji.emoji,
-            fontSize = (emoji.size * 0.6f).sp,
+            fontSize = with(density) { (emoji.size * 0.6f).toSp() },
             fontWeight = FontWeight.Bold
         )
     }
