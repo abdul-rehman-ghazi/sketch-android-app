@@ -43,6 +43,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -85,23 +88,27 @@ fun GalleryScreen(
 
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets(0),
         floatingActionButton = {
-            // Modern gradient FAB with larger size
             FloatingActionButton(
                 onClick = onCreateNewSketch,
+                shape = CircleShape,
                 containerColor = Color.Transparent,
+                contentColor = Color.White,
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(MaterialTheme.shapes.large)
+                    .shadow(elevation = 6.dp, shape = CircleShape)
+                    .clip(CircleShape)
                     .background(
                         brush = Brush.linearGradient(
                             colors = listOf(VibrantPurple, VibrantIndigo)
-                        ),
-                        shape = MaterialTheme.shapes.large
+                        )
                     ),
                 elevation = FloatingActionButtonDefaults.elevation(
-                    defaultElevation = 6.dp,
-                    pressedElevation = 8.dp
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                    focusedElevation = 0.dp,
+                    hoveredElevation = 0.dp
                 )
             ) {
                 Icon(

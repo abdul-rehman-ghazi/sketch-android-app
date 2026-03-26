@@ -2,6 +2,7 @@ package com.hotmail.arehmananis.sketchapp.data.local.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.hotmail.arehmananis.sketchapp.data.local.serializer.EmojiSerializer
 import com.hotmail.arehmananis.sketchapp.data.local.serializer.PathSerializer
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
@@ -22,19 +23,16 @@ data class SketchEntity(
     val remoteImageUrl: String?,
     val thumbnailUrl: String?,
     val remotePathsUrl: String? = null, // Cloudinary URL to paths JSON file
+    val remoteEmojisUrl: String? = null, // Cloudinary URL to emojis JSON file
     val syncStatus: String, // Stored as String, converted to/from enum
     val width: Int,
     val height: Int,
-    val drawingPathsJson: String? = null // JSON serialized DrawingPath list
+    val drawingPathsJson: String? = null, // JSON serialized DrawingPath list
+    val emojiElementsJson: String? = null // JSON serialized EmojiElement list
 ) {
-    /**
-     * Convert to domain model
-     */
     fun toDomain(): Sketch {
-        // Deserialize drawingPathsJson to List<DrawingPath>
-        val paths = drawingPathsJson?.let { json ->
-            PathSerializer.fromJson(json)
-        }
+        val paths = drawingPathsJson?.let { PathSerializer.fromJson(it) }
+        val emojis = emojiElementsJson?.let { EmojiSerializer.fromJson(it) }
 
         return Sketch(
             id = id,
@@ -46,22 +44,19 @@ data class SketchEntity(
             remoteImageUrl = remoteImageUrl,
             thumbnailUrl = thumbnailUrl,
             remotePathsUrl = remotePathsUrl,
+            remoteEmojisUrl = remoteEmojisUrl,
             syncStatus = SyncStatus.valueOf(syncStatus),
             width = width,
             height = height,
-            drawingPaths = paths
+            drawingPaths = paths,
+            emojiElements = emojis
         )
     }
 
     companion object {
-        /**
-         * Convert from domain model
-         */
         fun fromDomain(sketch: Sketch): SketchEntity {
-            // Serialize drawingPaths to JSON
-            val pathsJson = sketch.drawingPaths?.let { paths ->
-                PathSerializer.toJson(paths)
-            }
+            val pathsJson = sketch.drawingPaths?.let { PathSerializer.toJson(it) }
+            val emojisJson = sketch.emojiElements?.let { EmojiSerializer.toJson(it) }
 
             return SketchEntity(
                 id = sketch.id,
@@ -73,10 +68,12 @@ data class SketchEntity(
                 remoteImageUrl = sketch.remoteImageUrl,
                 thumbnailUrl = sketch.thumbnailUrl,
                 remotePathsUrl = sketch.remotePathsUrl,
+                remoteEmojisUrl = sketch.remoteEmojisUrl,
                 syncStatus = sketch.syncStatus.name,
                 width = sketch.width,
                 height = sketch.height,
-                drawingPathsJson = pathsJson
+                drawingPathsJson = pathsJson,
+                emojiElementsJson = emojisJson
             )
         }
     }

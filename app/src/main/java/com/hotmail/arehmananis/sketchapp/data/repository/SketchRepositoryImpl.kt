@@ -4,16 +4,20 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hotmail.arehmananis.sketchapp.data.local.db.dao.SketchDao
 import com.hotmail.arehmananis.sketchapp.data.local.db.entity.SketchEntity
+import com.hotmail.arehmananis.sketchapp.data.local.serializer.EmojiSerializer
 import com.hotmail.arehmananis.sketchapp.data.local.serializer.PathSerializer
 import com.hotmail.arehmananis.sketchapp.data.remote.cloudinary.CloudinaryDataSource
 import com.hotmail.arehmananis.sketchapp.data.remote.firebase.dto.SketchDto
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
+import com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
 import com.hotmail.arehmananis.sketchapp.domain.repository.SketchRepository
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.File
 
 /**
@@ -132,7 +136,9 @@ class SketchRepositoryImpl(
             Log.d(TAG, "Starting sync for user: $userId")
 
             // Step 1: Upload pending sketches to Firebase
-            val pendingUpload = sketchDao.getSketchesByStatus(SyncStatus.PENDING_UPLOAD.name)
+            // Also pick up SYNCING sketches — they got stuck due to interrupted previous sync
+            val pendingUpload = sketchDao.getSketchesByStatus(SyncStatus.PENDING_UPLOAD.name) +
+                    sketchDao.getSketchesByStatus(SyncStatus.SYNCING.name)
             Log.d(TAG, "Found ${pendingUpload.size} sketches pending upload")
 
             pendingUpload.forEach { entity ->
@@ -186,6 +192,31 @@ class SketchRepositoryImpl(
                     Log.d(TAG, "Deleted temp paths file: ${it.absolutePath}")
                 }
             }
+        }
+    }
+
+    private suspend fun uploadEmojisJson(
+        jsonContent: String,
+        publicId: String
+    ): Result<String> {
+        var tempFile: File? = null
+        return try {
+            tempFile = File.createTempFile("emojis_${publicId.replace("/", "_")}", ".json")
+            tempFile.writeText(jsonContent)
+
+            val uploadResult = cloudinary.uploadRawFile(
+                localFilePath = tempFile.absolutePath,
+                publicId = publicId,
+                folder = "sketch_emojis"
+            ).getOrThrow()
+
+            Log.d(TAG, "Emojis JSON uploaded: ${uploadResult.secureUrl}")
+            Result.success(uploadResult.secureUrl)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to upload emojis JSON for $publicId", e)
+            Result.failure(e)
+        } finally {
+            tempFile?.let { if (it.exists()) it.delete() }
         }
     }
 
@@ -247,6 +278,49 @@ class SketchRepositoryImpl(
         }
     }
 
+    override suspend fun downloadAndCacheEmojis(sketchId: String): Result<List<EmojiElement>> {
+        return try {
+            val entity = sketchDao.getSketchById(sketchId)
+                ?: return Result.failure(Exception("Sketch not found: $sketchId"))
+
+            if (!entity.emojiElementsJson.isNullOrBlank()) {
+                Log.d(TAG, "Emojis already cached for sketch: $sketchId")
+                val emojis = EmojiSerializer.fromJson(entity.emojiElementsJson)
+                    ?: return Result.failure(Exception("Failed to deserialize cached emojis"))
+                return Result.success(emojis)
+            }
+
+            val remoteUrl = entity.remoteEmojisUrl
+            if (remoteUrl.isNullOrBlank()) {
+                Log.d(TAG, "No remote emojis URL for sketch: $sketchId")
+                return Result.success(emptyList())
+            }
+
+            Log.d(TAG, "Downloading emojis from: $remoteUrl")
+            val downloadResult = cloudinary.downloadRawFile(remoteUrl)
+
+            if (downloadResult.isFailure) {
+                return Result.failure(downloadResult.exceptionOrNull() ?: Exception("Download failed"))
+            }
+
+            val jsonContent = downloadResult.getOrNull()
+                ?: return Result.failure(Exception("Downloaded content is null"))
+
+            val emojis = EmojiSerializer.fromJson(jsonContent)
+                ?: return Result.failure(Exception("Failed to deserialize downloaded emojis"))
+
+            Log.d(TAG, "Downloaded ${emojis.size} emojis for sketch: $sketchId")
+
+            val updatedEntity = entity.copy(emojiElementsJson = jsonContent)
+            sketchDao.updateSketch(updatedEntity)
+
+            Result.success(emojis)
+        } catch (e: Exception) {
+            Log.e(TAG, "Error downloading and caching emojis for $sketchId", e)
+            Result.failure(e)
+        }
+    }
+
     /**
      * Upload a single sketch to Cloudinary + Firestore
      */
@@ -287,9 +361,21 @@ class SketchRepositoryImpl(
                     remotePathsUrl = pathsUploadResult.getOrNull()
                     Log.d(TAG, "Paths uploaded successfully: $remotePathsUrl")
                 } else {
-                    // Log warning but don't fail the entire upload
-                    // Sketch can still work with image only
                     Log.w(TAG, "Failed to upload paths JSON, continuing with image only", pathsUploadResult.exceptionOrNull())
+                }
+            }
+
+            // Upload emoji elements JSON to Cloudinary (if available)
+            var remoteEmojisUrl: String? = null
+            if (!entity.emojiElementsJson.isNullOrBlank()) {
+                Log.d(TAG, "Uploading emoji elements JSON for: ${entity.id}")
+                val emojisUploadResult = uploadEmojisJson(entity.emojiElementsJson, publicId)
+
+                if (emojisUploadResult.isSuccess) {
+                    remoteEmojisUrl = emojisUploadResult.getOrNull()
+                    Log.d(TAG, "Emojis uploaded successfully: $remoteEmojisUrl")
+                } else {
+                    Log.w(TAG, "Failed to upload emojis JSON, continuing without emojis", emojisUploadResult.exceptionOrNull())
                 }
             }
 
@@ -298,7 +384,8 @@ class SketchRepositoryImpl(
                 entity.toDomain().copy(
                     remoteImageUrl = uploadResult.optimizedUrl,
                     thumbnailUrl = uploadResult.thumbnailUrl,
-                    remotePathsUrl = remotePathsUrl
+                    remotePathsUrl = remotePathsUrl,
+                    remoteEmojisUrl = remoteEmojisUrl
                 )
             )
 
@@ -314,11 +401,19 @@ class SketchRepositoryImpl(
                 remoteImageUrl = uploadResult.optimizedUrl,
                 thumbnailUrl = uploadResult.thumbnailUrl,
                 remotePathsUrl = remotePathsUrl,
+                remoteEmojisUrl = remoteEmojisUrl,
                 syncStatus = SyncStatus.SYNCED.name
             )
             sketchDao.updateSketch(updated)
 
             Log.d(TAG, "Upload completed: ${entity.id}")
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            // Reset status to PENDING_UPLOAD using NonCancellable so the DB write completes
+            // even though this coroutine is being cancelled
+            withContext(NonCancellable) {
+                sketchDao.updateSyncStatus(entity.id, SyncStatus.PENDING_UPLOAD.name)
+            }
+            throw e
         } catch (e: Exception) {
             Log.e(TAG, "Failed to upload sketch: ${entity.id}", e)
             // Revert to PENDING_UPLOAD on error (use full update to trigger Flow emission)

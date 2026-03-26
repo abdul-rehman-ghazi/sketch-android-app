@@ -1,7 +1,12 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.calculateRotation
+import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -40,8 +45,10 @@ fun DrawingCanvas(
     onDrawStart: (Offset) -> Unit,
     onDraw: (Offset) -> Unit,
     onDrawEnd: () -> Unit,
-    onEmojiTap: (String) -> Unit = {},
-    onEmojiDrag: (String, Float, Float) -> Unit = { _, _, _ -> },
+    onEmojiPinchStart: () -> Unit = {},
+    onEmojiPinchUpdate: (zoom: Float, rotationDelta: Float) -> Unit = { _, _ -> },
+    onEmojiPinchEnd: () -> Unit = {},
+    onCanvasTap: () -> Unit = {},
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
     onCanvasSizeChanged: ((width: Int, height: Int) -> Unit)? = null
@@ -53,6 +60,34 @@ fun DrawingCanvas(
                 alpha = 0.99f,
                 compositingStrategy = CompositingStrategy.Offscreen
             )
+            .pointerInput(selectedEmojiId) {
+                if (selectedEmojiId == null) return@pointerInput
+                awaitEachGesture {
+                    awaitFirstDown(requireUnconsumed = false)
+                    var cumulativeZoom = 1f
+                    var totalRotationDelta = 0f
+                    var isPinching = false
+                    var anyPressed = true
+                    while (anyPressed) {
+                        val event = awaitPointerEvent()
+                        if (event.changes.size >= 2) {
+                            if (!isPinching) {
+                                onEmojiPinchStart()
+                                isPinching = true
+                            }
+                            cumulativeZoom *= event.calculateZoom()
+                            totalRotationDelta += event.calculateRotation()
+                            onEmojiPinchUpdate(cumulativeZoom, totalRotationDelta)
+                            event.changes.forEach { it.consume() }
+                        }
+                        anyPressed = event.changes.any { it.pressed }
+                    }
+                    if (isPinching) onEmojiPinchEnd()
+                }
+            }
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onCanvasTap() })
+            }
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragStart = { offset ->

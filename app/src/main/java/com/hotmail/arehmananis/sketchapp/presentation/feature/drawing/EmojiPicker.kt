@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -112,20 +113,14 @@ fun EmojiPickerDialog(
                         .weight(1f)
                 ) {
                     filteredEmojis.forEach { (category, emojis) ->
-                        // Category header
-                        item {
+                        // Category header spanning full row
+                        item(span = { GridItemSpan(maxLineSpan) }) {
                             Text(
                                 text = category,
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(vertical = 4.dp)
                             )
-                        }
-
-                        // Add empty items to fill the row
-                        val emptyCells = (6 - 1) % 6
-                        repeat(emptyCells) {
-                            item { Box(Modifier.size(48.dp)) }
                         }
 
                         // Emoji items

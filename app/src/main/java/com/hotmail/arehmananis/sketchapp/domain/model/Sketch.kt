@@ -14,6 +14,7 @@ data class Sketch(
     val remoteImageUrl: String? = null,
     val thumbnailUrl: String? = null,
     val remotePathsUrl: String? = null, // Cloudinary URL to paths JSON file
+    val remoteEmojisUrl: String? = null, // Cloudinary URL to emojis JSON file
     val syncStatus: SyncStatus = SyncStatus.SYNCED,
     val width: Int,
     val height: Int,

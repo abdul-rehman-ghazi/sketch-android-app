@@ -15,6 +15,7 @@ data class SketchDto(
     @PropertyName("remoteImageUrl") val remoteImageUrl: String? = null,
     @PropertyName("thumbnailUrl") val thumbnailUrl: String? = null,
     @PropertyName("remotePathsUrl") val remotePathsUrl: String? = null,
+    @PropertyName("remoteEmojisUrl") val remoteEmojisUrl: String? = null,
     @PropertyName("width") val width: Int = 0,
     @PropertyName("height") val height: Int = 0
 ) {
@@ -33,6 +34,7 @@ data class SketchDto(
                 remoteImageUrl = sketch.remoteImageUrl,
                 thumbnailUrl = sketch.thumbnailUrl,
                 remotePathsUrl = sketch.remotePathsUrl,
+                remoteEmojisUrl = sketch.remoteEmojisUrl,
                 width = sketch.width,
                 height = sketch.height
             )

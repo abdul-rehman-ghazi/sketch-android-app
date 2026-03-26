@@ -1,6 +1,9 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,33 +25,37 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Pentagon
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Square
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
-import androidx.compose.material.icons.filled.Square
-import androidx.compose.material.icons.filled.Remove
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Pentagon
-import androidx.compose.material.icons.filled.Close
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
 import com.hotmail.arehmananis.sketchapp.presentation.theme.DrawingColors
@@ -73,6 +80,12 @@ fun DrawingToolbar(
     onFilledChange: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
+    var isExpanded by remember { mutableStateOf(true) }
+    val arrowRotation by animateFloatAsState(
+        targetValue = if (isExpanded) 0f else 180f,
+        label = "arrow_rotation"
+    )
+
     Surface(
         modifier = modifier
             .fillMaxWidth(),
@@ -81,13 +94,49 @@ fun DrawingToolbar(
         tonalElevation = 4.dp,
         shadowElevation = 8.dp
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            // Handle / toggle row
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { isExpanded = !isExpanded }
+                    .padding(vertical = 8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                // Drag handle pill
+                Box(
+                    modifier = Modifier
+                        .size(width = 40.dp, height = 4.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
+                            shape = CircleShape
+                        )
+                )
+                // Arrow indicator
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = if (isExpanded) "Collapse toolbar" else "Expand toolbar",
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 16.dp)
+                        .size(20.dp)
+                        .rotate(arrowRotation),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            AnimatedVisibility(
+                visible = isExpanded,
+                enter = expandVertically(),
+                exit = shrinkVertically()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState())
+                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
             // Brush selection
             Text(
                 text = "Brush",
@@ -178,8 +227,10 @@ fun DrawingToolbar(
                     inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             )
-        }
-    }
+                } // Column (animated content)
+            } // AnimatedVisibility
+        } // outer Column
+    } // Surface
 }
 
 /**

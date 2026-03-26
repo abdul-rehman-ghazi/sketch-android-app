@@ -1,6 +1,7 @@
 package com.hotmail.arehmananis.sketchapp.domain.repository
 
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
+import com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import kotlinx.coroutines.flow.Flow
 
@@ -63,4 +64,6 @@ interface SketchRepository {
      * @return Result with list of DrawingPath on success, empty list if no paths available
      */
     suspend fun downloadAndCachePaths(sketchId: String): Result<List<DrawingPath>>
+
+    suspend fun downloadAndCacheEmojis(sketchId: String): Result<List<EmojiElement>>
 }

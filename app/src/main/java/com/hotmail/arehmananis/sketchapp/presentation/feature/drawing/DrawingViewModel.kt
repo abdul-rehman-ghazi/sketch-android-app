@@ -43,9 +43,33 @@ class DrawingViewModel(
     private val _uiState = MutableStateFlow(DrawingUiState())
     val uiState: StateFlow<DrawingUiState> = _uiState.asStateFlow()
 
-    // Undo/Redo stacks
-    private val pathHistory = mutableListOf<DrawingPath>()
-    private val redoStack = mutableListOf<DrawingPath>()
+    // Unified undo/redo stacks
+    private sealed class UndoAction {
+        data class PathAdded(val path: DrawingPath) : UndoAction()
+        data class EmojiAdded(val emoji: com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement) :
+            UndoAction()
+
+        data class EmojiMoved(
+            val emojiId: String,
+            val prevX: Float,
+            val prevY: Float,
+            val newX: Float,
+            val newY: Float
+        ) : UndoAction()
+
+        data class EmojiResized(val emojiId: String, val prevSize: Float, val newSize: Float) :
+            UndoAction()
+
+        data class EmojiRotated(
+            val emojiId: String,
+            val prevRotation: Float,
+            val newRotation: Float
+        ) :
+            UndoAction()
+    }
+
+    private val undoStack = mutableListOf<UndoAction>()
+    private val redoStack = mutableListOf<UndoAction>()
 
     fun onDrawStart(offset: Offset) {
         val point = PathPoint(offset.x, offset.y)
@@ -73,49 +97,151 @@ class DrawingViewModel(
     fun onDrawEnd() {
         val currentPath = _uiState.value.currentPath ?: return
 
-        // Add to path history
-        pathHistory.add(currentPath)
-        redoStack.clear() // Clear redo stack when new path is added
+        undoStack.add(UndoAction.PathAdded(currentPath))
+        redoStack.clear()
 
-        // Add to completed paths
         val updatedPaths = _uiState.value.paths + currentPath
         _uiState.update {
             it.copy(
                 paths = updatedPaths,
                 currentPath = null,
-                canUndo = pathHistory.isNotEmpty(),
+                canUndo = true,
                 canRedo = false
             )
         }
     }
 
     fun undo() {
-        if (pathHistory.isEmpty()) return
+        val action = undoStack.removeLastOrNull() ?: return
+        redoStack.add(action)
 
-        val lastPath = pathHistory.removeLastOrNull() ?: return
-        redoStack.add(lastPath)
+        when (action) {
+            is UndoAction.PathAdded -> {
+                val paths = undoStack.filterIsInstance<UndoAction.PathAdded>().map { it.path }
+                _uiState.update {
+                    it.copy(
+                        paths = paths,
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
 
-        _uiState.update {
-            it.copy(
-                paths = pathHistory.toList(),
-                canUndo = pathHistory.isNotEmpty(),
-                canRedo = redoStack.isNotEmpty()
-            )
+            is UndoAction.EmojiAdded -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.filter { e -> e.id != action.emoji.id },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.EmojiMoved -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(
+                                x = action.prevX,
+                                y = action.prevY
+                            ) else e
+                        },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.EmojiResized -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(size = action.prevSize) else e
+                        },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.EmojiRotated -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(rotation = action.prevRotation) else e
+                        },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
         }
     }
 
     fun redo() {
-        if (redoStack.isEmpty()) return
+        val action = redoStack.removeLastOrNull() ?: return
+        undoStack.add(action)
 
-        val pathToRedo = redoStack.removeLastOrNull() ?: return
-        pathHistory.add(pathToRedo)
+        when (action) {
+            is UndoAction.PathAdded -> {
+                val paths = undoStack.filterIsInstance<UndoAction.PathAdded>().map { it.path }
+                _uiState.update {
+                    it.copy(
+                        paths = paths,
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
 
-        _uiState.update {
-            it.copy(
-                paths = pathHistory.toList(),
-                canUndo = pathHistory.isNotEmpty(),
-                canRedo = redoStack.isNotEmpty()
-            )
+            is UndoAction.EmojiAdded -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements + action.emoji,
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.EmojiMoved -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(
+                                x = action.newX,
+                                y = action.newY
+                            ) else e
+                        },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.EmojiResized -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(size = action.newSize) else e
+                        },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.EmojiRotated -> {
+                _uiState.update {
+                    it.copy(
+                        emojiElements = it.emojiElements.map { e ->
+                            if (e.id == action.emojiId) e.copy(rotation = action.newRotation) else e
+                        },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
         }
     }
 
@@ -160,7 +286,7 @@ class DrawingViewModel(
     }
 
     fun clearCanvas() {
-        pathHistory.clear()
+        undoStack.clear()
         redoStack.clear()
         _uiState.update {
             it.copy(
@@ -206,9 +332,9 @@ class DrawingViewModel(
                         val paths = sketch.drawingPaths ?: emptyList()
                         val emojis = sketch.emojiElements ?: emptyList()
 
-                        // Initialize path history for undo/redo
-                        pathHistory.clear()
-                        pathHistory.addAll(paths)
+                        // Initialize undo stack for undo/redo
+                        undoStack.clear()
+                        paths.forEach { undoStack.add(UndoAction.PathAdded(it)) }
                         redoStack.clear()
 
                         // Update UI state
@@ -342,12 +468,16 @@ class DrawingViewModel(
             emoji = emoji,
             x = x,
             y = y,
-            size = 48f
+            size = 64f
         )
+        undoStack.add(UndoAction.EmojiAdded(newEmoji))
+        redoStack.clear()
         _uiState.update {
             it.copy(
                 emojiElements = it.emojiElements + newEmoji,
-                showEmojiPicker = false
+                showEmojiPicker = false,
+                canUndo = true,
+                canRedo = false
             )
         }
     }
@@ -357,32 +487,76 @@ class DrawingViewModel(
     }
 
     fun moveEmoji(emojiId: String, deltaX: Float, deltaY: Float) {
-        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
-            if (emoji.id == emojiId) {
-                emoji.copy(x = emoji.x + deltaX, y = emoji.y + deltaY)
-            } else {
-                emoji
-            }
+        val emoji = _uiState.value.emojiElements.find { it.id == emojiId } ?: return
+        undoStack.add(
+            UndoAction.EmojiMoved(
+                emojiId,
+                emoji.x,
+                emoji.y,
+                emoji.x + deltaX,
+                emoji.y + deltaY
+            )
+        )
+        redoStack.clear()
+        _uiState.update {
+            it.copy(
+                emojiElements = it.emojiElements.map { e ->
+                    if (e.id == emojiId) e.copy(x = emoji.x + deltaX, y = emoji.y + deltaY) else e
+                },
+                canUndo = true,
+                canRedo = false
+            )
         }
-        _uiState.update { it.copy(emojiElements = updatedEmojis) }
     }
 
-    fun resizeEmoji(emojiId: String, newSize: Float) {
-        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
-            if (emoji.id == emojiId) {
-                emoji.copy(size = newSize.coerceIn(24f, 200f))
-            } else {
-                emoji
-            }
+    // Pinch-to-zoom + rotate for selected emoji — one undo entry per gesture
+    private var pinchBaseSize: Float? = null
+    private var pinchBaseRotation: Float? = null
+
+    fun onEmojiPinchStart() {
+        val emojiId = _uiState.value.selectedEmojiId ?: return
+        val emoji = _uiState.value.emojiElements.find { it.id == emojiId } ?: return
+        pinchBaseSize = emoji.size
+        pinchBaseRotation = emoji.rotation
+    }
+
+    fun onEmojiPinchUpdate(cumulativeZoom: Float, totalRotationDelta: Float) {
+        val emojiId = _uiState.value.selectedEmojiId ?: return
+        val baseSize = pinchBaseSize ?: return
+        val baseRotation = pinchBaseRotation ?: return
+        val newSize = (baseSize * cumulativeZoom).coerceIn(24f, 240f)
+        val newRotation = baseRotation + totalRotationDelta
+        _uiState.update {
+            it.copy(emojiElements = it.emojiElements.map { e ->
+                if (e.id == emojiId) e.copy(size = newSize, rotation = newRotation) else e
+            })
         }
-        _uiState.update { it.copy(emojiElements = updatedEmojis) }
+    }
+
+    fun onEmojiPinchEnd() {
+        val emojiId = _uiState.value.selectedEmojiId ?: return
+        val baseSize = pinchBaseSize ?: return
+        val baseRotation = pinchBaseRotation ?: return
+        val emoji = _uiState.value.emojiElements.find { it.id == emojiId } ?: return
+        if (baseSize != emoji.size) {
+            undoStack.add(UndoAction.EmojiResized(emojiId, baseSize, emoji.size))
+            redoStack.clear()
+        }
+        if (baseRotation != emoji.rotation) {
+            undoStack.add(UndoAction.EmojiRotated(emojiId, baseRotation, emoji.rotation))
+            redoStack.clear()
+        }
+        if (baseSize != emoji.size || baseRotation != emoji.rotation) {
+            _uiState.update { it.copy(canUndo = true, canRedo = false) }
+        }
+        pinchBaseSize = null
+        pinchBaseRotation = null
     }
 
     fun deleteEmoji(emojiId: String) {
-        val updatedEmojis = _uiState.value.emojiElements.filter { it.id != emojiId }
         _uiState.update {
             it.copy(
-                emojiElements = updatedEmojis,
+                emojiElements = it.emojiElements.filter { e -> e.id != emojiId },
                 selectedEmojiId = null
             )
         }

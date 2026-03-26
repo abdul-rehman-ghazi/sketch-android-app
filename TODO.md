@@ -3,20 +3,22 @@
 ## Drawing Features
 
 ### Shape Tools
-- [ ] Add rectangle drawing tool
-- [ ] Add circle/ellipse drawing tool
-- [ ] Add line drawing tool
-- [ ] Add arrow drawing tool
-- [ ] Add polygon drawing tool
-- [ ] Shape fill options (filled vs outline)
+
+- [x] Add rectangle drawing tool
+- [x] Add circle/ellipse drawing tool
+- [x] Add line drawing tool
+- [x] Add arrow drawing tool
+- [x] Add polygon drawing tool
+- [x] Shape fill options (filled vs outline)
 - [ ] Shape customization (rounded corners, etc.)
 
 ### Emoji Support
-- [ ] Emoji picker UI
-- [ ] Place emojis on canvas
-- [ ] Resize and move emojis
-- [ ] Delete emojis
-- [ ] Layer management for emojis
+
+- [x] Emoji picker UI
+- [x] Place emojis on canvas
+- [x] Resize and move emojis
+- [x] Delete emojis
+- [x] Layer management for emojis
 - [ ] Emoji search functionality
 
 ## Import/Export Features
@@ -29,7 +31,7 @@
 - [ ] Crop imported images
 - [ ] Layer management for imported images
 - [ ] Support multiple image formats (PNG, JPG, etc.)
-
+  ![Screenshot_20260326_111509.png](../../../Desktop/Screenshot_20260326_111509.png)
 ### Export Features
 - [ ] Export sketches as transparent PNG
 - [ ] Export with custom dimensions
