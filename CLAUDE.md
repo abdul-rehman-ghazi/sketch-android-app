@@ -4,17 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a native Android application built with Kotlin and Jetpack Compose, implementing MVVM architecture with Clean Architecture principles. The app features a bottom navigation interface with three main screens: Home, Profile, and Settings.
+This is a native Android sketch/drawing application built with Kotlin and Jetpack Compose, implementing MVVM architecture with Clean Architecture principles. The app features a bottom navigation interface with screens for Home, Profile, Settings, Gallery, and a full-featured Drawing canvas. Core drawing capabilities include freehand paths, shapes (line, rectangle, circle, arrow, polygon), emoji overlays, export, and share.
 
 **Important:** The architecture is designed to be easily migrable to Compose Multiplatform. Keep platform-specific code isolated and maintain a clean separation between business logic and platform concerns.
 
 **Key Technologies:**
 
 - Jetpack Compose for UI
-- Hilt for dependency injection
+- Koin for dependency injection (migrated from Hilt)
 - Kotlin Coroutines and Flow for asynchronous operations
 - Retrofit + Moshi for networking
 - DataStore for local preferences
+- Firebase (Auth + Firestore) for authentication and cloud sync
+- Cloudinary for image storage
 - Material 3 design components
 
 **Package:** `com.hotmail.arehmananis.sketchapp`
@@ -31,19 +33,42 @@ app/src/main/java/com/hotmail/arehmananis/sketchapp/
 │   │   ├── dto/
 │   │   ├── model/
 │   │   └── NetworkResult.kt
+│   ├── sync/               # WorkManager-based sync (SketchSyncWorker)
 │   └── repository/         # Repository implementations
 ├── domain/
 │   ├── model/              # Domain entities (pure Kotlin - KMP ready)
+│   │   # Key models: Sketch, DrawingPath, PathPoint, BrushType, BrushConfig,
+│   │   # ShapeTool, EmojiElement, ImageElement, AuthUser, UserPreferences, ThemeMode
 │   ├── repository/         # Repository interfaces (pure Kotlin - KMP ready)
 │   └── usecase/            # Business logic use cases (pure Kotlin - KMP ready)
 ├── presentation/
 │   ├── feature/
+│   │   ├── auth/           # LoginScreen + AuthViewModel
 │   │   ├── home/           # HomeScreen + HomeViewModel
 │   │   ├── profile/        # ProfileScreen + ProfileViewModel
-│   │   └── settings/       # SettingsScreen + SettingsViewModel
+│   │   ├── settings/       # SettingsScreen + SettingsViewModel
+│   │   ├── gallery/        # GalleryScreen + GalleryViewModel
+│   │   └── drawing/        # Full drawing canvas feature
+│   │       ├── DrawingScreen.kt       # Main screen composable
+│   │       ├── DrawingViewModel.kt    # State + undo/redo logic
+│   │       ├── DrawingCanvas.kt       # Touch-input canvas
+│   │       ├── DrawingToolbar.kt      # Bottom tool picker
+│   │       ├── DrawingTopBar.kt       # Top bar (undo/redo/save/share/clear)
+│   │       ├── EmojiOverlay.kt        # Draggable emoji elements
+│   │       ├── EmojiPicker.kt         # Emoji selection sheet
+│   │       ├── ExportOptionsDialog.kt # Export format/size dialog
+│   │       ├── BitmapExporter.kt      # Renders paths+emojis to Bitmap
+│   │       ├── ShareHelper.kt         # Android share intent helper
+│   │       └── BrushIconMapper.kt     # Brush type → icon mapping
 │   ├── common/             # Navigation.kt
 │   └── theme/              # Compose theme (Color, Type, Theme)
-├── di/                     # Hilt modules (Android-specific - will need KMP alternative)
+├── di/                     # Koin modules
+│   ├── AppModule.kt        # App-level dependencies (Context, DataStore)
+│   ├── NetworkModule.kt    # Retrofit, OkHttpClient, Moshi
+│   ├── DatabaseModule.kt   # Local database
+│   ├── FirebaseModule.kt   # Firebase Auth + Firestore
+│   ├── CloudinaryModule.kt # Cloudinary image upload
+│   └── RepositoryModule.kt # Repository bindings
 └── MainActivity.kt         # Android-specific entry point
 ```
 
@@ -71,10 +96,10 @@ app/src/main/java/com/hotmail/arehmananis/sketchapp/
 - ⚠️ Navigation currently uses androidx.navigation (consider decompose or voyager for KMP)
 - ⚠️ Hilt is Android-specific (Koin is KMP-compatible alternative)
 
-**DI Layer (Android-Specific):**
+**DI Layer (Koin - Partially KMP Ready):**
 
-- ⚠️ Hilt is Android-only
-- Migration path: Koin, Kodein, or manual DI for KMP
+- ✅ Koin is used (migrated from Hilt) — Koin supports KMP
+- ⚠️ Some modules wrap Android-specific APIs (Context, Firebase, WorkManager)
 
 ### KMP Migration Considerations
 
@@ -146,8 +171,8 @@ Available in all flavors:
 The app uses Compose Navigation with a bottom navigation bar:
 
 - **Routes:** Defined in `Navigation.kt` as sealed `Screen` objects
-- **Screens:** Home, Profile, Settings
-- **Navigation Pattern:** Bottom navigation with state preservation
+- **Screens:** Auth (Login), Home, Gallery, Drawing (full-screen), Profile, Settings
+- **Navigation Pattern:** Bottom navigation with state preservation; Drawing screen is full-screen (no bottom nav)
 - **Entry Point:** `AppNavigation()` composable in MainActivity
 
 When adding new screens:
@@ -185,22 +210,24 @@ sealed interface NetworkResult<out T> {
 
 **KMP Note:** This error handling pattern is already KMP-ready. Retrofit+OkHttp can be replaced with Ktor for full KMP support.
 
-## Dependency Injection (Hilt)
+## Dependency Injection (Koin)
 
-All DI modules are in the `di/` package:
+All DI modules are in the `di/` package. The project has been **migrated from Hilt to Koin**.
 
-- **AppModule** - Application-level dependencies (Context, DataStore)
+- **AppModule** - App-level dependencies (Context, DataStore)
 - **NetworkModule** - Retrofit, OkHttpClient, Moshi configuration
+- **DatabaseModule** - Local database setup
+- **FirebaseModule** - Firebase Auth and Firestore
+- **CloudinaryModule** - Cloudinary image upload configuration
 - **RepositoryModule** - Repository interface → implementation bindings
 
 **Conventions:**
 
-- ViewModels: Annotate with `@HiltViewModel` and use constructor injection
-- Activities: Annotate with `@AndroidEntryPoint`
-- Use `@Singleton` scope for app-level dependencies
-- Bind interfaces with `@Binds` in modules
+- ViewModels: Declare with `viewModel { }` in Koin modules; inject in composables via `koinViewModel()`
+- Use `single { }` for app-level singletons
+- Use `factory { }` for non-singleton dependencies
 
-**KMP Migration Note:** Hilt is Android-only. For KMP, migrate to [Koin](https://insert-koin.io/) which supports multiplatform.
+**KMP Migration Note:** Koin already supports KMP — modules can be shared in `commonMain` once Android-specific dependencies are wrapped behind expect/actual.
 
 ## State Management
 
@@ -253,17 +280,20 @@ The project uses Gradle version catalogs (`gradle/libs.versions.toml`):
 **Key Dependencies:**
 
 - Compose BOM: 2024.02.00
-- Hilt: 2.50 (Android-only)
+- Koin: KMP-compatible DI (replaces Hilt)
 - Retrofit: 2.9.0 (Android/JVM - use Ktor for KMP)
 - Moshi: 1.15.0 (Android/JVM - use kotlinx.serialization for KMP)
 - Navigation Compose: 2.7.7
 - DataStore: 1.0.0 (Android-only - multiplatform-settings for KMP)
+- Firebase BOM (Auth + Firestore)
+- Cloudinary Android SDK
+- WorkManager (background sync)
 
 When adding dependencies, update `libs.versions.toml` first, then reference in `build.gradle.kts` with `libs.dependency.name`.
 
 **KMP-Friendly Alternatives:**
 
-- DI: Koin instead of Hilt
+- DI: ✅ Koin already used (KMP-ready)
 - Networking: Ktor instead of Retrofit+OkHttp
 - JSON: kotlinx.serialization instead of Moshi
 - Storage: multiplatform-settings or expect/actual wrapper around DataStore
@@ -356,8 +386,8 @@ If/when migrating to Compose Multiplatform:
    - Move shared data code to `commonMain`
 
 3. **Phase 3 - Migrate DI:**
-   - Replace Hilt with Koin
-   - Set up Koin modules in `commonMain`
+   - ✅ Koin already in use — move shared modules to `commonMain`
+   - Wrap Android-specific Koin modules (Firebase, Cloudinary, WorkManager) behind expect/actual
 
 4. **Phase 4 - Migrate Presentation:**
    - Move ViewModels to `commonMain`
@@ -373,8 +403,13 @@ If/when migrating to Compose Multiplatform:
 
 - Single-module architecture (not modularized into feature modules)
 - 100% Jetpack Compose - no XML layouts
-- No Room database currently implemented (for KMP, use SQLDelight)
-- Networking is set up but API service interfaces should be defined as needed
+- DI migrated from Hilt to Koin
+- Firebase Auth + Firestore used for authentication and cloud sync
+- Cloudinary used for image storage
+- Drawing feature supports: freehand, shapes (line/rect/circle/arrow/polygon), emoji overlays, undo/redo, export (PNG/JPEG with transparency option), and share via Android intent
+- `BitmapExporter.kt` renders canvas content (paths + emojis) to `Bitmap` for export
+- `ShareHelper.kt` uses `FileProvider` to share images via `ACTION_SEND`
+- WorkManager handles background sketch sync (`SketchSyncWorker`)
 - Release builds enable R8 code shrinking and obfuscation
 - Java target: JVM 21
 - **Architecture prioritizes KMP readiness - maintain this separation**
