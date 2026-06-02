@@ -3,6 +3,7 @@ package com.hotmail.arehmananis.sketchapp.data.local.db.entity
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.hotmail.arehmananis.sketchapp.data.local.serializer.EmojiSerializer
+import com.hotmail.arehmananis.sketchapp.data.local.serializer.ImageSerializer
 import com.hotmail.arehmananis.sketchapp.data.local.serializer.PathSerializer
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
@@ -27,12 +28,14 @@ data class SketchEntity(
     val syncStatus: String, // Stored as String, converted to/from enum
     val width: Int,
     val height: Int,
-    val drawingPathsJson: String? = null, // JSON serialized DrawingPath list
-    val emojiElementsJson: String? = null // JSON serialized EmojiElement list
+    val drawingPathsJson: String? = null,
+    val emojiElementsJson: String? = null,
+    val imageElementsJson: String? = null
 ) {
     fun toDomain(): Sketch {
         val paths = drawingPathsJson?.let { PathSerializer.fromJson(it) }
         val emojis = emojiElementsJson?.let { EmojiSerializer.fromJson(it) }
+        val images = imageElementsJson?.let { ImageSerializer.fromJson(it) }
 
         return Sketch(
             id = id,
@@ -49,7 +52,8 @@ data class SketchEntity(
             width = width,
             height = height,
             drawingPaths = paths,
-            emojiElements = emojis
+            emojiElements = emojis,
+            imageElements = images
         )
     }
 
@@ -57,6 +61,7 @@ data class SketchEntity(
         fun fromDomain(sketch: Sketch): SketchEntity {
             val pathsJson = sketch.drawingPaths?.let { PathSerializer.toJson(it) }
             val emojisJson = sketch.emojiElements?.let { EmojiSerializer.toJson(it) }
+            val imagesJson = sketch.imageElements?.let { ImageSerializer.toJson(it) }
 
             return SketchEntity(
                 id = sketch.id,
@@ -73,7 +78,8 @@ data class SketchEntity(
                 width = sketch.width,
                 height = sketch.height,
                 drawingPathsJson = pathsJson,
-                emojiElementsJson = emojisJson
+                emojiElementsJson = emojisJson,
+                imageElementsJson = imagesJson
             )
         }
     }

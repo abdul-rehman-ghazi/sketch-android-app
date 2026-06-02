@@ -1,5 +1,6 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -9,28 +10,37 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.geometry.Rect
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
+import com.hotmail.arehmananis.sketchapp.domain.model.ImageElement
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
-import kotlin.math.sqrt
 
 /**
  * Canvas composable for drawing
@@ -41,18 +51,39 @@ fun DrawingCanvas(
     paths: List<DrawingPath>,
     currentPath: DrawingPath?,
     emojiElements: List<com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement> = emptyList(),
+    imageElements: List<ImageElement> = emptyList(),
     selectedEmojiId: String? = null,
+    selectedImageId: String? = null,
     onDrawStart: (Offset) -> Unit,
     onDraw: (Offset) -> Unit,
     onDrawEnd: () -> Unit,
     onEmojiPinchStart: () -> Unit = {},
     onEmojiPinchUpdate: (zoom: Float, rotationDelta: Float) -> Unit = { _, _ -> },
     onEmojiPinchEnd: () -> Unit = {},
-    onCanvasTap: () -> Unit = {},
+    onImagePinchStart: () -> Unit = {},
+    onImagePinchUpdate: (zoom: Float, rotationDelta: Float) -> Unit = { _, _ -> },
+    onImagePinchEnd: () -> Unit = {},
+    onCanvasTap: (Offset) -> Unit = {},
     modifier: Modifier = Modifier,
     backgroundColor: Color = Color.White,
     onCanvasSizeChanged: ((width: Int, height: Int) -> Unit)? = null
 ) {
+    val loadedBitmaps = remember { mutableStateMapOf<String, ImageBitmap>() }
+    val imageIds = remember(imageElements) { imageElements.map { it.id } }
+
+    LaunchedEffect(imageIds) {
+        imageElements.forEach { img ->
+            if (!loadedBitmaps.containsKey(img.id)) {
+                val bmp = withContext(Dispatchers.IO) {
+                    BitmapFactory.decodeFile(img.imagePath)?.asImageBitmap()
+                }
+                bmp?.let { loadedBitmaps[img.id] = it }
+            }
+        }
+        val currentIds = imageIds.toSet()
+        loadedBitmaps.keys.filter { it !in currentIds }.forEach { loadedBitmaps.remove(it) }
+    }
+
     Canvas(
         modifier = modifier
             .fillMaxSize()
@@ -85,8 +116,33 @@ fun DrawingCanvas(
                     if (isPinching) onEmojiPinchEnd()
                 }
             }
+            .pointerInput(selectedImageId) {
+                if (selectedImageId == null) return@pointerInput
+                awaitEachGesture {
+                    awaitFirstDown(requireUnconsumed = false)
+                    var cumulativeZoom = 1f
+                    var totalRotationDelta = 0f
+                    var isPinching = false
+                    var anyPressed = true
+                    while (anyPressed) {
+                        val event = awaitPointerEvent()
+                        if (event.changes.size >= 2) {
+                            if (!isPinching) {
+                                onImagePinchStart()
+                                isPinching = true
+                            }
+                            cumulativeZoom *= event.calculateZoom()
+                            totalRotationDelta += event.calculateRotation()
+                            onImagePinchUpdate(cumulativeZoom, totalRotationDelta)
+                            event.changes.forEach { it.consume() }
+                        }
+                        anyPressed = event.changes.any { it.pressed }
+                    }
+                    if (isPinching) onImagePinchEnd()
+                }
+            }
             .pointerInput(Unit) {
-                detectTapGestures(onTap = { onCanvasTap() })
+                detectTapGestures(onTap = { offset -> onCanvasTap(offset) })
             }
             .pointerInput(Unit) {
                 detectDragGestures(
@@ -106,6 +162,23 @@ fun DrawingCanvas(
         onCanvasSizeChanged?.invoke(size.width.toInt(), size.height.toInt())
         // Draw background
         drawRect(color = backgroundColor)
+
+        // Draw imported images (below paths so drawings appear on top)
+        imageElements.sortedBy { it.layer }.forEach { img ->
+            loadedBitmaps[img.id]?.let { bmp ->
+                rotate(img.rotation, pivot = Offset(img.x, img.y)) {
+                    drawImage(
+                        image = bmp,
+                        dstOffset = IntOffset(
+                            (img.x - img.width / 2f).toInt(),
+                            (img.y - img.height / 2f).toInt()
+                        ),
+                        dstSize = IntSize(img.width.toInt(), img.height.toInt()),
+                        alpha = img.alpha
+                    )
+                }
+            }
+        }
 
         // Draw all completed paths
         paths.forEach { path ->
@@ -279,7 +352,7 @@ private fun DrawScope.drawAirbrush(path: Path, config: DrawingPath) {
         drawPath(
             path = path,
             color = color,
-            alpha = 0.05f * config.opacity,
+            alpha = 0.3f * config.opacity,
             style = Stroke(
                 width = config.strokeWidth + i * 2f,
                 cap = StrokeCap.Round,

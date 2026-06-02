@@ -1,6 +1,9 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -9,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushConfig
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
+import com.hotmail.arehmananis.sketchapp.domain.model.ImageElement
 import com.hotmail.arehmananis.sketchapp.domain.model.PathPoint
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
@@ -24,6 +28,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -64,8 +69,20 @@ class DrawingViewModel(
             val emojiId: String,
             val prevRotation: Float,
             val newRotation: Float
-        ) :
-            UndoAction()
+        ) : UndoAction()
+
+        data class ImageAdded(val image: ImageElement) : UndoAction()
+        data class ImageMoved(
+            val imageId: String,
+            val prevX: Float, val prevY: Float,
+            val newX: Float, val newY: Float
+        ) : UndoAction()
+        data class ImageResized(
+            val imageId: String,
+            val prevWidth: Float, val prevHeight: Float,
+            val newWidth: Float, val newHeight: Float
+        ) : UndoAction()
+        data class ImageDeleted(val image: ImageElement) : UndoAction()
     }
 
     private val undoStack = mutableListOf<UndoAction>()
@@ -175,6 +192,50 @@ class DrawingViewModel(
                     )
                 }
             }
+
+            is UndoAction.ImageAdded -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.filter { img -> img.id != action.image.id },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.ImageMoved -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.map { img ->
+                            if (img.id == action.imageId) img.copy(x = action.prevX, y = action.prevY) else img
+                        },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.ImageResized -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.map { img ->
+                            if (img.id == action.imageId) img.copy(width = action.prevWidth, height = action.prevHeight) else img
+                        },
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
+
+            is UndoAction.ImageDeleted -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements + action.image,
+                        canUndo = undoStack.isNotEmpty(),
+                        canRedo = true
+                    )
+                }
+            }
         }
     }
 
@@ -237,6 +298,50 @@ class DrawingViewModel(
                         emojiElements = it.emojiElements.map { e ->
                             if (e.id == action.emojiId) e.copy(rotation = action.newRotation) else e
                         },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.ImageAdded -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements + action.image,
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.ImageMoved -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.map { img ->
+                            if (img.id == action.imageId) img.copy(x = action.newX, y = action.newY) else img
+                        },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.ImageResized -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.map { img ->
+                            if (img.id == action.imageId) img.copy(width = action.newWidth, height = action.newHeight) else img
+                        },
+                        canUndo = true,
+                        canRedo = redoStack.isNotEmpty()
+                    )
+                }
+            }
+
+            is UndoAction.ImageDeleted -> {
+                _uiState.update {
+                    it.copy(
+                        imageElements = it.imageElements.filter { img -> img.id != action.image.id },
                         canUndo = true,
                         canRedo = redoStack.isNotEmpty()
                     )
@@ -328,22 +433,21 @@ class DrawingViewModel(
 
                 result.fold(
                     onSuccess = { sketch ->
-                        // Load drawing paths
                         val paths = sketch.drawingPaths ?: emptyList()
                         val emojis = sketch.emojiElements ?: emptyList()
+                        val images = sketch.imageElements ?: emptyList()
 
-                        // Initialize undo stack for undo/redo
                         undoStack.clear()
                         paths.forEach { undoStack.add(UndoAction.PathAdded(it)) }
                         redoStack.clear()
 
-                        // Update UI state
                         _uiState.update {
                             it.copy(
                                 isLoading = false,
                                 loadedSketchId = sketchId,
                                 paths = paths,
                                 emojiElements = emojis,
+                                imageElements = images,
                                 canUndo = paths.isNotEmpty(),
                                 canRedo = false
                             )
@@ -405,7 +509,8 @@ class DrawingViewModel(
                             width = canvasWidth,
                             height = canvasHeight,
                             drawingPaths = currentState.paths,
-                            emojiElements = currentState.emojiElements
+                            emojiElements = currentState.emojiElements,
+                            imageElements = currentState.imageElements
                         )
 
                         // Save to database
@@ -625,8 +730,36 @@ class DrawingViewModel(
     }
 
     // Image-related methods
+    fun onImagePicked(uri: Uri, context: Context, canvasWidth: Int, canvasHeight: Int) {
+        viewModelScope.launch {
+            try {
+                val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                context.contentResolver.openInputStream(uri)?.use {
+                    BitmapFactory.decodeStream(it, null, opts)
+                }
+                val srcWidth = opts.outWidth.takeIf { it > 0 } ?: 512
+                val srcHeight = opts.outHeight.takeIf { it > 0 } ?: 512
+
+                val imagesDir = File(context.filesDir, "images").also { it.mkdirs() }
+                val localFile = File(imagesDir, "${UUID.randomUUID()}.jpg")
+                context.contentResolver.openInputStream(uri)?.use { input ->
+                    localFile.outputStream().use { output -> input.copyTo(output) }
+                }
+
+                val maxDim = minOf(canvasWidth, canvasHeight) * 0.6f
+                val scale = minOf(maxDim / srcWidth, maxDim / srcHeight, 1f)
+                val w = (srcWidth * scale).coerceAtLeast(50f)
+                val h = (srcHeight * scale).coerceAtLeast(50f)
+
+                addImage(localFile.absolutePath, canvasWidth / 2f, canvasHeight / 2f, w, h)
+            } catch (e: Exception) {
+                _uiState.update { it.copy(saveError = "Failed to import image: ${e.message}") }
+            }
+        }
+    }
+
     fun addImage(imagePath: String, x: Float, y: Float, width: Float, height: Float) {
-        val newImage = com.hotmail.arehmananis.sketchapp.domain.model.ImageElement(
+        val newImage = ImageElement(
             id = UUID.randomUUID().toString(),
             imagePath = imagePath,
             x = x,
@@ -634,8 +767,14 @@ class DrawingViewModel(
             width = width,
             height = height
         )
+        undoStack.add(UndoAction.ImageAdded(newImage))
+        redoStack.clear()
         _uiState.update {
-            it.copy(imageElements = it.imageElements + newImage)
+            it.copy(
+                imageElements = it.imageElements + newImage,
+                canUndo = true,
+                canRedo = false
+            )
         }
     }
 
@@ -644,49 +783,102 @@ class DrawingViewModel(
     }
 
     fun moveImage(imageId: String, deltaX: Float, deltaY: Float) {
-        val updatedImages = _uiState.value.imageElements.map { image ->
-            if (image.id == imageId) {
-                image.copy(x = image.x + deltaX, y = image.y + deltaY)
-            } else {
-                image
-            }
+        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
+        undoStack.add(UndoAction.ImageMoved(imageId, image.x, image.y, image.x + deltaX, image.y + deltaY))
+        redoStack.clear()
+        _uiState.update {
+            it.copy(
+                imageElements = it.imageElements.map { img ->
+                    if (img.id == imageId) img.copy(x = image.x + deltaX, y = image.y + deltaY) else img
+                },
+                canUndo = true,
+                canRedo = false
+            )
         }
-        _uiState.update { it.copy(imageElements = updatedImages) }
     }
 
     fun resizeImage(imageId: String, newWidth: Float, newHeight: Float) {
-        val updatedImages = _uiState.value.imageElements.map { image ->
-            if (image.id == imageId) {
-                image.copy(
-                    width = newWidth.coerceIn(50f, 2000f),
-                    height = newHeight.coerceIn(50f, 2000f)
-                )
-            } else {
-                image
-            }
+        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
+        val w = newWidth.coerceIn(50f, 2000f)
+        val h = newHeight.coerceIn(50f, 2000f)
+        undoStack.add(UndoAction.ImageResized(imageId, image.width, image.height, w, h))
+        redoStack.clear()
+        _uiState.update {
+            it.copy(
+                imageElements = it.imageElements.map { img ->
+                    if (img.id == imageId) img.copy(width = w, height = h) else img
+                },
+                canUndo = true,
+                canRedo = false
+            )
         }
-        _uiState.update { it.copy(imageElements = updatedImages) }
     }
 
     fun deleteImage(imageId: String) {
-        val updatedImages = _uiState.value.imageElements.filter { it.id != imageId }
+        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
+        undoStack.add(UndoAction.ImageDeleted(image))
+        redoStack.clear()
         _uiState.update {
             it.copy(
-                imageElements = updatedImages,
-                selectedImageId = null
+                imageElements = it.imageElements.filter { img -> img.id != imageId },
+                selectedImageId = null,
+                canUndo = true,
+                canRedo = false
             )
         }
     }
 
     fun rotateImage(imageId: String, rotation: Float) {
-        val updatedImages = _uiState.value.imageElements.map { image ->
-            if (image.id == imageId) {
-                image.copy(rotation = rotation)
-            } else {
-                image
-            }
+        _uiState.update {
+            it.copy(imageElements = it.imageElements.map { img ->
+                if (img.id == imageId) img.copy(rotation = rotation) else img
+            })
         }
-        _uiState.update { it.copy(imageElements = updatedImages) }
+    }
+
+    private var imagePinchBaseRotation: Float? = null
+    private var imagePinchBaseWidth: Float? = null
+    private var imagePinchBaseHeight: Float? = null
+
+    fun onImagePinchStart() {
+        val imageId = _uiState.value.selectedImageId ?: return
+        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
+        imagePinchBaseRotation = image.rotation
+        imagePinchBaseWidth = image.width
+        imagePinchBaseHeight = image.height
+    }
+
+    fun onImagePinchUpdate(cumulativeZoom: Float, totalRotationDelta: Float) {
+        val imageId = _uiState.value.selectedImageId ?: return
+        val baseRotation = imagePinchBaseRotation ?: return
+        val baseWidth = imagePinchBaseWidth ?: return
+        val baseHeight = imagePinchBaseHeight ?: return
+        val newWidth = (baseWidth * cumulativeZoom).coerceIn(50f, 2000f)
+        val newHeight = (baseHeight * cumulativeZoom).coerceIn(50f, 2000f)
+        _uiState.update {
+            it.copy(imageElements = it.imageElements.map { img ->
+                if (img.id == imageId) img.copy(
+                    width = newWidth,
+                    height = newHeight,
+                    rotation = baseRotation + totalRotationDelta
+                ) else img
+            })
+        }
+    }
+
+    fun onImagePinchEnd() {
+        val imageId = _uiState.value.selectedImageId ?: return
+        val baseWidth = imagePinchBaseWidth ?: return
+        val baseHeight = imagePinchBaseHeight ?: return
+        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
+        if (baseWidth != image.width || baseHeight != image.height) {
+            undoStack.add(UndoAction.ImageResized(imageId, baseWidth, baseHeight, image.width, image.height))
+            redoStack.clear()
+            _uiState.update { it.copy(canUndo = true, canRedo = false) }
+        }
+        imagePinchBaseRotation = null
+        imagePinchBaseWidth = null
+        imagePinchBaseHeight = null
     }
 }
 

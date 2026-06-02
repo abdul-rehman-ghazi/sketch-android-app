@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.Share
@@ -26,6 +27,7 @@ fun DrawingTopBar(
     onBack: () -> Unit,
     onUndo: () -> Unit,
     onRedo: () -> Unit,
+    onImportImage: () -> Unit,
     onShare: () -> Unit,
     onSave: () -> Unit,
     onClear: () -> Unit
@@ -61,6 +63,13 @@ fun DrawingTopBar(
                     imageVector = Icons.AutoMirrored.Filled.Redo,
                     contentDescription = "Redo",
                     tint = if (canRedo) MaterialTheme.colorScheme.onSurface else disabledTint
+                )
+            }
+            IconButton(onClick = onImportImage, enabled = !isSaving) {
+                Icon(
+                    imageVector = Icons.Default.AddPhotoAlternate,
+                    contentDescription = "Import Image",
+                    tint = if (!isSaving) MaterialTheme.colorScheme.onSurface else disabledTint
                 )
             }
             IconButton(onClick = onShare, enabled = actionEnabled) {

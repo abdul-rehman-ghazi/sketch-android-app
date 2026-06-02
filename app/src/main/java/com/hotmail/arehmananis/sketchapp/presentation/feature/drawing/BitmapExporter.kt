@@ -1,12 +1,15 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import androidx.core.graphics.createBitmap
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.DrawingPath
 import com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement
+import com.hotmail.arehmananis.sketchapp.domain.model.ImageElement
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
 import kotlin.math.atan2
 import kotlin.math.cos
@@ -15,6 +18,7 @@ import kotlin.math.sin
 fun createBitmapFromPaths(
     paths: List<DrawingPath>,
     emojiElements: List<EmojiElement> = emptyList(),
+    imageElements: List<ImageElement> = emptyList(),
     originalWidth: Int,
     originalHeight: Int,
     targetWidth: Int,
@@ -37,6 +41,22 @@ fun createBitmapFromPaths(
 
     val layerPaint = android.graphics.Paint()
     canvas.saveLayer(0f, 0f, originalWidth.toFloat(), originalHeight.toFloat(), layerPaint)
+
+    // Draw imported images first (below paths and emojis)
+    imageElements.forEach { imageEl ->
+        val bmp = BitmapFactory.decodeFile(imageEl.imagePath) ?: return@forEach
+        val matrix = Matrix().apply {
+            postScale(
+                imageEl.width / bmp.width * imageEl.scaleX,
+                imageEl.height / bmp.height * imageEl.scaleY
+            )
+            postRotate(imageEl.rotation, imageEl.width / 2f, imageEl.height / 2f)
+            postTranslate(imageEl.x - imageEl.width / 2f, imageEl.y - imageEl.height / 2f)
+        }
+        val paint = android.graphics.Paint().apply { alpha = (imageEl.alpha * 255).toInt() }
+        canvas.drawBitmap(bmp, matrix, paint)
+        bmp.recycle()
+    }
 
     paths.forEach { drawingPath ->
         if (drawingPath.shapeTool != ShapeTool.NONE && drawingPath.points.size >= 2) {

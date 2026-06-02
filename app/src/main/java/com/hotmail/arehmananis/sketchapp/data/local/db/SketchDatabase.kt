@@ -10,7 +10,7 @@ import com.hotmail.arehmananis.sketchapp.data.local.db.entity.SketchEntity
  */
 @Database(
     entities = [SketchEntity::class],
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class SketchDatabase : RoomDatabase() {

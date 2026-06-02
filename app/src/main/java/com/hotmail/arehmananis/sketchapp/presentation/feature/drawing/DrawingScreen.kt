@@ -1,5 +1,7 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -73,16 +76,29 @@ fun DrawingScreen(
         }
     }
 
+    val imagePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let { viewModel.onImagePicked(it, context, canvasWidth, canvasHeight) }
+    }
+
     Scaffold(
         topBar = {
             DrawingTopBar(
                 canUndo = uiState.canUndo,
                 canRedo = uiState.canRedo,
                 isSaving = uiState.isSaving,
-                hasContent = uiState.paths.isNotEmpty(),
+                hasContent = uiState.paths.isNotEmpty() || uiState.imageElements.isNotEmpty() || uiState.emojiElements.isNotEmpty(),
                 onBack = onBack,
                 onUndo = viewModel::undo,
                 onRedo = viewModel::redo,
+                onImportImage = {
+                    imagePickerLauncher.launch(
+                        androidx.activity.result.PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
+                    )
+                },
                 onShare = viewModel::toggleShareDialog,
                 onSave = {
                     viewModel.saveSketch(
@@ -92,6 +108,7 @@ fun DrawingScreen(
                             createBitmapFromPaths(
                                 paths = uiState.paths,
                                 emojiElements = uiState.emojiElements,
+                                imageElements = uiState.imageElements,
                                 originalWidth = canvasWidth,
                                 originalHeight = canvasHeight,
                                 targetWidth = canvasWidth,
@@ -152,20 +169,48 @@ fun DrawingScreen(
                 paths = uiState.paths,
                 currentPath = uiState.currentPath,
                 emojiElements = uiState.emojiElements,
+                imageElements = uiState.imageElements,
                 selectedEmojiId = uiState.selectedEmojiId,
+                selectedImageId = uiState.selectedImageId,
                 onDrawStart = viewModel::onDrawStart,
                 onDraw = viewModel::onDraw,
                 onDrawEnd = viewModel::onDrawEnd,
                 onEmojiPinchStart = viewModel::onEmojiPinchStart,
                 onEmojiPinchUpdate = { zoom, rotation -> viewModel.onEmojiPinchUpdate(zoom, rotation) },
                 onEmojiPinchEnd = viewModel::onEmojiPinchEnd,
-                onCanvasTap = { viewModel.selectEmoji(null) },
+                onImagePinchStart = viewModel::onImagePinchStart,
+                onImagePinchUpdate = { zoom, rotDelta -> viewModel.onImagePinchUpdate(zoom, rotDelta) },
+                onImagePinchEnd = viewModel::onImagePinchEnd,
+                onCanvasTap = { offset ->
+                    val hitImage = uiState.imageElements.firstOrNull { img ->
+                        val halfW = img.width / 2f
+                        val halfH = img.height / 2f
+                        offset.x >= img.x - halfW && offset.x <= img.x + halfW &&
+                        offset.y >= img.y - halfH && offset.y <= img.y + halfH
+                    }
+                    if (hitImage != null) {
+                        viewModel.selectImage(hitImage.id)
+                        viewModel.selectEmoji(null)
+                    } else {
+                        viewModel.selectEmoji(null)
+                        viewModel.selectImage(null)
+                    }
+                },
                 modifier = Modifier.fillMaxSize(),
                 onCanvasSizeChanged = { width, height ->
                     canvasWidth = width
                     canvasHeight = height
                 }
             )
+
+            uiState.imageElements.forEach { image ->
+                ImageOverlay(
+                    image = image,
+                    isSelected = image.id == uiState.selectedImageId,
+                    onDrag = { dx, dy -> viewModel.moveImage(image.id, dx, dy) },
+                    onDelete = { viewModel.deleteImage(image.id) }
+                )
+            }
 
             uiState.emojiElements.forEach { emoji ->
                 EmojiOverlay(
@@ -226,6 +271,7 @@ fun DrawingScreen(
                                 createBitmapFromPaths(
                                     paths = uiState.paths,
                                     emojiElements = uiState.emojiElements,
+                                    imageElements = uiState.imageElements,
                                     originalWidth = canvasWidth,
                                     originalHeight = canvasHeight,
                                     targetWidth = width,
