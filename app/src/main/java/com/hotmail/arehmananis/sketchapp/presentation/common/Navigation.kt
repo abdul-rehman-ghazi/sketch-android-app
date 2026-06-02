@@ -118,7 +118,12 @@ fun AppNavigation(
                 bottomBar = { BottomNavigationBar(navController = navController) }
             ) { padding ->
                 ProfileScreen(
-                    modifier = Modifier.padding(padding)
+                    modifier = Modifier.padding(padding),
+                    onSignOut = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
                 )
             }
         }
