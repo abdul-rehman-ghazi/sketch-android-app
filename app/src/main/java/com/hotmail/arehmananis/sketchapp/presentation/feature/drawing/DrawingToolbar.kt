@@ -2,6 +2,7 @@ package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
@@ -10,11 +11,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -49,12 +52,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import com.hotmail.arehmananis.sketchapp.domain.model.BrushType
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
@@ -216,17 +221,47 @@ fun DrawingToolbar(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            Slider(
-                value = strokeWidth,
-                onValueChange = onStrokeWidthChange,
-                valueRange = 1f..50f,
-                modifier = Modifier.fillMaxWidth(),
-                colors = SliderDefaults.colors(
-                    thumbColor = MaterialTheme.colorScheme.primary,
-                    activeTrackColor = MaterialTheme.colorScheme.primary,
-                    inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
+            var isDragging by remember { mutableStateOf(false) }
+            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                val density = LocalDensity.current
+                val fraction = (strokeWidth - 1f) / (50f - 1f)
+                val thumbOffsetXDp = with(density) {
+                    val thumbPaddingPx = 10.dp.toPx()
+                    val trackWidthPx = maxWidth.toPx() - 2 * thumbPaddingPx
+                    val thumbOffsetXPx = thumbPaddingPx + fraction * trackWidthPx
+                    (thumbOffsetXPx - 32.dp.toPx()).toDp()
+                }
+
+                Slider(
+                    value = strokeWidth,
+                    onValueChange = {
+                        isDragging = true
+                        onStrokeWidthChange(it)
+                    },
+                    onValueChangeFinished = { isDragging = false },
+                    valueRange = 1f..50f,
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = SliderDefaults.colors(
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        activeTrackColor = MaterialTheme.colorScheme.primary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
                 )
-            )
+
+                val bubbleAlpha by animateFloatAsState(
+                    targetValue = if (isDragging) 1f else 0f,
+                    animationSpec = tween(150),
+                    label = "bubble_alpha"
+                )
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .offset(x = thumbOffsetXDp, y = (-72).dp)
+                        .alpha(bubbleAlpha)
+                ) {
+                    StrokePreviewBubble(strokeWidth = strokeWidth, color = currentColor)
+                }
+            }
                 } // Column (animated content)
             } // AnimatedVisibility
         } // outer Column
@@ -473,3 +508,31 @@ private data class IconData(
     val icon: ImageVector,
     val label: String
 )
+
+@Composable
+private fun StrokePreviewBubble(strokeWidth: Float, color: Color) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        tonalElevation = 6.dp,
+        shadowElevation = 4.dp,
+        modifier = Modifier.width(64.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            val dotSize = strokeWidth.dp.coerceIn(4.dp, 36.dp)
+            Box(
+                modifier = Modifier
+                    .size(dotSize)
+                    .background(color = color, shape = CircleShape)
+            )
+            Text(
+                text = "${strokeWidth.toInt()}px",
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
