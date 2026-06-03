@@ -11,17 +11,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -34,16 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantIndigo
-import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantPurple
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -82,90 +70,8 @@ fun DrawingScreen(
         uri?.let { viewModel.onImagePicked(it, context, canvasWidth, canvasHeight) }
     }
 
-    Scaffold(
-        topBar = {
-            DrawingTopBar(
-                canUndo = uiState.canUndo,
-                canRedo = uiState.canRedo,
-                isSaving = uiState.isSaving,
-                hasContent = uiState.paths.isNotEmpty() || uiState.imageElements.isNotEmpty() || uiState.emojiElements.isNotEmpty(),
-                onBack = onBack,
-                onUndo = viewModel::undo,
-                onRedo = viewModel::redo,
-                onImportImage = {
-                    imagePickerLauncher.launch(
-                        androidx.activity.result.PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.ImageOnly
-                        )
-                    )
-                },
-                onShare = viewModel::toggleShareDialog,
-                onSave = {
-                    viewModel.saveSketch(
-                        canvasWidth = canvasWidth,
-                        canvasHeight = canvasHeight,
-                        createBitmap = {
-                            createBitmapFromPaths(
-                                paths = uiState.paths,
-                                emojiElements = uiState.emojiElements,
-                                imageElements = uiState.imageElements,
-                                originalWidth = canvasWidth,
-                                originalHeight = canvasHeight,
-                                targetWidth = canvasWidth,
-                                targetHeight = canvasHeight,
-                                transparentBackground = false
-                            )
-                        }
-                    )
-                },
-                onClear = viewModel::clearCanvas
-            )
-        },
-        bottomBar = {
-            DrawingToolbar(
-                currentBrush = uiState.currentBrush,
-                currentColor = Color(uiState.currentColor),
-                strokeWidth = uiState.strokeWidth,
-                currentShapeTool = uiState.shapeTool,
-                isFilled = uiState.isFilled,
-                onBrushChange = viewModel::setBrush,
-                onColorChange = viewModel::setColor,
-                onStrokeWidthChange = viewModel::setStrokeWidth,
-                onShapeToolChange = viewModel::setShapeTool,
-                onFilledChange = viewModel::setIsFilled
-            )
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { viewModel.toggleEmojiPicker() },
-                shape = CircleShape,
-                containerColor = Color.Transparent,
-                contentColor = Color.White,
-                modifier = Modifier
-                    .shadow(elevation = 6.dp, shape = CircleShape)
-                    .clip(CircleShape)
-                    .background(
-                        brush = Brush.linearGradient(
-                            colors = listOf(VibrantPurple, VibrantIndigo)
-                        )
-                    ),
-                elevation = FloatingActionButtonDefaults.elevation(
-                    defaultElevation = 0.dp,
-                    pressedElevation = 0.dp,
-                    focusedElevation = 0.dp,
-                    hoveredElevation = 0.dp
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.Default.EmojiEmotions,
-                    contentDescription = "Add Emoji",
-                    tint = Color.White
-                )
-            }
-        }
-    ) { padding ->
-        Box(modifier = Modifier.padding(padding)) {
-            DrawingCanvas(
+    Box(modifier = Modifier.fillMaxSize()) {
+        DrawingCanvas(
                 paths = uiState.paths,
                 currentPath = uiState.currentPath,
                 emojiElements = uiState.emojiElements,
@@ -285,7 +191,55 @@ fun DrawingScreen(
                     onDismiss = viewModel::toggleShareDialog
                 )
             }
-        }
+
+        DrawingPanel(
+            currentBrush = uiState.currentBrush,
+            currentColor = Color(uiState.currentColor),
+            strokeWidth = uiState.strokeWidth,
+            currentShapeTool = uiState.shapeTool,
+            isFilled = uiState.isFilled,
+            canUndo = uiState.canUndo,
+            canRedo = uiState.canRedo,
+            isSaving = uiState.isSaving,
+            hasContent = uiState.paths.isNotEmpty() || uiState.imageElements.isNotEmpty() || uiState.emojiElements.isNotEmpty(),
+            onBack = onBack,
+            onUndo = viewModel::undo,
+            onRedo = viewModel::redo,
+            onImportImage = {
+                imagePickerLauncher.launch(
+                    androidx.activity.result.PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
+                )
+            },
+            onShare = viewModel::toggleShareDialog,
+            onSave = {
+                viewModel.saveSketch(
+                    canvasWidth = canvasWidth,
+                    canvasHeight = canvasHeight,
+                    createBitmap = {
+                        createBitmapFromPaths(
+                            paths = uiState.paths,
+                            emojiElements = uiState.emojiElements,
+                            imageElements = uiState.imageElements,
+                            originalWidth = canvasWidth,
+                            originalHeight = canvasHeight,
+                            targetWidth = canvasWidth,
+                            targetHeight = canvasHeight,
+                            transparentBackground = false
+                        )
+                    }
+                )
+            },
+            onClear = viewModel::clearCanvas,
+            onToggleEmoji = viewModel::toggleEmojiPicker,
+            onBrushChange = viewModel::setBrush,
+            onColorChange = viewModel::setColor,
+            onStrokeWidthChange = viewModel::setStrokeWidth,
+            onShapeToolChange = viewModel::setShapeTool,
+            onFilledChange = viewModel::setIsFilled,
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
     }
 }
 

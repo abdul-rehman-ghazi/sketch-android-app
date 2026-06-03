@@ -29,15 +29,24 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.Redo
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.EmojiEmotions
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Pentagon
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.Save
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Square
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -53,6 +62,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
@@ -67,15 +77,23 @@ import com.hotmail.arehmananis.sketchapp.presentation.theme.DrawingColors
 import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantIndigo
 import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantPurple
 
-/**
- * Modern toolbar for selecting brush, color, stroke width, shapes, and fill options
- * with expanded color palette and gradient accents
- */
 @Composable
-fun DrawingToolbar(
+fun DrawingPanel(
     currentBrush: BrushType,
     currentColor: Color,
     strokeWidth: Float,
+    canUndo: Boolean,
+    canRedo: Boolean,
+    isSaving: Boolean,
+    hasContent: Boolean,
+    onBack: () -> Unit,
+    onUndo: () -> Unit,
+    onRedo: () -> Unit,
+    onImportImage: () -> Unit,
+    onShare: () -> Unit,
+    onSave: () -> Unit,
+    onClear: () -> Unit,
+    onToggleEmoji: () -> Unit,
     currentShapeTool: ShapeTool = ShapeTool.NONE,
     isFilled: Boolean = false,
     onBrushChange: (BrushType) -> Unit,
@@ -85,19 +103,24 @@ fun DrawingToolbar(
     onFilledChange: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    var isExpanded by remember { mutableStateOf(true) }
+    var isExpanded by remember { mutableStateOf(false) }
     val arrowRotation by animateFloatAsState(
         targetValue = if (isExpanded) 0f else 180f,
         label = "arrow_rotation"
     )
 
-    Surface(
+    val panelShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
+    val panelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
+    Box(
         modifier = modifier
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 4.dp,
-        shadowElevation = 8.dp
+            .fillMaxWidth()
+            .clip(panelShape)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 1f),
+                shape = panelShape
+            )
+            .background(color = panelColor)
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             // Handle / toggle row
@@ -129,6 +152,22 @@ fun DrawingToolbar(
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+
+            // Action strip — always visible
+            ActionStrip(
+                canUndo = canUndo,
+                canRedo = canRedo,
+                isSaving = isSaving,
+                hasContent = hasContent,
+                onBack = onBack,
+                onUndo = onUndo,
+                onRedo = onRedo,
+                onImportImage = onImportImage,
+                onShare = onShare,
+                onSave = onSave,
+                onClear = onClear,
+                onToggleEmoji = onToggleEmoji
+            )
 
             AnimatedVisibility(
                 visible = isExpanded,
@@ -508,6 +547,88 @@ private data class IconData(
     val icon: ImageVector,
     val label: String
 )
+
+@Composable
+private fun ActionStrip(
+    canUndo: Boolean,
+    canRedo: Boolean,
+    isSaving: Boolean,
+    hasContent: Boolean,
+    onBack: () -> Unit,
+    onUndo: () -> Unit,
+    onRedo: () -> Unit,
+    onImportImage: () -> Unit,
+    onShare: () -> Unit,
+    onSave: () -> Unit,
+    onClear: () -> Unit,
+    onToggleEmoji: () -> Unit
+) {
+    val actionEnabled = !isSaving && hasContent
+    val disabledTint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        IconButton(onClick = onUndo, enabled = canUndo) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.Undo,
+                contentDescription = "Undo",
+                tint = if (canUndo) MaterialTheme.colorScheme.onSurface else disabledTint
+            )
+        }
+        IconButton(onClick = onRedo, enabled = canRedo) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.Redo,
+                contentDescription = "Redo",
+                tint = if (canRedo) MaterialTheme.colorScheme.onSurface else disabledTint
+            )
+        }
+        Spacer(modifier = Modifier.weight(1f))
+        IconButton(onClick = onToggleEmoji) {
+            Icon(
+                imageVector = Icons.Default.EmojiEmotions,
+                contentDescription = "Add Emoji",
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        IconButton(onClick = onImportImage, enabled = !isSaving) {
+            Icon(
+                imageVector = Icons.Default.AddPhotoAlternate,
+                contentDescription = "Import Image",
+                tint = if (!isSaving) MaterialTheme.colorScheme.onSurface else disabledTint
+            )
+        }
+        IconButton(onClick = onShare, enabled = actionEnabled) {
+            Icon(
+                imageVector = Icons.Default.Share,
+                contentDescription = "Share",
+                tint = if (actionEnabled) MaterialTheme.colorScheme.onSurface else disabledTint
+            )
+        }
+        IconButton(onClick = onSave, enabled = actionEnabled) {
+            Icon(
+                imageVector = Icons.Default.Save,
+                contentDescription = "Save",
+                tint = if (actionEnabled) MaterialTheme.colorScheme.primary else disabledTint
+            )
+        }
+        IconButton(onClick = onClear) {
+            Icon(
+                imageVector = Icons.Default.DeleteForever,
+                contentDescription = "Clear",
+                tint = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+}
 
 @Composable
 private fun StrokePreviewBubble(strokeWidth: Float, color: Color) {
