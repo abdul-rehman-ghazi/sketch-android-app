@@ -97,16 +97,12 @@ fun DrawingScreen(
     LaunchedEffect(pendingCropPath) {
         if (pendingCropPath != null && pendingCropWidth != null && pendingCropHeight != null
             && canvasWidth > 0 && canvasHeight > 0) {
-            val maxDim = minOf(canvasWidth, canvasHeight) * 0.6f
-            val scale = minOf(maxDim / pendingCropWidth, maxDim / pendingCropHeight, 1f)
-            val w = (pendingCropWidth * scale).coerceAtLeast(50f)
-            val h = (pendingCropHeight * scale).coerceAtLeast(50f)
             viewModel.addImage(
                 imagePath = pendingCropPath,
                 x = canvasWidth / 2f,
                 y = canvasHeight / 2f,
-                width = w,
-                height = h
+                width = pendingCropWidth.toFloat(),
+                height = pendingCropHeight.toFloat()
             )
             onCropResultConsumed()
         }
@@ -247,7 +243,7 @@ fun DrawingScreen(
                 .padding(12.dp)
                 .size(44.dp)
         ) {
-            Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
+            Box(contentAlignment = Alignment.Center) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",

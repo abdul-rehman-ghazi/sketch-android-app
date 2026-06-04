@@ -1,9 +1,6 @@
 package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -28,7 +25,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -87,6 +83,8 @@ class DrawingViewModel(
 
     private val undoStack = mutableListOf<UndoAction>()
     private val redoStack = mutableListOf<UndoAction>()
+
+    private var initialized = false
 
     fun onDrawStart(offset: Offset) {
         val point = PathPoint(offset.x, offset.y)
@@ -372,10 +370,6 @@ class DrawingViewModel(
         _uiState.update { it.copy(strokeWidth = width) }
     }
 
-    fun setOpacity(opacity: Float) {
-        _uiState.update { it.copy(opacity = opacity) }
-    }
-
     fun setShapeTool(tool: ShapeTool) {
         _uiState.update {
             it.copy(
@@ -399,7 +393,11 @@ class DrawingViewModel(
                 currentPath = null,
                 canUndo = false,
                 canRedo = false,
-                loadedSketchId = null
+                loadedSketchId = null,
+                emojiElements = emptyList(),
+                selectedEmojiId = null,
+                imageElements = emptyList(),
+                selectedImageId = null
             )
         }
     }
@@ -409,11 +407,11 @@ class DrawingViewModel(
      * @param sketchId The sketch ID to load, or null for a new sketch
      */
     fun initialize(sketchId: String?) {
+        if (initialized) return
+        initialized = true
         if (sketchId == null) {
-            // New sketch - clear canvas
             clearCanvas()
         } else {
-            // Load existing sketch
             loadSketch(sketchId)
         }
     }
@@ -439,6 +437,8 @@ class DrawingViewModel(
 
                         undoStack.clear()
                         paths.forEach { undoStack.add(UndoAction.PathAdded(it)) }
+                        emojis.forEach { undoStack.add(UndoAction.EmojiAdded(it)) }
+                        images.forEach { undoStack.add(UndoAction.ImageAdded(it)) }
                         redoStack.clear()
 
                         _uiState.update {
@@ -448,7 +448,7 @@ class DrawingViewModel(
                                 paths = paths,
                                 emojiElements = emojis,
                                 imageElements = images,
-                                canUndo = paths.isNotEmpty(),
+                                canUndo = paths.isNotEmpty() || emojis.isNotEmpty() || images.isNotEmpty(),
                                 canRedo = false
                             )
                         }
@@ -667,17 +667,6 @@ class DrawingViewModel(
         }
     }
 
-    fun rotateEmoji(emojiId: String, rotation: Float) {
-        val updatedEmojis = _uiState.value.emojiElements.map { emoji ->
-            if (emoji.id == emojiId) {
-                emoji.copy(rotation = rotation)
-            } else {
-                emoji
-            }
-        }
-        _uiState.update { it.copy(emojiElements = updatedEmojis) }
-    }
-
     // Share options dialog
     fun toggleShareDialog() {
         _uiState.update { it.copy(showShareDialog = !it.showShareDialog) }
@@ -690,7 +679,7 @@ class DrawingViewModel(
         canvasWidth: Int,
         canvasHeight: Int,
         createBitmap: (Int, Int, Boolean) -> Bitmap,
-        exportOptions: com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.ExportOptions
+        exportOptions: ExportOptions
     ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, saveError = null, showShareDialog = false) }
@@ -725,35 +714,6 @@ class DrawingViewModel(
                 _uiState.update {
                     it.copy(isSaving = false, saveError = e.message ?: "Failed to share sketch")
                 }
-            }
-        }
-    }
-
-    // Image-related methods
-    fun onImagePicked(uri: Uri, context: Context, canvasWidth: Int, canvasHeight: Int) {
-        viewModelScope.launch {
-            try {
-                val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-                context.contentResolver.openInputStream(uri)?.use {
-                    BitmapFactory.decodeStream(it, null, opts)
-                }
-                val srcWidth = opts.outWidth.takeIf { it > 0 } ?: 512
-                val srcHeight = opts.outHeight.takeIf { it > 0 } ?: 512
-
-                val imagesDir = File(context.filesDir, "images").also { it.mkdirs() }
-                val localFile = File(imagesDir, "${UUID.randomUUID()}.jpg")
-                context.contentResolver.openInputStream(uri)?.use { input ->
-                    localFile.outputStream().use { output -> input.copyTo(output) }
-                }
-
-                val maxDim = minOf(canvasWidth, canvasHeight) * 0.6f
-                val scale = minOf(maxDim / srcWidth, maxDim / srcHeight, 1f)
-                val w = (srcWidth * scale).coerceAtLeast(50f)
-                val h = (srcHeight * scale).coerceAtLeast(50f)
-
-                addImage(localFile.absolutePath, canvasWidth / 2f, canvasHeight / 2f, w, h)
-            } catch (e: Exception) {
-                _uiState.update { it.copy(saveError = "Failed to import image: ${e.message}") }
             }
         }
     }
@@ -797,23 +757,6 @@ class DrawingViewModel(
         }
     }
 
-    fun resizeImage(imageId: String, newWidth: Float, newHeight: Float) {
-        val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
-        val w = newWidth.coerceIn(50f, 2000f)
-        val h = newHeight.coerceIn(50f, 2000f)
-        undoStack.add(UndoAction.ImageResized(imageId, image.width, image.height, w, h))
-        redoStack.clear()
-        _uiState.update {
-            it.copy(
-                imageElements = it.imageElements.map { img ->
-                    if (img.id == imageId) img.copy(width = w, height = h) else img
-                },
-                canUndo = true,
-                canRedo = false
-            )
-        }
-    }
-
     fun deleteImage(imageId: String) {
         val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
         undoStack.add(UndoAction.ImageDeleted(image))
@@ -825,14 +768,6 @@ class DrawingViewModel(
                 canUndo = true,
                 canRedo = false
             )
-        }
-    }
-
-    fun rotateImage(imageId: String, rotation: Float) {
-        _uiState.update {
-            it.copy(imageElements = it.imageElements.map { img ->
-                if (img.id == imageId) img.copy(rotation = rotation) else img
-            })
         }
     }
 
@@ -899,7 +834,7 @@ data class DrawingUiState(
     val isFilled: Boolean = false,
     val emojiElements: List<com.hotmail.arehmananis.sketchapp.domain.model.EmojiElement> = emptyList(),
     val selectedEmojiId: String? = null,
-    val imageElements: List<com.hotmail.arehmananis.sketchapp.domain.model.ImageElement> = emptyList(),
+    val imageElements: List<ImageElement> = emptyList(),
     val selectedImageId: String? = null,
     val showEmojiPicker: Boolean = false,
     val showShareDialog: Boolean = false,

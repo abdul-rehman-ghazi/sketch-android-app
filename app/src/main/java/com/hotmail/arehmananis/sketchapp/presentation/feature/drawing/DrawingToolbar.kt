@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,16 +31,16 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.filled.Redo
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.EmojiEmotions
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.LayersClear
 import androidx.compose.material.icons.filled.Pentagon
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Save
@@ -63,7 +65,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -79,6 +80,7 @@ import com.hotmail.arehmananis.sketchapp.presentation.theme.VibrantPurple
 
 @Composable
 fun DrawingPanel(
+    modifier: Modifier = Modifier,
     currentBrush: BrushType,
     currentColor: Color,
     strokeWidth: Float,
@@ -86,7 +88,6 @@ fun DrawingPanel(
     canRedo: Boolean,
     isSaving: Boolean,
     hasContent: Boolean,
-    onBack: () -> Unit,
     onUndo: () -> Unit,
     onRedo: () -> Unit,
     onImportImage: () -> Unit,
@@ -101,13 +102,8 @@ fun DrawingPanel(
     onStrokeWidthChange: (Float) -> Unit,
     onShapeToolChange: (ShapeTool) -> Unit = {},
     onFilledChange: (Boolean) -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-    val arrowRotation by animateFloatAsState(
-        targetValue = if (isExpanded) 0f else 180f,
-        label = "arrow_rotation"
-    )
 
     val panelShape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp)
     val panelColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
@@ -122,44 +118,19 @@ fun DrawingPanel(
             )
             .background(color = panelColor)
     ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            // Handle / toggle row
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { isExpanded = !isExpanded }
-                    .padding(vertical = 8.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                // Drag handle pill
-                Box(
-                    modifier = Modifier
-                        .size(width = 40.dp, height = 4.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
-                            shape = CircleShape
-                        )
-                )
-                // Arrow indicator
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = if (isExpanded) "Collapse toolbar" else "Expand toolbar",
-                    modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 16.dp)
-                        .size(20.dp)
-                        .rotate(arrowRotation),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+        ) {
             // Action strip — always visible
             ActionStrip(
+                isExpanded = isExpanded,
+                onToggleExpand = { isExpanded = !isExpanded },
                 canUndo = canUndo,
                 canRedo = canRedo,
                 isSaving = isSaving,
                 hasContent = hasContent,
-                onBack = onBack,
                 onUndo = onUndo,
                 onRedo = onRedo,
                 onImportImage = onImportImage,
@@ -178,27 +149,32 @@ fun DrawingPanel(
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(rememberScrollState())
-                        .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                        .padding(bottom = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
             // Brush selection
             Text(
                 text = "Brush",
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             BrushSelector(
                 currentBrush = currentBrush,
                 onBrushSelected = onBrushChange
             )
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
 
             // Shape tool selection
             Text(
                 text = "Shapes",
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             ShapeToolSelector(
                 currentShapeTool = currentShapeTool,
@@ -208,7 +184,9 @@ fun DrawingPanel(
             // Fill option (only show when a shape is selected)
             if (currentShapeTool != ShapeTool.NONE && currentShapeTool != ShapeTool.LINE && currentShapeTool != ShapeTool.ARROW) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -228,24 +206,33 @@ fun DrawingPanel(
                 }
             }
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
 
             // Color selection
             Text(
                 text = "Color",
                 style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             ColorPalette(
                 selectedColor = currentColor,
                 onColorSelected = onColorChange
             )
 
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    HorizontalDivider(
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    )
 
             // Stroke width
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -261,7 +248,11 @@ fun DrawingPanel(
                 )
             }
             var isDragging by remember { mutableStateOf(false) }
-            BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+                    BoxWithConstraints(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                    ) {
                 val density = LocalDensity.current
                 val fraction = (strokeWidth - 1f) / (50f - 1f)
                 val thumbOffsetXDp = with(density) {
@@ -322,7 +313,7 @@ private fun BrushSelector(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
         BrushType.entries.forEach { brushType ->
             val iconData = brushType.toIconData()
@@ -334,7 +325,7 @@ private fun BrushSelector(
             )
         }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(16.dp))
     }
 }
 
@@ -418,22 +409,15 @@ private fun ColorPalette(
             .fillMaxWidth()
             .padding(vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
-        item {
-            Spacer(modifier = Modifier.width(4.dp))
-        }
-
         items(allColors) { color ->
             ColorCircle(
                 color = color,
                 isSelected = color.toArgb() == selectedColor.toArgb(),
                 onClick = { onColorSelected(color) }
             )
-        }
-
-        item {
-            Spacer(modifier = Modifier.width(4.dp))
         }
     }
 }
@@ -510,7 +494,7 @@ private fun ShapeToolSelector(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
         ShapeTool.entries.forEach { shapeTool ->
             val iconData = shapeTool.toIconData()
@@ -522,7 +506,7 @@ private fun ShapeToolSelector(
             )
         }
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(16.dp))
     }
 }
 
@@ -550,11 +534,12 @@ private data class IconData(
 
 @Composable
 private fun ActionStrip(
+    isExpanded: Boolean,
+    onToggleExpand: () -> Unit,
     canUndo: Boolean,
     canRedo: Boolean,
     isSaving: Boolean,
     hasContent: Boolean,
-    onBack: () -> Unit,
     onUndo: () -> Unit,
     onRedo: () -> Unit,
     onImportImage: () -> Unit,
@@ -567,15 +552,28 @@ private fun ActionStrip(
     val disabledTint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = onBack) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = MaterialTheme.colorScheme.onSurface
-            )
+        Surface(
+            onClick = onToggleExpand,
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 4.dp,
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .size(44.dp)
+        ) {
+            Box(contentAlignment = Alignment.Center) {
+                Icon(
+                    imageVector = if (isExpanded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
+                    contentDescription = if (isExpanded) "Collapse toolbar" else "Expand toolbar",
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
         IconButton(onClick = onUndo, enabled = canUndo) {
             Icon(
@@ -622,8 +620,8 @@ private fun ActionStrip(
         }
         IconButton(onClick = onClear) {
             Icon(
-                imageVector = Icons.Default.DeleteForever,
-                contentDescription = "Clear",
+                imageVector = Icons.Default.LayersClear,
+                contentDescription = "Clear canvas",
                 tint = MaterialTheme.colorScheme.error
             )
         }
