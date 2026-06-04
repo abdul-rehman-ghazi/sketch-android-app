@@ -31,6 +31,7 @@ import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.UpdateSketchUseCa
 import com.hotmail.arehmananis.sketchapp.presentation.AuthViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.auth.LoginViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.DrawingViewModel
+import com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.ImageCropViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.gallery.GalleryViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.home.HomeViewModel
 import com.hotmail.arehmananis.sketchapp.presentation.feature.profile.ProfileViewModel
@@ -97,4 +98,5 @@ val repositoryModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::GalleryViewModel)
     viewModelOf(::DrawingViewModel)
+    viewModelOf(::ImageCropViewModel)
 }

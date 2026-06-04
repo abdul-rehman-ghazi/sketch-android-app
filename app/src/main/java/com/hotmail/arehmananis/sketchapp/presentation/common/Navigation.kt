@@ -48,6 +48,10 @@ sealed class Screen(val route: String, val title: String, val icon: ImageVector?
 
     object Profile : Screen("profile", "Profile", Icons.Default.Person)
     object Settings : Screen("settings", "Settings", Icons.Default.Settings)
+    object ImageCrop : Screen("image_crop?uri={uri}", "Crop Image") {
+        fun createRoute(uriString: String): String =
+            "image_crop?uri=${android.net.Uri.encode(uriString)}"
+    }
 }
 
 val bottomNavItems = listOf(
