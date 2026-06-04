@@ -2,7 +2,6 @@ package com.hotmail.arehmananis.sketchapp.presentation.feature.drawing
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,14 +10,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -27,10 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,10 +46,26 @@ import org.koin.androidx.compose.koinViewModel
 fun DrawingScreen(
     sketchId: String? = null,
     viewModel: DrawingViewModel = koinViewModel(),
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToCrop: (String) -> Unit = {},
+    pendingCropPath: String? = null,
+    pendingCropWidth: Int? = null,
+    pendingCropHeight: Int? = null,
+    onCropResultConsumed: () -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val view = LocalView.current
+
+    // The canvas background is always white, so status bar icons must be dark
+    // regardless of the app theme to remain visible.
+    DisposableEffect(view) {
+        val window = (view.context as android.app.Activity).window
+        val controller = WindowCompat.getInsetsController(window, view)
+        val previous = controller.isAppearanceLightStatusBars
+        controller.isAppearanceLightStatusBars = true
+        onDispose { controller.isAppearanceLightStatusBars = previous }
+    }
 
     var canvasWidth by remember { mutableIntStateOf(0) }
     var canvasHeight by remember { mutableIntStateOf(0) }
@@ -67,7 +91,25 @@ fun DrawingScreen(
     val imagePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
-        uri?.let { viewModel.onImagePicked(it, context, canvasWidth, canvasHeight) }
+        uri?.let { onNavigateToCrop(it.toString()) }
+    }
+
+    LaunchedEffect(pendingCropPath) {
+        if (pendingCropPath != null && pendingCropWidth != null && pendingCropHeight != null
+            && canvasWidth > 0 && canvasHeight > 0) {
+            val maxDim = minOf(canvasWidth, canvasHeight) * 0.6f
+            val scale = minOf(maxDim / pendingCropWidth, maxDim / pendingCropHeight, 1f)
+            val w = (pendingCropWidth * scale).coerceAtLeast(50f)
+            val h = (pendingCropHeight * scale).coerceAtLeast(50f)
+            viewModel.addImage(
+                imagePath = pendingCropPath,
+                x = canvasWidth / 2f,
+                y = canvasHeight / 2f,
+                width = w,
+                height = h
+            )
+            onCropResultConsumed()
+        }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -192,6 +234,29 @@ fun DrawingScreen(
                 )
             }
 
+        // FAB-style back button at top-left
+        Surface(
+            onClick = onBack,
+            shape = CircleShape,
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 4.dp,
+            shadowElevation = 4.dp,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .statusBarsPadding()
+                .padding(12.dp)
+                .size(44.dp)
+        ) {
+            Box(contentAlignment = androidx.compose.ui.Alignment.Center) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
         DrawingPanel(
             currentBrush = uiState.currentBrush,
             currentColor = Color(uiState.currentColor),
@@ -202,7 +267,6 @@ fun DrawingScreen(
             canRedo = uiState.canRedo,
             isSaving = uiState.isSaving,
             hasContent = uiState.paths.isNotEmpty() || uiState.imageElements.isNotEmpty() || uiState.emojiElements.isNotEmpty(),
-            onBack = onBack,
             onUndo = viewModel::undo,
             onRedo = viewModel::redo,
             onImportImage = {

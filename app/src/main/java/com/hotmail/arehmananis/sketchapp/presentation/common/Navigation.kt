@@ -28,9 +28,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.compose.runtime.collectAsState
 import com.hotmail.arehmananis.sketchapp.domain.model.AuthUser
 import com.hotmail.arehmananis.sketchapp.presentation.feature.auth.LoginScreen
 import com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.DrawingScreen
+import com.hotmail.arehmananis.sketchapp.presentation.feature.drawing.ImageCropScreen
 import com.hotmail.arehmananis.sketchapp.presentation.feature.gallery.GalleryScreen
 import com.hotmail.arehmananis.sketchapp.presentation.feature.profile.ProfileScreen
 import com.hotmail.arehmananis.sketchapp.presentation.feature.settings.SettingsScreen
@@ -110,9 +112,53 @@ fun AppNavigation(
             )
         ) { backStackEntry ->
             val sketchId = backStackEntry.arguments?.getString("sketchId")
+
+            val pendingCropPath = backStackEntry.savedStateHandle
+                .getStateFlow<String?>("crop_file_path", null)
+                .collectAsState().value
+            val pendingCropWidth = backStackEntry.savedStateHandle
+                .getStateFlow<Int?>("crop_width", null)
+                .collectAsState().value
+            val pendingCropHeight = backStackEntry.savedStateHandle
+                .getStateFlow<Int?>("crop_height", null)
+                .collectAsState().value
+
             DrawingScreen(
                 sketchId = if (sketchId == "new") null else sketchId,
-                onBack = { navController.popBackStack() }
+                onBack = { navController.popBackStack() },
+                onNavigateToCrop = { uriString ->
+                    navController.navigate(Screen.ImageCrop.createRoute(uriString))
+                },
+                pendingCropPath = pendingCropPath,
+                pendingCropWidth = pendingCropWidth,
+                pendingCropHeight = pendingCropHeight,
+                onCropResultConsumed = {
+                    backStackEntry.savedStateHandle.remove<String>("crop_file_path")
+                    backStackEntry.savedStateHandle.remove<Int>("crop_width")
+                    backStackEntry.savedStateHandle.remove<Int>("crop_height")
+                }
+            )
+        }
+
+        // Crop screen (no bottom bar)
+        composable(
+            route = Screen.ImageCrop.route,
+            arguments = listOf(
+                navArgument("uri") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val uriString = backStackEntry.arguments?.getString("uri") ?: return@composable
+            ImageCropScreen(
+                uriString = uriString,
+                onCropConfirmed = { filePath, width, height ->
+                    navController.previousBackStackEntry?.savedStateHandle?.let { handle ->
+                        handle["crop_file_path"] = filePath
+                        handle["crop_width"] = width
+                        handle["crop_height"] = height
+                    }
+                    navController.popBackStack()
+                },
+                onCancel = { navController.popBackStack() }
             )
         }
 
