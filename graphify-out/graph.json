@@ -181,141 +181,6 @@
   },
   "nodes": [
     {
-      "label": "PreferencesDataStore.kt",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L1",
-      "id": "local_preferencesdatastore",
-      "community": 12,
-      "norm_label": "preferencesdatastore.kt"
-    },
-    {
-      "label": "PreferencesDataStore",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L17",
-      "id": "local_preferencesdatastore_preferencesdatastore",
-      "community": 12,
-      "norm_label": "preferencesdatastore"
-    },
-    {
-      "label": "PreferencesKeys",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L19",
-      "id": "local_preferencesdatastore_preferenceskeys",
-      "community": 12,
-      "norm_label": "preferenceskeys"
-    },
-    {
-      "label": "Flow",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L26",
-      "id": "flow",
-      "community": 12,
-      "norm_label": "flow"
-    },
-    {
-      "label": "UserPreferences",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L26",
-      "id": "userpreferences",
-      "community": 12,
-      "norm_label": "userpreferences"
-    },
-    {
-      "label": ".updateUserPreferences()",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L38",
-      "id": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences",
-      "community": 12,
-      "norm_label": ".updateuserpreferences()"
-    },
-    {
-      "label": "UserPreferences.kt",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
-      "source_location": "L1",
-      "id": "model_userpreferences",
-      "community": 10,
-      "norm_label": "userpreferences.kt"
-    },
-    {
-      "label": "UserPreferences",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
-      "source_location": "L3",
-      "id": "model_userpreferences_userpreferences",
-      "community": 10,
-      "norm_label": "userpreferences"
-    },
-    {
-      "label": "DrawingScreen.kt",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L1",
-      "id": "drawing_drawingscreen",
-      "community": 7,
-      "norm_label": "drawingscreen.kt"
-    },
-    {
-      "label": "DrawingScreen()",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "id": "drawing_drawingscreen_drawingscreen",
-      "community": 7,
-      "norm_label": "drawingscreen()"
-    },
-    {
-      "label": "String",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string",
-      "community": 7,
-      "norm_label": "string"
-    },
-    {
-      "label": "DrawingViewModel",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "id": "drawingviewmodel",
-      "community": 7,
-      "norm_label": "drawingviewmodel"
-    },
-    {
-      "label": "Int",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_int",
-      "community": 7,
-      "norm_label": "int"
-    },
-    {
-      "label": "LoadingOverlay()",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L328",
-      "id": "drawing_drawingscreen_loadingoverlay",
-      "community": 7,
-      "norm_label": "loadingoverlay()"
-    },
-    {
-      "label": "ErrorSnackbar()",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L345",
-      "id": "drawing_drawingscreen_errorsnackbar",
-      "community": 7,
-      "norm_label": "errorsnackbar()"
-    },
-    {
       "label": "DrawingViewModel.kt",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
@@ -347,7 +212,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L51",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_stateflow",
+      "id": "stateflow",
       "community": 0,
       "norm_label": "stateflow"
     },
@@ -600,7 +465,7 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L413",
       "id": "drawing_drawingviewmodel_drawingviewmodel_setisfilled",
-      "community": 0,
+      "community": 92,
       "norm_label": ".setisfilled()"
     },
     {
@@ -609,7 +474,7 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L413",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_boolean",
-      "community": 0,
+      "community": 92,
       "norm_label": "boolean"
     },
     {
@@ -635,7 +500,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L439",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string",
+      "id": "string",
       "community": 0,
       "norm_label": "string"
     },
@@ -654,7 +519,7 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L506",
       "id": "drawing_drawingviewmodel_drawingviewmodel_savesketch",
-      "community": 0,
+      "community": 92,
       "norm_label": ".savesketch()"
     },
     {
@@ -662,8 +527,8 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L506",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_int",
-      "community": 0,
+      "id": "int",
+      "community": 92,
       "norm_label": "int"
     },
     {
@@ -762,7 +627,7 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L713",
       "id": "drawing_drawingviewmodel_drawingviewmodel_sharesketch",
-      "community": 0,
+      "community": 92,
       "norm_label": ".sharesketch()"
     },
     {
@@ -771,7 +636,7 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L713",
       "id": "exportoptions",
-      "community": 0,
+      "community": 92,
       "norm_label": "exportoptions"
     },
     {
@@ -811,10 +676,19 @@
       "norm_label": ".deleteimage()"
     },
     {
-      "label": ".onImagePinchStart()",
+      "label": ".snapRotation()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L816",
+      "id": "drawing_drawingviewmodel_drawingviewmodel_snaprotation",
+      "community": 0,
+      "norm_label": ".snaprotation()"
+    },
+    {
+      "label": ".onImagePinchStart()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L827",
       "id": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchstart",
       "community": 18,
       "norm_label": ".onimagepinchstart()"
@@ -823,7 +697,7 @@
       "label": ".onImagePinchUpdate()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L824",
+      "source_location": "L835",
       "id": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchupdate",
       "community": 0,
       "norm_label": ".onimagepinchupdate()"
@@ -832,7 +706,7 @@
       "label": ".onImagePinchEnd()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L842",
+      "source_location": "L856",
       "id": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchend",
       "community": 0,
       "norm_label": ".onimagepinchend()"
@@ -841,253 +715,424 @@
       "label": "DrawingUiState",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L862",
+      "source_location": "L876",
       "id": "drawing_drawingviewmodel_drawinguistate",
       "community": 0,
       "norm_label": "drawinguistate"
+    },
+    {
+      "label": "ImageOverlay.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L1",
+      "id": "drawing_imageoverlay",
+      "community": 0,
+      "norm_label": "imageoverlay.kt"
+    },
+    {
+      "label": "ImageOverlay()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "id": "drawing_imageoverlay_imageoverlay",
+      "community": 0,
+      "norm_label": "imageoverlay()"
+    },
+    {
+      "label": "ImageElement",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "id": "imageelement",
+      "community": 0,
+      "norm_label": "imageelement"
+    },
+    {
+      "label": "Boolean",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_boolean",
+      "community": 0,
+      "norm_label": "boolean"
+    },
+    {
+      "label": "PreferencesDataStore.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L1",
+      "community": 12,
+      "norm_label": "preferencesdatastore.kt",
+      "id": "local_preferencesdatastore"
+    },
+    {
+      "label": "PreferencesDataStore",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L17",
+      "community": 12,
+      "norm_label": "preferencesdatastore",
+      "id": "local_preferencesdatastore_preferencesdatastore"
+    },
+    {
+      "label": "PreferencesKeys",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L19",
+      "community": 12,
+      "norm_label": "preferenceskeys",
+      "id": "local_preferencesdatastore_preferenceskeys"
+    },
+    {
+      "label": "Flow",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L26",
+      "community": 12,
+      "norm_label": "flow",
+      "id": "flow"
+    },
+    {
+      "label": "UserPreferences",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L26",
+      "community": 12,
+      "norm_label": "userpreferences",
+      "id": "userpreferences"
+    },
+    {
+      "label": ".updateUserPreferences()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L38",
+      "community": 12,
+      "norm_label": ".updateuserpreferences()",
+      "id": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences"
+    },
+    {
+      "label": "UserPreferences.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
+      "source_location": "L1",
+      "community": 10,
+      "norm_label": "userpreferences.kt",
+      "id": "model_userpreferences"
+    },
+    {
+      "label": "UserPreferences",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
+      "source_location": "L3",
+      "community": 10,
+      "norm_label": "userpreferences",
+      "id": "model_userpreferences_userpreferences"
+    },
+    {
+      "label": "DrawingScreen.kt",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L1",
+      "community": 7,
+      "norm_label": "drawingscreen.kt",
+      "id": "drawing_drawingscreen"
+    },
+    {
+      "label": "DrawingScreen()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "community": 7,
+      "norm_label": "drawingscreen()",
+      "id": "drawing_drawingscreen_drawingscreen"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "community": 7,
+      "norm_label": "string",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string"
+    },
+    {
+      "label": "DrawingViewModel",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "community": 7,
+      "norm_label": "drawingviewmodel",
+      "id": "drawingviewmodel"
+    },
+    {
+      "label": "Int",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "community": 7,
+      "norm_label": "int",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_int"
+    },
+    {
+      "label": "LoadingOverlay()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L328",
+      "community": 7,
+      "norm_label": "loadingoverlay()",
+      "id": "drawing_drawingscreen_loadingoverlay"
+    },
+    {
+      "label": "ErrorSnackbar()",
+      "file_type": "code",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L345",
+      "community": 7,
+      "norm_label": "errorsnackbar()",
+      "id": "drawing_drawingscreen_errorsnackbar"
     },
     {
       "label": "SettingsScreen.kt",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L1",
-      "id": "settings_settingsscreen",
       "community": 25,
-      "norm_label": "settingsscreen.kt"
+      "norm_label": "settingsscreen.kt",
+      "id": "settings_settingsscreen"
     },
     {
       "label": "SettingsScreen()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L31",
-      "id": "settings_settingsscreen_settingsscreen",
       "community": 25,
-      "norm_label": "settingsscreen()"
+      "norm_label": "settingsscreen()",
+      "id": "settings_settingsscreen_settingsscreen"
     },
     {
       "label": "Modifier",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L31",
-      "id": "modifier",
       "community": 25,
-      "norm_label": "modifier"
+      "norm_label": "modifier",
+      "id": "modifier"
     },
     {
       "label": "SettingsViewModel",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L31",
-      "id": "settingsviewmodel",
       "community": 25,
-      "norm_label": "settingsviewmodel"
+      "norm_label": "settingsviewmodel",
+      "id": "settingsviewmodel"
     },
     {
       "label": "SettingsScreenContent()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L48",
-      "id": "settings_settingsscreen_settingsscreencontent",
       "community": 25,
-      "norm_label": "settingsscreencontent()"
+      "norm_label": "settingsscreencontent()",
+      "id": "settings_settingsscreen_settingsscreencontent"
     },
     {
       "label": "SettingsUiState",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L48",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_settingsuistate",
       "community": 25,
-      "norm_label": "settingsuistate"
+      "norm_label": "settingsuistate",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_settingsuistate"
     },
     {
       "label": "SettingsSection()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L114",
-      "id": "settings_settingsscreen_settingssection",
       "community": 25,
-      "norm_label": "settingssection()"
+      "norm_label": "settingssection()",
+      "id": "settings_settingsscreen_settingssection"
     },
     {
       "label": "String",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L114",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_string",
       "community": 25,
-      "norm_label": "string"
+      "norm_label": "string",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_string"
     },
     {
       "label": "ThemeSelector()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L142",
-      "id": "settings_settingsscreen_themeselector",
       "community": 25,
-      "norm_label": "themeselector()"
+      "norm_label": "themeselector()",
+      "id": "settings_settingsscreen_themeselector"
     },
     {
       "label": "ThemeMode",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L142",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_thememode",
       "community": 25,
-      "norm_label": "thememode"
+      "norm_label": "thememode",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_thememode"
     },
     {
       "label": "ThemeOption()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L166",
-      "id": "settings_settingsscreen_themeoption",
       "community": 25,
-      "norm_label": "themeoption()"
+      "norm_label": "themeoption()",
+      "id": "settings_settingsscreen_themeoption"
     },
     {
       "label": "Boolean",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L166",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_boolean",
       "community": 25,
-      "norm_label": "boolean"
+      "norm_label": "boolean",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsscreen_kt_boolean"
     },
     {
       "label": "SwitchSettingItem()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt",
       "source_location": "L194",
-      "id": "settings_settingsscreen_switchsettingitem",
       "community": 25,
-      "norm_label": "switchsettingitem()"
+      "norm_label": "switchsettingitem()",
+      "id": "settings_settingsscreen_switchsettingitem"
     },
     {
       "label": "SettingsViewModel.kt",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L1",
-      "id": "settings_settingsviewmodel",
       "community": 10,
-      "norm_label": "settingsviewmodel.kt"
+      "norm_label": "settingsviewmodel.kt",
+      "id": "settings_settingsviewmodel"
     },
     {
       "label": "SettingsViewModel",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L14",
-      "id": "settings_settingsviewmodel_settingsviewmodel",
       "community": 10,
-      "norm_label": "settingsviewmodel"
+      "norm_label": "settingsviewmodel",
+      "id": "settings_settingsviewmodel_settingsviewmodel"
     },
     {
       "label": "StateFlow",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L20",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_stateflow",
       "community": 10,
-      "norm_label": "stateflow"
+      "norm_label": "stateflow",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_stateflow"
     },
     {
       "label": "SettingsUiState",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L20",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_settingsuistate",
       "community": 10,
-      "norm_label": "settingsuistate"
+      "norm_label": "settingsuistate",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_settingsuistate"
     },
     {
       "label": ".loadPreferences()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L26",
-      "id": "settings_settingsviewmodel_settingsviewmodel_loadpreferences",
       "community": 10,
-      "norm_label": ".loadpreferences()"
+      "norm_label": ".loadpreferences()",
+      "id": "settings_settingsviewmodel_settingsviewmodel_loadpreferences"
     },
     {
       "label": ".updateThemeMode()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L34",
-      "id": "settings_settingsviewmodel_settingsviewmodel_updatethememode",
       "community": 10,
-      "norm_label": ".updatethememode()"
+      "norm_label": ".updatethememode()",
+      "id": "settings_settingsviewmodel_settingsviewmodel_updatethememode"
     },
     {
       "label": "ThemeMode",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L34",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_thememode",
       "community": 10,
-      "norm_label": "thememode"
+      "norm_label": "thememode",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_thememode"
     },
     {
       "label": ".toggleNotifications()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L44",
-      "id": "settings_settingsviewmodel_settingsviewmodel_togglenotifications",
       "community": 10,
-      "norm_label": ".togglenotifications()"
+      "norm_label": ".togglenotifications()",
+      "id": "settings_settingsviewmodel_settingsviewmodel_togglenotifications"
     },
     {
       "label": "Boolean",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L44",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_boolean",
       "community": 10,
-      "norm_label": "boolean"
+      "norm_label": "boolean",
+      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_boolean"
     },
     {
       "label": ".toggleAnalytics()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L54",
-      "id": "settings_settingsviewmodel_settingsviewmodel_toggleanalytics",
       "community": 10,
-      "norm_label": ".toggleanalytics()"
+      "norm_label": ".toggleanalytics()",
+      "id": "settings_settingsviewmodel_settingsviewmodel_toggleanalytics"
     },
     {
       "label": ".toggleAutoSave()",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L64",
-      "id": "settings_settingsviewmodel_settingsviewmodel_toggleautosave",
       "community": 10,
-      "norm_label": ".toggleautosave()"
+      "norm_label": ".toggleautosave()",
+      "id": "settings_settingsviewmodel_settingsviewmodel_toggleautosave"
     },
     {
       "label": "SettingsUiState",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L75",
-      "id": "settings_settingsviewmodel_settingsuistate",
       "community": 10,
-      "norm_label": "settingsuistate"
+      "norm_label": "settingsuistate",
+      "id": "settings_settingsviewmodel_settingsuistate"
     },
     {
       "label": "Loading",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L76",
-      "id": "settings_settingsviewmodel_loading",
       "community": 10,
-      "norm_label": "loading"
+      "norm_label": "loading",
+      "id": "settings_settingsviewmodel_loading"
     },
     {
       "label": "Success",
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L77",
-      "id": "settings_settingsviewmodel_success",
       "community": 10,
-      "norm_label": "success"
+      "norm_label": "success",
+      "id": "settings_settingsviewmodel_success"
     },
     {
       "label": "settings.json",
@@ -2426,7 +2471,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt",
       "source_location": "L1",
-      "community": 2,
+      "community": 95,
       "norm_label": "userdto.kt",
       "id": "dto_userdto"
     },
@@ -2435,7 +2480,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt",
       "source_location": "L16",
-      "community": 2,
+      "community": 95,
       "norm_label": "userdto",
       "id": "dto_userdto_userdto"
     },
@@ -2444,7 +2489,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt",
       "source_location": "L43",
-      "community": 2,
+      "community": 95,
       "norm_label": "todomain()",
       "id": "dto_userdto_todomain"
     },
@@ -2453,7 +2498,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt",
       "source_location": "L43",
-      "community": 2,
+      "community": 95,
       "norm_label": "user",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_remote_dto_userdto_kt_user"
     },
@@ -2462,7 +2507,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt",
       "source_location": "L56",
-      "community": 2,
+      "community": 95,
       "norm_label": "todto()",
       "id": "dto_userdto_todto"
     },
@@ -2705,7 +2750,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L1",
-      "community": 9,
+      "community": 96,
       "norm_label": "preferencesrepositoryimpl.kt",
       "id": "repository_preferencesrepositoryimpl"
     },
@@ -2714,7 +2759,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L8",
-      "community": 9,
+      "community": 96,
       "norm_label": "preferencesrepositoryimpl",
       "id": "repository_preferencesrepositoryimpl_preferencesrepositoryimpl"
     },
@@ -2723,7 +2768,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L12",
-      "community": 9,
+      "community": 96,
       "norm_label": ".getuserpreferences()",
       "id": "repository_preferencesrepositoryimpl_preferencesrepositoryimpl_getuserpreferences"
     },
@@ -2732,7 +2777,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L12",
-      "community": 9,
+      "community": 96,
       "norm_label": "flow",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_preferencesrepositoryimpl_kt_flow"
     },
@@ -2741,7 +2786,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L12",
-      "community": 9,
+      "community": 96,
       "norm_label": "userpreferences",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_preferencesrepositoryimpl_kt_userpreferences"
     },
@@ -2750,7 +2795,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt",
       "source_location": "L16",
-      "community": 9,
+      "community": 96,
       "norm_label": ".updateuserpreferences()",
       "id": "repository_preferencesrepositoryimpl_preferencesrepositoryimpl_updateuserpreferences"
     },
@@ -2966,7 +3011,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SyncSchedulerRepositoryImpl.kt",
       "source_location": "L1",
-      "community": 2,
+      "community": 98,
       "norm_label": "syncschedulerrepositoryimpl.kt",
       "id": "repository_syncschedulerrepositoryimpl"
     },
@@ -2975,7 +3020,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SyncSchedulerRepositoryImpl.kt",
       "source_location": "L10",
-      "community": 2,
+      "community": 98,
       "norm_label": "syncschedulerrepositoryimpl",
       "id": "repository_syncschedulerrepositoryimpl_syncschedulerrepositoryimpl"
     },
@@ -2984,7 +3029,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SyncSchedulerRepositoryImpl.kt",
       "source_location": "L14",
-      "community": 2,
+      "community": 98,
       "norm_label": ".triggerimmediatesync()",
       "id": "repository_syncschedulerrepositoryimpl_syncschedulerrepositoryimpl_triggerimmediatesync"
     },
@@ -2993,7 +3038,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L1",
-      "community": 9,
+      "community": 94,
       "norm_label": "userrepositoryimpl.kt",
       "id": "repository_userrepositoryimpl"
     },
@@ -3002,7 +3047,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L9",
-      "community": 9,
+      "community": 94,
       "norm_label": "userrepositoryimpl",
       "id": "repository_userrepositoryimpl_userrepositoryimpl"
     },
@@ -3011,7 +3056,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L21",
-      "community": 9,
+      "community": 94,
       "norm_label": ".getcurrentuser()",
       "id": "repository_userrepositoryimpl_userrepositoryimpl_getcurrentuser"
     },
@@ -3020,7 +3065,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L21",
-      "community": 9,
+      "community": 94,
       "norm_label": "flow",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_userrepositoryimpl_kt_flow"
     },
@@ -3029,7 +3074,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L21",
-      "community": 9,
+      "community": 94,
       "norm_label": "user",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_userrepositoryimpl_kt_user"
     },
@@ -3038,7 +3083,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L23",
-      "community": 9,
+      "community": 94,
       "norm_label": ".updateuser()",
       "id": "repository_userrepositoryimpl_userrepositoryimpl_updateuser"
     },
@@ -3047,7 +3092,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L23",
-      "community": 9,
+      "community": 94,
       "norm_label": "result",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_userrepositoryimpl_kt_result"
     },
@@ -3056,7 +3101,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt",
       "source_location": "L23",
-      "community": 9,
+      "community": 94,
       "norm_label": "unit",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_repository_userrepositoryimpl_kt_unit"
     },
@@ -3065,7 +3110,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L1",
-      "community": 2,
+      "community": 99,
       "norm_label": "sketchsyncworker.kt",
       "id": "sync_sketchsyncworker"
     },
@@ -3074,7 +3119,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L16",
-      "community": 2,
+      "community": 97,
       "norm_label": "sketchsyncworker",
       "id": "sync_sketchsyncworker_sketchsyncworker"
     },
@@ -3083,7 +3128,7 @@
       "file_type": "code",
       "source_file": "",
       "source_location": "",
-      "community": 2,
+      "community": 97,
       "norm_label": "coroutineworker",
       "id": "coroutineworker"
     },
@@ -3092,7 +3137,7 @@
       "file_type": "code",
       "source_file": "",
       "source_location": "",
-      "community": 2,
+      "community": 97,
       "norm_label": "koincomponent",
       "id": "koincomponent"
     },
@@ -3101,7 +3146,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L21",
-      "community": 2,
+      "community": 97,
       "norm_label": "syncsketchesusecase",
       "id": "syncsketchesusecase"
     },
@@ -3110,7 +3155,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L22",
-      "community": 2,
+      "community": 97,
       "norm_label": "authrepository",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_sync_sketchsyncworker_kt_authrepository"
     },
@@ -3119,7 +3164,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L24",
-      "community": 2,
+      "community": 97,
       "norm_label": ".dowork()",
       "id": "sync_sketchsyncworker_sketchsyncworker_dowork"
     },
@@ -3128,7 +3173,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L24",
-      "community": 2,
+      "community": 97,
       "norm_label": "result",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_sync_sketchsyncworker_kt_result"
     },
@@ -3137,7 +3182,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L71",
-      "community": 2,
+      "community": 99,
       "norm_label": "schedule()",
       "id": "sync_sketchsyncworker_schedule"
     },
@@ -3146,7 +3191,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L71",
-      "community": 2,
+      "community": 99,
       "norm_label": "context",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_data_sync_sketchsyncworker_kt_context"
     },
@@ -3155,7 +3200,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L101",
-      "community": 2,
+      "community": 99,
       "norm_label": "syncnow()",
       "id": "sync_sketchsyncworker_syncnow"
     },
@@ -3164,7 +3209,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt",
       "source_location": "L127",
-      "community": 2,
+      "community": 99,
       "norm_label": "cancel()",
       "id": "sync_sketchsyncworker_cancel"
     },
@@ -3254,7 +3299,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/AuthUser.kt",
       "source_location": "L1",
-      "community": 2,
+      "community": 95,
       "norm_label": "authuser.kt",
       "id": "model_authuser"
     },
@@ -3263,7 +3308,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/AuthUser.kt",
       "source_location": "L7",
-      "community": 2,
+      "community": 95,
       "norm_label": "authuser",
       "id": "model_authuser_authuser"
     },
@@ -3830,7 +3875,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/SyncSchedulerRepository.kt",
       "source_location": "L1",
-      "community": 2,
+      "community": 98,
       "norm_label": "syncschedulerrepository.kt",
       "id": "repository_syncschedulerrepository"
     },
@@ -3839,7 +3884,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/SyncSchedulerRepository.kt",
       "source_location": "L7",
-      "community": 2,
+      "community": 98,
       "norm_label": "syncschedulerrepository",
       "id": "repository_syncschedulerrepository_syncschedulerrepository"
     },
@@ -3848,7 +3893,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/SyncSchedulerRepository.kt",
       "source_location": "L11",
-      "community": 2,
+      "community": 98,
       "norm_label": ".triggerimmediatesync()",
       "id": "repository_syncschedulerrepository_syncschedulerrepository_triggerimmediatesync"
     },
@@ -4253,7 +4298,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L1",
-      "community": 0,
+      "community": 92,
       "norm_label": "savedrawingusecase.kt",
       "id": "drawing_savedrawingusecase"
     },
@@ -4262,7 +4307,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L10",
-      "community": 0,
+      "community": 92,
       "norm_label": "savedrawingusecase",
       "id": "drawing_savedrawingusecase_savedrawingusecase"
     },
@@ -4271,7 +4316,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L13",
-      "community": 0,
+      "community": 92,
       "norm_label": ".invoke()",
       "id": "drawing_savedrawingusecase_savedrawingusecase_invoke"
     },
@@ -4280,7 +4325,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L13",
-      "community": 0,
+      "community": 92,
       "norm_label": "bitmap",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_drawing_savedrawingusecase_kt_bitmap"
     },
@@ -4289,7 +4334,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L13",
-      "community": 0,
+      "community": 92,
       "norm_label": "string",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_drawing_savedrawingusecase_kt_string"
     },
@@ -4298,7 +4343,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L13",
-      "community": 0,
+      "community": 92,
       "norm_label": "boolean",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_drawing_savedrawingusecase_kt_boolean"
     },
@@ -4307,7 +4352,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt",
       "source_location": "L13",
-      "community": 0,
+      "community": 92,
       "norm_label": "result",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_drawing_savedrawingusecase_kt_result"
     },
@@ -4316,7 +4361,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt",
       "source_location": "L1",
-      "community": 0,
+      "community": 92,
       "norm_label": "createsketchusecase.kt",
       "id": "sketch_createsketchusecase"
     },
@@ -4325,7 +4370,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt",
       "source_location": "L9",
-      "community": 0,
+      "community": 92,
       "norm_label": "createsketchusecase",
       "id": "sketch_createsketchusecase_createsketchusecase"
     },
@@ -4334,7 +4379,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt",
       "source_location": "L12",
-      "community": 0,
+      "community": 92,
       "norm_label": ".invoke()",
       "id": "sketch_createsketchusecase_createsketchusecase_invoke"
     },
@@ -4343,7 +4388,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt",
       "source_location": "L12",
-      "community": 0,
+      "community": 92,
       "norm_label": "sketch",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_sketch_createsketchusecase_kt_sketch"
     },
@@ -4352,7 +4397,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt",
       "source_location": "L12",
-      "community": 0,
+      "community": 92,
       "norm_label": "result",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_domain_usecase_sketch_createsketchusecase_kt_result"
     },
@@ -4595,7 +4640,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/TriggerSketchSyncUseCase.kt",
       "source_location": "L1",
-      "community": 0,
+      "community": 92,
       "norm_label": "triggersketchsyncusecase.kt",
       "id": "sketch_triggersketchsyncusecase"
     },
@@ -4604,7 +4649,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/TriggerSketchSyncUseCase.kt",
       "source_location": "L9",
-      "community": 0,
+      "community": 92,
       "norm_label": "triggersketchsyncusecase",
       "id": "sketch_triggersketchsyncusecase_triggersketchsyncusecase"
     },
@@ -4613,7 +4658,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/TriggerSketchSyncUseCase.kt",
       "source_location": "L12",
-      "community": 0,
+      "community": 92,
       "norm_label": ".invoke()",
       "id": "sketch_triggersketchsyncusecase_triggersketchsyncusecase_invoke"
     },
@@ -5783,7 +5828,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ExportOptionsDialog.kt",
       "source_location": "L1",
-      "community": 13,
+      "community": 7,
       "norm_label": "exportoptionsdialog.kt",
       "id": "drawing_exportoptionsdialog"
     },
@@ -5792,7 +5837,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ExportOptionsDialog.kt",
       "source_location": "L33",
-      "community": 13,
+      "community": 7,
       "norm_label": "exportoptions",
       "id": "drawing_exportoptionsdialog_exportoptions"
     },
@@ -5801,7 +5846,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ExportOptionsDialog.kt",
       "source_location": "L43",
-      "community": 13,
+      "community": 7,
       "norm_label": "exportoptionsdialog()",
       "id": "drawing_exportoptionsdialog_exportoptionsdialog"
     },
@@ -5810,7 +5855,7 @@
       "file_type": "code",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ExportOptionsDialog.kt",
       "source_location": "L43",
-      "community": 13,
+      "community": 7,
       "norm_label": "int",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_exportoptionsdialog_kt_int"
     },
@@ -6074,42 +6119,6 @@
       "community": 5,
       "norm_label": "context",
       "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imagecropviewmodel_kt_context"
-    },
-    {
-      "label": "ImageOverlay.kt",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L1",
-      "community": 7,
-      "norm_label": "imageoverlay.kt",
-      "id": "drawing_imageoverlay"
-    },
-    {
-      "label": "ImageOverlay()",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "community": 7,
-      "norm_label": "imageoverlay()",
-      "id": "drawing_imageoverlay_imageoverlay"
-    },
-    {
-      "label": "ImageElement",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "community": 7,
-      "norm_label": "imageelement",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_imageelement"
-    },
-    {
-      "label": "Boolean",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "community": 7,
-      "norm_label": "boolean",
-      "id": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_boolean"
     },
     {
       "label": "ShareHelper.kt",
@@ -6990,7 +6999,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 9,
+      "community": 96,
       "norm_label": "appmodule",
       "id": "di_appmodule_appmodule"
     },
@@ -7055,7 +7064,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 9,
+      "community": 94,
       "norm_label": "repositorymodule",
       "id": "di_repositorymodule_repositorymodule"
     },
@@ -7448,19 +7457,6 @@
       "community": 16,
       "norm_label": "cropresult",
       "id": "presentation_drawing_cropresult"
-    },
-    {
-      "label": "ImageOverlay",
-      "file_type": "code",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "presentation/feature/drawing",
-      "source_url": null,
-      "captured_at": null,
-      "author": null,
-      "contributor": null,
-      "community": 92,
-      "norm_label": "imageoverlay",
-      "id": "presentation_drawing_imageoverlay"
     },
     {
       "label": "App Color Palette (Color.kt)",
@@ -8965,345 +8961,6 @@
   ],
   "links": [
     {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.65,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "local_preferencesdatastore",
-      "target": "concept_kmp_readiness"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L17",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "local_preferencesdatastore",
-      "target": "local_preferencesdatastore_preferencesdatastore"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "local_preferencesdatastore",
-      "target": "local_preferencesdatastore_preferenceskeys"
-    },
-    {
-      "relation": "references",
-      "confidence": "INFERRED",
-      "confidence_score": 0.75,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/MainActivity.kt",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "sketchapp_mainactivity",
-      "target": "local_preferencesdatastore"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L26",
-      "weight": 1.0,
-      "context": "field",
-      "source": "local_preferencesdatastore_preferencesdatastore",
-      "target": "flow",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "method",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L36",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "local_preferencesdatastore_preferencesdatastore",
-      "target": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L26",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "source": "local_preferencesdatastore_preferencesdatastore",
-      "target": "userpreferences",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
-      "source_location": "L38",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "source": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences",
-      "target": "userpreferences",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "model_userpreferences",
-      "target": "model_userpreferences_userpreferences"
-    },
-    {
-      "relation": "has_field_of_type",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
-      "source_location": "line 4",
-      "weight": 1.0,
-      "source": "model_userpreferences_userpreferences",
-      "target": "model_thememode_thememode"
-    },
-    {
-      "relation": "returns_type",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/PreferencesRepository.kt",
-      "source_location": "line 7",
-      "weight": 1.0,
-      "source": "repository_preferencesrepository_preferencesrepository",
-      "target": "model_userpreferences_userpreferences"
-    },
-    {
-      "relation": "returns_type",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/GetUserPreferencesUseCase.kt",
-      "source_location": "line 10",
-      "weight": 1.0,
-      "source": "usecase_getuserpreferencesusecase_getuserpreferencesusecase",
-      "target": "model_userpreferences_userpreferences"
-    },
-    {
-      "relation": "accepts_parameter_of_type",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/UpdateUserPreferencesUseCase.kt",
-      "source_location": "line 9",
-      "weight": 1.0,
-      "source": "usecase_updateuserpreferencesusecase_updateuserpreferencesusecase",
-      "target": "model_userpreferences_userpreferences"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen",
-      "target": "drawing_drawingscreen_drawingscreen"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L323",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen",
-      "target": "drawing_drawingscreen_errorsnackbar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L306",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen",
-      "target": "drawing_drawingscreen_loadingoverlay"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/common/Navigation.kt",
-      "source_location": "L126",
-      "weight": 1.0,
-      "source": "common_navigation_appnavigation",
-      "target": "drawing_drawingscreen_drawingscreen"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_int"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L280",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "color"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L215",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_bitmapexporter_createbitmapfrompaths"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L112",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_drawingcanvas_drawingcanvas"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L182",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_drawingscreen_errorsnackbar"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L170",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_drawingscreen_loadingoverlay"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L256",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_drawingtoolbar_drawingpanel"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L160",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_emojioverlay_emojioverlay"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L198",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_emojipicker_emojipickerdialog"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L207",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_exportoptionsdialog_exportoptionsdialog"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L151",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_imageoverlay_imageoverlay"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "INFERRED",
-      "confidence_score": 0.8,
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L86",
-      "weight": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawing_sharehelper_shareimage"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L45",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_drawingscreen",
-      "target": "drawingviewmodel"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
-      "source_location": "L323",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingscreen_errorsnackbar",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string"
-    },
-    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
@@ -9422,17 +9079,6 @@
       "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel",
       "target": "drawing_drawingviewmodel_undoaction"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L45",
-      "weight": 1.0,
-      "context": "field",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingviewmodel_drawingviewmodel",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_stateflow"
     },
     {
       "relation": "method",
@@ -9650,9 +9296,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "method",
@@ -9738,6 +9384,16 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L816",
+      "weight": 1.0,
+      "source": "drawing_drawingviewmodel_drawingviewmodel",
+      "target": "drawing_drawingviewmodel_drawingviewmodel_snaprotation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L566",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -9782,9 +9438,9 @@
       "source_location": "L814",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -9793,8 +9449,19 @@
       "source_location": "L54",
       "weight": 1.0,
       "context": "field",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel",
-      "target": "job",
+      "target": "job"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "field",
+      "source": "drawing_drawingviewmodel_drawingviewmodel",
+      "target": "stateflow",
       "confidence_score": 1.0
     },
     {
@@ -9884,9 +9551,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L619",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_addemoji",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9895,9 +9562,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L774",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_addimage",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9906,9 +9573,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L702",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_deleteemoji",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9917,9 +9584,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L809",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_deleteimage",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9928,9 +9595,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L647",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveemoji",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9939,9 +9606,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L794",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveimage",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9950,9 +9617,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_ondrawend",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9961,9 +9628,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L689",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_onemojipinchend",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9972,9 +9639,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L851",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchend",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9983,9 +9650,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L378",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_redo",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "calls",
@@ -9994,9 +9661,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
       "source_location": "L266",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_undo",
-      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave",
-      "confidence_score": 1.0
+      "target": "drawing_drawingviewmodel_drawingviewmodel_scheduleautosave"
     },
     {
       "relation": "inherits",
@@ -10249,9 +9916,9 @@
       "source_location": "L116",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_ondrawstart",
-      "target": "offset",
-      "confidence_score": 1.0
+      "target": "offset"
     },
     {
       "relation": "references",
@@ -10260,9 +9927,9 @@
       "source_location": "L130",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_ondraw",
-      "target": "offset",
-      "confidence_score": 1.0
+      "target": "offset"
     },
     {
       "relation": "calls",
@@ -10304,9 +9971,9 @@
       "source_location": "L381",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_setbrush",
-      "target": "brushtype",
-      "confidence_score": 1.0
+      "target": "brushtype"
     },
     {
       "relation": "references",
@@ -10315,9 +9982,20 @@
       "source_location": "L393",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_setcolor",
-      "target": "color",
-      "confidence_score": 1.0
+      "target": "color"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L280",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "color"
     },
     {
       "relation": "references",
@@ -10326,9 +10004,9 @@
       "source_location": "L399",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_setstrokewidth",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10337,9 +10015,9 @@
       "source_location": "L601",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_addemoji",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10348,9 +10026,9 @@
       "source_location": "L756",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_addimage",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10359,9 +10037,9 @@
       "source_location": "L626",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveemoji",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10370,9 +10048,9 @@
       "source_location": "L781",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveimage",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10381,9 +10059,9 @@
       "source_location": "L661",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_onemojipinchupdate",
-      "target": "float",
-      "confidence_score": 1.0
+      "target": "float"
     },
     {
       "relation": "references",
@@ -10392,7 +10070,18 @@
       "source_location": "L824",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchupdate",
+      "target": "float"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L816",
+      "weight": 1.0,
+      "context": "return_type",
+      "source": "drawing_drawingviewmodel_drawingviewmodel_snaprotation",
       "target": "float",
       "confidence_score": 1.0
     },
@@ -10403,9 +10092,9 @@
       "source_location": "L403",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_setshapetool",
-      "target": "shapetool",
-      "confidence_score": 1.0
+      "target": "shapetool"
     },
     {
       "relation": "references",
@@ -10425,9 +10114,9 @@
       "source_location": "L506",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_savesketch",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_boolean",
-      "confidence_score": 1.0
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_boolean"
     },
     {
       "relation": "calls",
@@ -10439,17 +10128,6 @@
       "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_initialize",
       "target": "drawing_drawingviewmodel_drawingviewmodel_clearcanvas"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L409",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingviewmodel_drawingviewmodel_initialize",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
     },
     {
       "relation": "calls",
@@ -10466,100 +10144,111 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L570",
+      "source_location": "L439",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
+      "source": "drawing_drawingviewmodel_drawingviewmodel_initialize",
+      "target": "string",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L601",
+      "weight": 1.0,
+      "context": "parameter_type",
       "source": "drawing_drawingviewmodel_drawingviewmodel_addemoji",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L721",
+      "source_location": "L756",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_addimage",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L661",
+      "source_location": "L695",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_deleteemoji",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L760",
+      "source_location": "L797",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_deleteimage",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L424",
+      "source_location": "L454",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_loadsketch",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L594",
+      "source_location": "L626",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveemoji",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L745",
+      "source_location": "L781",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_moveimage",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L590",
+      "source_location": "L622",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_selectemoji",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L741",
+      "source_location": "L777",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_selectimage",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_string"
+      "target": "string",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -10571,17 +10260,6 @@
       "weight": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_loadsketch",
       "target": "sketch_getsketchbyidusecase_getsketchbyidusecase"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L476",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_drawingviewmodel_drawingviewmodel_savesketch",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_int"
     },
     {
       "relation": "calls",
@@ -10604,6 +10282,17 @@
       "weight": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_savesketch",
       "target": "drawing_savedrawingusecase_savedrawingusecase"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L506",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "drawing_drawingviewmodel_drawingviewmodel_savesketch",
+      "target": "int",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -10631,12 +10320,12 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
-      "source_location": "L678",
+      "source_location": "L713",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "drawing_drawingviewmodel_drawingviewmodel_sharesketch",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingviewmodel_kt_int"
+      "target": "int",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -10698,6 +10387,28 @@
       "context": "call",
       "confidence": "INFERRED",
       "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L757",
+      "weight": 1.0,
+      "source": "drawing_drawingviewmodel_drawingviewmodel_addimage",
+      "target": "imageelement"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt",
+      "source_location": "L850",
+      "weight": 1.0,
+      "source": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchupdate",
+      "target": "drawing_drawingviewmodel_drawingviewmodel_snaprotation",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingCanvas.kt",
       "source_location": "L131",
       "weight": 1.0,
@@ -10725,6 +10436,366 @@
       "weight": 1.0,
       "source": "drawing_drawingcanvas_drawingcanvas",
       "target": "drawing_drawingviewmodel_drawingviewmodel_onimagepinchend"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_imageoverlay",
+      "target": "drawing_imageoverlay_imageoverlay"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L151",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_imageoverlay_imageoverlay"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "drawing_imageoverlay_imageoverlay",
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_boolean"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "drawing_imageoverlay_imageoverlay",
+      "target": "imageelement",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.65,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "local_preferencesdatastore",
+      "target": "concept_kmp_readiness"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore",
+      "target": "local_preferencesdatastore_preferencesdatastore"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore",
+      "target": "local_preferencesdatastore_preferenceskeys"
+    },
+    {
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/MainActivity.kt",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "sketchapp_mainactivity",
+      "target": "local_preferencesdatastore"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "field",
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore_preferencesdatastore",
+      "target": "flow"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L36",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore_preferencesdatastore",
+      "target": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore_preferencesdatastore",
+      "target": "userpreferences"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "local_preferencesdatastore_preferencesdatastore_updateuserpreferences",
+      "target": "userpreferences"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "model_userpreferences",
+      "target": "model_userpreferences_userpreferences"
+    },
+    {
+      "relation": "has_field_of_type",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt",
+      "source_location": "line 4",
+      "weight": 1.0,
+      "source": "model_userpreferences_userpreferences",
+      "target": "model_thememode_thememode"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/PreferencesRepository.kt",
+      "source_location": "line 7",
+      "weight": 1.0,
+      "source": "repository_preferencesrepository_preferencesrepository",
+      "target": "model_userpreferences_userpreferences"
+    },
+    {
+      "relation": "returns_type",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/GetUserPreferencesUseCase.kt",
+      "source_location": "line 10",
+      "weight": 1.0,
+      "source": "usecase_getuserpreferencesusecase_getuserpreferencesusecase",
+      "target": "model_userpreferences_userpreferences"
+    },
+    {
+      "relation": "accepts_parameter_of_type",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/UpdateUserPreferencesUseCase.kt",
+      "source_location": "line 9",
+      "weight": 1.0,
+      "source": "usecase_updateuserpreferencesusecase_updateuserpreferencesusecase",
+      "target": "model_userpreferences_userpreferences"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen",
+      "target": "drawing_drawingscreen_drawingscreen"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L323",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen",
+      "target": "drawing_drawingscreen_errorsnackbar"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L306",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen",
+      "target": "drawing_drawingscreen_loadingoverlay"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/common/Navigation.kt",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "common_navigation_appnavigation",
+      "target": "drawing_drawingscreen_drawingscreen"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_int"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_bitmapexporter_createbitmapfrompaths"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L112",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_drawingcanvas_drawingcanvas"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L182",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_drawingscreen_errorsnackbar"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L170",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_drawingscreen_loadingoverlay"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_drawingtoolbar_drawingpanel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L160",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_emojioverlay_emojioverlay"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L198",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_emojipicker_emojipickerdialog"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L207",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_exportoptionsdialog_exportoptionsdialog"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L86",
+      "weight": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawing_sharehelper_shareimage"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L45",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_drawingscreen",
+      "target": "drawingviewmodel"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt",
+      "source_location": "L323",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "drawing_drawingscreen_errorsnackbar",
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_drawingscreen_kt_string"
     },
     {
       "relation": "contains",
@@ -10804,9 +10875,9 @@
       "source_location": "L31",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "settings_settingsscreen_settingsscreen",
-      "target": "modifier",
-      "confidence_score": 1.0
+      "target": "modifier"
     },
     {
       "relation": "calls",
@@ -10836,9 +10907,9 @@
       "source_location": "L31",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "settings_settingsscreen_settingsscreen",
-      "target": "settingsviewmodel",
-      "confidence_score": 1.0
+      "target": "settingsviewmodel"
     },
     {
       "relation": "controls_theme_mode_for",
@@ -10857,9 +10928,9 @@
       "source_location": "L48",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "settings_settingsscreen_settingsscreencontent",
-      "target": "modifier",
-      "confidence_score": 1.0
+      "target": "modifier"
     },
     {
       "relation": "references",
@@ -11080,9 +11151,9 @@
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "settings_settingsviewmodel_settingsviewmodel",
-      "target": "settings_settingsviewmodel_settingsviewmodel_toggleautosave",
-      "confidence_score": 1.0
+      "target": "settings_settingsviewmodel_settingsviewmodel_toggleautosave"
     },
     {
       "relation": "method",
@@ -11188,9 +11259,9 @@
       "source_location": "L64",
       "weight": 1.0,
       "context": "parameter_type",
+      "confidence_score": 1.0,
       "source": "settings_settingsviewmodel_settingsviewmodel_toggleautosave",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_boolean",
-      "confidence_score": 1.0
+      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_settings_settingsviewmodel_kt_boolean"
     },
     {
       "relation": "calls",
@@ -19937,38 +20008,6 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "drawing_imageoverlay",
-      "target": "drawing_imageoverlay_imageoverlay"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_imageoverlay_imageoverlay",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_boolean"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt",
-      "source_location": "L30",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "drawing_imageoverlay_imageoverlay",
-      "target": "app_src_main_java_com_hotmail_arehmananis_sketchapp_presentation_feature_drawing_imageoverlay_kt_imageelement"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ShareHelper.kt",
       "source_location": "L9",
       "weight": 1.0,
@@ -22615,5 +22654,5 @@
       "weight": 1.0
     }
   ],
-  "built_at_commit": "80bbf74a9923bae59d3c145d1a80c262bab6a03d"
+  "built_at_commit": "a0546fc7d664ca800731db670a0efae5323acbba"
 }

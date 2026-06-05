@@ -1,12 +1,18 @@
-# Graph Report - .  (2026-06-05)
+# Graph Report - SketchApp  (2026-06-05)
 
 ## Corpus Check
-- Corpus is ~39,341 words - fits in a single context window. You may not need a graph.
+- 116 files · ~39,535 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 904 nodes · 1280 edges · 86 communities (51 shown, 35 thin omitted)
-- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 97 edges (avg confidence: 0.81)
-- Token cost: 3,200 input · 2,100 output
+- 904 nodes · 1285 edges · 94 communities (52 shown, 42 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 98 edges (avg confidence: 0.81)
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `80bbf74a`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Drawing Canvas & Image Elements|Drawing Canvas & Image Elements]]
@@ -86,30 +92,38 @@
 - [[_COMMUNITY_Update Sketch Use Case|Update Sketch Use Case]]
 - [[_COMMUNITY_Instrumented Test Example|Instrumented Test Example]]
 - [[_COMMUNITY_Kotlin Gradle Settings|Kotlin Gradle Settings]]
+- [[_COMMUNITY_Community 86|Community 86]]
+- [[_COMMUNITY_Community 87|Community 87]]
+- [[_COMMUNITY_Community 88|Community 88]]
+- [[_COMMUNITY_Community 89|Community 89]]
+- [[_COMMUNITY_Community 90|Community 90]]
+- [[_COMMUNITY_Community 91|Community 91]]
+- [[_COMMUNITY_Community 92|Community 92]]
+- [[_COMMUNITY_Community 93|Community 93]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `DrawingViewModel` - 37 edges
+1. `DrawingViewModel` - 39 edges
 2. `DrawingCanvas()` - 24 edges
 3. `SketchRepositoryImpl` - 22 edges
 4. `GalleryViewModel` - 18 edges
-5. `SketchRepository` - 15 edges
-6. `DrawingScreen()` - 15 edges
+5. `DrawingScreen()` - 16 edges
+6. `SketchRepository` - 15 edges
 7. `Color` - 13 edges
 8. `drawPath()` - 13 edges
 9. `DrawingPanel()` - 13 edges
 10. `AppNavigation()` - 12 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `Firebase Setup Guide` --documents_setup_for--> `build.gradle.kts (top-level)`  [INFERRED]
+  FIREBASE_SETUP.md → build.gradle.kts
+- `ExampleUnitTest` --tests--> `SketchApp Project`  [EXTRACTED]
+  app/src/test/java/com/hotmail/arehmananis/sketchapp/ExampleUnitTest.kt → CLAUDE.md
+- `Android Release Build CI pipeline` --builds--> `build.gradle.kts (top-level)`  [EXTRACTED]
+  .github/workflows/build.yml → build.gradle.kts
+- `Import Images Feature` --addressed_by--> `Image Cropper Implementation Plan`  [INFERRED]
+  TODO.md → docs/superpowers/plans/2026-06-04-image-cropper.md
 - `cloudinaryModule` --configures_provider--> `CloudinaryException`  [INFERRED]
-  /Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/CloudinaryModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryExceptions.kt
-- `firebaseModule` --provides_dependency_for--> `SketchRepositoryImpl`  [INFERRED]
-  /Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/FirebaseModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SketchRepositoryImpl.kt
-- `firebaseModule` --provides_dependency_for--> `AuthRepositoryImpl`  [INFERRED]
-  /Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/FirebaseModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/AuthRepositoryImpl.kt
-- `appModule` --provides--> `PreferencesRepositoryImpl`  [INFERRED]
-  /Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/AppModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt
-- `cloudinaryModule` --provides_dependency_for--> `SketchRepositoryImpl`  [INFERRED]
-  /Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/CloudinaryModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SketchRepositoryImpl.kt
+  app/src/main/java/com/hotmail/arehmananis/sketchapp/di/CloudinaryModule.kt → app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryExceptions.kt
 
 ## Import Cycles
 - None detected.
@@ -128,11 +142,11 @@
 - **KMP-Ready Technology Stack** — sketchapp_claude_md_koin, sketchapp_claude_md_stateflow, sketchapp_claude_md_networkresult [INFERRED]
 - **Drawing Feature Components** — sketchapp_claude_md_drawingscreen, sketchapp_claude_md_drawingviewmodel, sketchapp_claude_md_drawingcanvas, sketchapp_claude_md_bitmapexporter [INFERRED]
 
-## Communities (86 total, 35 thin omitted)
+## Communities (94 total, 42 thin omitted)
 
 ### Community 0 - "Drawing Canvas & Image Elements"
 Cohesion: 0.06
-Nodes (30): ImageElement, Int, List, Modifier, String, Unit, Boolean, BrushType (+22 more)
+Nodes (31): Bitmap, Boolean, Result, String, Result, Sketch, Boolean, Int (+23 more)
 
 ### Community 1 - "Architecture Docs & CLAUDE.md"
 Cohesion: 0.07
@@ -143,8 +157,8 @@ Cohesion: 0.06
 Nodes (25): User, AuthUser, Flow, Result, String, Unit, AuthRepository, Context (+17 more)
 
 ### Community 3 - "Sketch Repository & Drawing Data"
-Cohesion: 0.11
-Nodes (20): DrawingPath, EmojiElement, Flow, List, Result, Sketch, SketchEntity, String (+12 more)
+Cohesion: 0.10
+Nodes (21): DrawingPath, EmojiElement, Flow, List, Result, Sketch, SketchEntity, String (+13 more)
 
 ### Community 4 - "Sketch Management Use Cases"
 Cohesion: 0.07
@@ -160,7 +174,7 @@ Nodes (22): AuthUser, Flow, Result, String, Unit, Flow, Result, Unit (+14 more)
 
 ### Community 7 - "Bitmap Export Rendering"
 Cohesion: 0.07
-Nodes (28): android, Bitmap, Boolean, DrawingPath, EmojiElement, ImageElement, Int, List (+20 more)
+Nodes (29): android, Bitmap, Boolean, DrawingPath, EmojiElement, ImageElement, Int, List (+21 more)
 
 ### Community 8 - "Image Crop Feature"
 Cohesion: 0.07
@@ -180,7 +194,7 @@ Nodes (23): AuthUser, Flow, Result, Unit, AuthUser, Modifier, ProfileUiState, St
 
 ### Community 12 - "App Entry & Theming"
 Cohesion: 0.08
-Nodes (20): Flow, UserPreferences, Boolean, SettingsViewModel, Boolean, Application, AuthViewModel, Bundle (+12 more)
+Nodes (20): Boolean, SettingsViewModel, Boolean, Application, AuthViewModel, Bundle, ComponentActivity, DrawingToolbarStrokePreviewTest (+12 more)
 
 ### Community 13 - "Gallery UI Components"
 Cohesion: 0.12
@@ -195,16 +209,16 @@ Cohesion: 0.15
 Nodes (14): DrawingPath, EmojiElement, Flow, List, Result, Sketch, String, Unit (+6 more)
 
 ### Community 16 - "Login Screen & Google Auth"
-Cohesion: 0.09
-Nodes (24): GoogleSignInHelper, LoginScreen, LoginUiState, LoginViewModel, GradientButton / GradientOutlinedButton, Navigation (AppNavigation + Screen sealed class), BitmapExporter (createBitmapFromPaths), BrushIconMapper (+16 more)
+Cohesion: 0.24
+Nodes (10): GoogleSignInHelper, LoginScreen, LoginUiState, LoginViewModel, Navigation (AppNavigation + Screen sealed class), CropHandle, CropRect, CropResult (+2 more)
 
 ### Community 17 - "Cloudinary Upload Impl"
 Cohesion: 0.18
 Nodes (14): CloudinaryRawUploadResult, CloudinaryUploadResult, Int, Result, String, Unit, CloudinaryDataSourceImpl, CloudinaryConfigException (+6 more)
 
 ### Community 18 - "Drawing Canvas Touch"
-Cohesion: 0.30
-Nodes (21): androidx, Boolean, Color, com, DrawingPath, Float, drawAirbrush(), drawArrowShape() (+13 more)
+Cohesion: 0.16
+Nodes (30): androidx, Boolean, Color, com, DrawingPath, Float, ImageElement, Int (+22 more)
 
 ### Community 19 - "Google Sign-In Use Case"
 Cohesion: 0.14
@@ -215,8 +229,8 @@ Cohesion: 0.21
 Nodes (19): Boolean, BrushType, Color, Float, Modifier, ShapeTool, String, ActionStrip() (+11 more)
 
 ### Community 21 - "Drawing Persistence"
-Cohesion: 0.11
-Nodes (11): Bitmap, Boolean, Result, String, Result, Sketch, Int, SaveDrawingUseCase (+3 more)
+Cohesion: 0.67
+Nodes (3): Sketch, fromDomain(), SketchEntity
 
 ### Community 22 - "Network Result Handling"
 Cohesion: 0.28
@@ -232,7 +246,7 @@ Nodes (12): android, Float, Offset, String, CropHandle, CropRect, DisplayBounds,
 
 ### Community 25 - "Settings Screen"
 Cohesion: 0.27
-Nodes (12): Boolean, Modifier, SettingsUiState, SettingsViewModel, String, ThemeMode, SettingsScreen(), SettingsScreenContent() (+4 more)
+Nodes (12): Boolean, SettingsUiState, String, ThemeMode, Modifier, SettingsScreen(), SettingsScreenContent(), SettingsSection() (+4 more)
 
 ### Community 26 - "Build Configuration"
 Cohesion: 0.18
@@ -243,12 +257,12 @@ Cohesion: 0.30
 Nodes (5): Flow, List, SketchEntity, String, SketchDao
 
 ### Community 28 - "Local Database Layer"
-Cohesion: 0.24
-Nodes (6): Sketch, Sketch Serialization Pattern (paths/emojis/images to JSON), fromDomain(), SketchEntity, migrate(), SupportSQLiteDatabase
+Cohesion: 0.27
+Nodes (4): KMP (Kotlin Multiplatform) Readiness, Sketch Serialization Pattern (paths/emojis/images to JSON), migrate(), SupportSQLiteDatabase
 
 ### Community 29 - "Cloudinary Config"
-Cohesion: 0.27
-Nodes (4): CloudinaryConfig, CloudinaryRawUploadResult, CloudinaryUploadResult, KMP (Kotlin Multiplatform) Readiness
+Cohesion: 0.33
+Nodes (3): CloudinaryConfig, CloudinaryRawUploadResult, CloudinaryUploadResult
 
 ### Community 30 - "Project Technology Stack"
 Cohesion: 0.25
@@ -298,25 +312,29 @@ Nodes (4): Android Robot Mascot (white silhouette), SketchApp Launcher Icon (hdp
 Cohesion: 0.67
 Nodes (3): build.gradle.kts (top-level), Firebase Setup Guide, Android Release Build CI pipeline
 
+### Community 86 - "Community 86"
+Cohesion: 0.67
+Nodes (3): GradientButton / GradientOutlinedButton, ExportOptions, ExportOptionsDialog
+
 ## Knowledge Gaps
-- **266 isolated node(s):** `PreToolUse`, `allow`, `version`, `configurations`, `java.configuration.updateBuildConfiguration` (+261 more)
+- **265 isolated node(s):** `PreferencesKeys`, `Flow`, `DrawingViewModel`, `Int`, `StateFlow` (+260 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **35 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `SketchRepositoryImpl` connect `Sketch Repository & Drawing Data` to `Drawing & Preferences Repository`, `Auth Repository Data Layer`, `Cloudinary Upload Impl`, `Sketch Domain Interface`?**
-  _High betweenness centrality (0.195) - this node is a cross-community bridge._
+  _High betweenness centrality (0.196) - this node is a cross-community bridge._
 - **Why does `AppNavigation()` connect `Navigation & Auth Flow` to `Bitmap Export Rendering`, `Profile & Sign-Out Flow`, `App Entry & Theming`, `Gallery UI Components`, `Image Crop Screen UI`, `Settings Screen`?**
-  _High betweenness centrality (0.176) - this node is a cross-community bridge._
-- **Why does `DrawingViewModel` connect `Drawing Canvas & Image Elements` to `ViewModel State & Auth`, `Drawing Persistence`?**
-  _High betweenness centrality (0.164) - this node is a cross-community bridge._
+  _High betweenness centrality (0.177) - this node is a cross-community bridge._
+- **Why does `DrawingViewModel` connect `Drawing Canvas & Image Elements` to `Drawing Canvas Touch`, `Sketch Repository & Drawing Data`, `ViewModel State & Auth`, `Bitmap Export Rendering`?**
+  _High betweenness centrality (0.165) - this node is a cross-community bridge._
 - **Are the 10 inferred relationships involving `DrawingCanvas()` (e.g. with `.onDraw()` and `.onDrawEnd()`) actually correct?**
   _`DrawingCanvas()` has 10 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `SketchRepositoryImpl` (e.g. with `cloudinaryModule` and `databaseModule`) actually correct?**
   _`SketchRepositoryImpl` has 4 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `PreToolUse`, `allow`, `version` to the rest of the system?**
-  _273 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Drawing Canvas & Image Elements` be split into smaller, more focused modules?**
-  _Cohesion score 0.05901639344262295 - nodes in this community are weakly interconnected._
+- **Are the 10 inferred relationships involving `DrawingScreen()` (e.g. with `AppNavigation()` and `Color`) actually correct?**
+  _`DrawingScreen()` has 10 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `PreferencesKeys`, `Flow`, `DrawingViewModel` to the rest of the system?**
+  _272 weakly-connected nodes found - possible documentation gaps or missing edges._

@@ -1,16 +1,16 @@
 # Graph Report - SketchApp  (2026-06-05)
 
 ## Corpus Check
-- 116 files · ~39,535 words
+- 116 files · ~39,654 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 904 nodes · 1285 edges · 94 communities (52 shown, 42 thin omitted)
-- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 98 edges (avg confidence: 0.81)
+- 904 nodes · 1289 edges · 100 communities (58 shown, 42 thin omitted)
+- Extraction: 92% EXTRACTED · 8% INFERRED · 0% AMBIGUOUS · INFERRED: 99 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `80bbf74a`
+- Built from commit: `a0546fc7`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -100,9 +100,15 @@
 - [[_COMMUNITY_Community 91|Community 91]]
 - [[_COMMUNITY_Community 92|Community 92]]
 - [[_COMMUNITY_Community 93|Community 93]]
+- [[_COMMUNITY_Community 94|Community 94]]
+- [[_COMMUNITY_Community 95|Community 95]]
+- [[_COMMUNITY_Community 96|Community 96]]
+- [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `DrawingViewModel` - 39 edges
+1. `DrawingViewModel` - 40 edges
 2. `DrawingCanvas()` - 24 edges
 3. `SketchRepositoryImpl` - 22 edges
 4. `GalleryViewModel` - 18 edges
@@ -142,19 +148,19 @@
 - **KMP-Ready Technology Stack** — sketchapp_claude_md_koin, sketchapp_claude_md_stateflow, sketchapp_claude_md_networkresult [INFERRED]
 - **Drawing Feature Components** — sketchapp_claude_md_drawingscreen, sketchapp_claude_md_drawingviewmodel, sketchapp_claude_md_drawingcanvas, sketchapp_claude_md_bitmapexporter [INFERRED]
 
-## Communities (94 total, 42 thin omitted)
+## Communities (100 total, 42 thin omitted)
 
 ### Community 0 - "Drawing Canvas & Image Elements"
-Cohesion: 0.06
-Nodes (31): Bitmap, Boolean, Result, String, Result, Sketch, Boolean, Int (+23 more)
+Cohesion: 0.08
+Nodes (22): Boolean, BrushType, DrawingUiState, DrawingViewModel, EmojiAdded, EmojiMoved, EmojiResized, EmojiRotated (+14 more)
 
 ### Community 1 - "Architecture Docs & CLAUDE.md"
 Cohesion: 0.07
 Nodes (37): AppModule.kt, BitmapExporter.kt, Clean Architecture, Cloudinary Image Storage, CloudinaryModule.kt, Data Layer, DataStore Local Preferences, DI Layer (Koin) (+29 more)
 
 ### Community 2 - "Auth Repository Data Layer"
-Cohesion: 0.06
-Nodes (25): User, AuthUser, Flow, Result, String, Unit, AuthRepository, Context (+17 more)
+Cohesion: 0.20
+Nodes (8): AuthUser, Flow, Result, String, Unit, AuthRepository, firebaseModule, AuthRepositoryImpl
 
 ### Community 3 - "Sketch Repository & Drawing Data"
 Cohesion: 0.10
@@ -181,8 +187,8 @@ Cohesion: 0.07
 Nodes (34): CropHandle Enum, CropRect Data Class, CropResult Data Class, DrawingScreen.kt (modified for crop), ImageCropScreen.kt, ImageCropViewModel.kt, ImageCropScreenTest, ImageCropViewModelTest (+26 more)
 
 ### Community 9 - "Drawing & Preferences Repository"
-Cohesion: 0.08
-Nodes (21): Bitmap, Boolean, Result, String, Flow, UserPreferences, Flow, Result (+13 more)
+Cohesion: 0.16
+Nodes (11): Bitmap, Boolean, Result, String, Bitmap, Boolean, Result, String (+3 more)
 
 ### Community 10 - "User Preferences Layer"
 Cohesion: 0.08
@@ -197,8 +203,8 @@ Cohesion: 0.08
 Nodes (20): Boolean, SettingsViewModel, Boolean, Application, AuthViewModel, Bundle, ComponentActivity, DrawingToolbarStrokePreviewTest (+12 more)
 
 ### Community 13 - "Gallery UI Components"
-Cohesion: 0.12
-Nodes (25): Boolean, Modifier, String, Int, Boolean, String, List, Modifier (+17 more)
+Cohesion: 0.14
+Nodes (22): Boolean, Modifier, String, Boolean, String, List, Modifier, Sketch (+14 more)
 
 ### Community 14 - "Navigation & Auth Flow"
 Cohesion: 0.11
@@ -316,25 +322,49 @@ Nodes (3): build.gradle.kts (top-level), Firebase Setup Guide, Android Release B
 Cohesion: 0.67
 Nodes (3): GradientButton / GradientOutlinedButton, ExportOptions, ExportOptionsDialog
 
+### Community 92 - "Community 92"
+Cohesion: 0.10
+Nodes (12): Bitmap, Boolean, Result, String, Result, Sketch, Boolean, SaveDrawingUseCase (+4 more)
+
+### Community 94 - "Community 94"
+Cohesion: 0.25
+Nodes (6): Flow, Result, Unit, User, repositoryModule, UserRepositoryImpl
+
+### Community 95 - "Community 95"
+Cohesion: 0.33
+Nodes (5): User, toDomain(), toDto(), UserDto, AuthUser
+
+### Community 96 - "Community 96"
+Cohesion: 0.38
+Nodes (4): Flow, UserPreferences, appModule, PreferencesRepositoryImpl
+
+### Community 97 - "Community 97"
+Cohesion: 0.29
+Nodes (6): AuthRepository, Result, CoroutineWorker, KoinComponent, SketchSyncWorker, SyncSketchesUseCase
+
+### Community 99 - "Community 99"
+Cohesion: 0.60
+Nodes (4): Context, cancel(), schedule(), syncNow()
+
 ## Knowledge Gaps
-- **265 isolated node(s):** `PreferencesKeys`, `Flow`, `DrawingViewModel`, `Int`, `StateFlow` (+260 more)
+- **263 isolated node(s):** `StateFlow`, `DrawingUiState`, `Job`, `BrushType`, `ShapeTool` (+258 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **42 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `SketchRepositoryImpl` connect `Sketch Repository & Drawing Data` to `Drawing & Preferences Repository`, `Auth Repository Data Layer`, `Cloudinary Upload Impl`, `Sketch Domain Interface`?**
+- **Why does `SketchRepositoryImpl` connect `Sketch Repository & Drawing Data` to `Cloudinary Upload Impl`, `Auth Repository Data Layer`, `Community 94`, `Sketch Domain Interface`?**
   _High betweenness centrality (0.196) - this node is a cross-community bridge._
 - **Why does `AppNavigation()` connect `Navigation & Auth Flow` to `Bitmap Export Rendering`, `Profile & Sign-Out Flow`, `App Entry & Theming`, `Gallery UI Components`, `Image Crop Screen UI`, `Settings Screen`?**
   _High betweenness centrality (0.177) - this node is a cross-community bridge._
-- **Why does `DrawingViewModel` connect `Drawing Canvas & Image Elements` to `Drawing Canvas Touch`, `Sketch Repository & Drawing Data`, `ViewModel State & Auth`, `Bitmap Export Rendering`?**
-  _High betweenness centrality (0.165) - this node is a cross-community bridge._
+- **Why does `DrawingViewModel` connect `Drawing Canvas & Image Elements` to `Sketch Repository & Drawing Data`, `ViewModel State & Auth`, `Bitmap Export Rendering`, `Drawing Canvas Touch`, `Community 92`?**
+  _High betweenness centrality (0.166) - this node is a cross-community bridge._
 - **Are the 10 inferred relationships involving `DrawingCanvas()` (e.g. with `.onDraw()` and `.onDrawEnd()`) actually correct?**
   _`DrawingCanvas()` has 10 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 4 inferred relationships involving `SketchRepositoryImpl` (e.g. with `cloudinaryModule` and `databaseModule`) actually correct?**
   _`SketchRepositoryImpl` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 10 inferred relationships involving `DrawingScreen()` (e.g. with `AppNavigation()` and `Color`) actually correct?**
   _`DrawingScreen()` has 10 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `PreferencesKeys`, `Flow`, `DrawingViewModel` to the rest of the system?**
-  _272 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `StateFlow`, `DrawingUiState`, `Job` to the rest of the system?**
+  _270 weakly-connected nodes found - possible documentation gaps or missing edges._
