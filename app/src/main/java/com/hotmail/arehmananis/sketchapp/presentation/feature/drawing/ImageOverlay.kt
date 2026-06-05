@@ -49,6 +49,9 @@ fun ImageOverlay(
                 width = with(density) { image.width.toDp() },
                 height = with(density) { image.height.toDp() }
             )
+            // rotate() uses graphicsLayer which transforms hit-test bounds, so the
+            // draggable area follows the rotated image outline. dragAmount inside
+            // pointerInput is still delivered in screen space — no axis conversion needed.
             .rotate(image.rotation)
             .border(
                 width = 2.dp,
@@ -59,7 +62,7 @@ fun ImageOverlay(
                 detectDragGestures(
                     onDrag = { change, dragAmount ->
                         change.consume()
-                        dragOffset += Offset(dragAmount.x, dragAmount.y)
+                        dragOffset += dragAmount
                     },
                     onDragEnd = {
                         onDrag(dragOffset.x, dragOffset.y)

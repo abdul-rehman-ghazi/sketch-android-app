@@ -1,0 +1,637 @@
+{
+  "/Users/abdul.rehman/Development/projects/SketchApp/.claude/settings.local.json": {
+    "mtime": 1766989359.5409153,
+    "ast_hash": "ad20c65713ad88cee0d7ced5cc0c4892",
+    "semantic_hash": "ad20c65713ad88cee0d7ced5cc0c4892"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.vscode/launch.json": {
+    "mtime": 1766401614.67823,
+    "ast_hash": "350b9130e225905541de5c541f30642b",
+    "semantic_hash": "350b9130e225905541de5c541f30642b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.vscode/settings.json": {
+    "mtime": 1765974835.2617676,
+    "ast_hash": "73084d5052e5d11cdd26b7b0fa6f7f0c",
+    "semantic_hash": "73084d5052e5d11cdd26b7b0fa6f7f0c"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.vscode/tasks.json": {
+    "mtime": 1766401646.9451122,
+    "ast_hash": "282e10c6fe7a21b43f997e9f1aba553e",
+    "semantic_hash": "282e10c6fe7a21b43f997e9f1aba553e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/build.gradle.kts": {
+    "mtime": 1780569590.2152584,
+    "ast_hash": "9cea7758c6eeb7d9bd4e5ce6933aed3a",
+    "semantic_hash": "9cea7758c6eeb7d9bd4e5ce6933aed3a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/google-services.template.json": {
+    "mtime": 1766576422.432863,
+    "ast_hash": "42e70faa25773afb56c56dafaeb4ed82",
+    "semantic_hash": "42e70faa25773afb56c56dafaeb4ed82"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/androidTest/java/com/hotmail/arehmananis/sketchapp/ExampleInstrumentedTest.kt": {
+    "mtime": 1765959582.4161415,
+    "ast_hash": "8060469a659f92828499717ce833e1d0",
+    "semantic_hash": "8060469a659f92828499717ce833e1d0"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/androidTest/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingToolbarStrokePreviewTest.kt": {
+    "mtime": 1780406841.3157802,
+    "ast_hash": "2e52deba67f260b20f43e9aca93f9942",
+    "semantic_hash": "2e52deba67f260b20f43e9aca93f9942"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/MainActivity.kt": {
+    "mtime": 1766493475.7796607,
+    "ast_hash": "d35e6f26c2b4af87279f90de78356223",
+    "semantic_hash": "d35e6f26c2b4af87279f90de78356223"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/SketchApplication.kt": {
+    "mtime": 1766554458.0847394,
+    "ast_hash": "bdb1fce79de730948e12429a86477f2d",
+    "semantic_hash": "bdb1fce79de730948e12429a86477f2d"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/PreferencesDataStore.kt": {
+    "mtime": 1765974928.9145699,
+    "ast_hash": "91c6e7b24d6400c61dc0e4fa422afbcd",
+    "semantic_hash": "91c6e7b24d6400c61dc0e4fa422afbcd"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/db/SketchDatabase.kt": {
+    "mtime": 1780403207.9069715,
+    "ast_hash": "44a8c6c59ba018eda3c09bd945e09d7f",
+    "semantic_hash": "44a8c6c59ba018eda3c09bd945e09d7f"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/db/dao/SketchDao.kt": {
+    "mtime": 1766491205.216891,
+    "ast_hash": "65cdaee7d523ebcc9098b98414770567",
+    "semantic_hash": "65cdaee7d523ebcc9098b98414770567"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/db/entity/SketchEntity.kt": {
+    "mtime": 1780403197.8168294,
+    "ast_hash": "86fca15ed351f9b11a32395ff6a7acb9",
+    "semantic_hash": "86fca15ed351f9b11a32395ff6a7acb9"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/db/migrations/Migrations.kt": {
+    "mtime": 1766752805.3475745,
+    "ast_hash": "b7b02c405c3958dada619d6d8bf41d40",
+    "semantic_hash": "b7b02c405c3958dada619d6d8bf41d40"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/serializer/EmojiSerializer.kt": {
+    "mtime": 1774424414.7990918,
+    "ast_hash": "ae7511aa8527f6590c56fdf4980a7625",
+    "semantic_hash": "ae7511aa8527f6590c56fdf4980a7625"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/serializer/ImageSerializer.kt": {
+    "mtime": 1780403164.7768657,
+    "ast_hash": "4ff6c5bc5a6343bf368161a513a95bfc",
+    "semantic_hash": "4ff6c5bc5a6343bf368161a513a95bfc"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/local/serializer/PathSerializer.kt": {
+    "mtime": 1766750746.302757,
+    "ast_hash": "43a3c55a67c24d14d57557e21ae1827c",
+    "semantic_hash": "43a3c55a67c24d14d57557e21ae1827c"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/NetworkResult.kt": {
+    "mtime": 1766402986.4788148,
+    "ast_hash": "5c63dc0f1beeef40018d8325a36e17c3",
+    "semantic_hash": "5c63dc0f1beeef40018d8325a36e17c3"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryConfig.kt": {
+    "mtime": 1766554216.3124812,
+    "ast_hash": "5a69c0db4bb3442b37d16d90c7ac7210",
+    "semantic_hash": "5a69c0db4bb3442b37d16d90c7ac7210"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryDataSource.kt": {
+    "mtime": 1766752911.5437424,
+    "ast_hash": "76d518684b862dc15af43a6bac2d2794",
+    "semantic_hash": "76d518684b862dc15af43a6bac2d2794"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryDataSourceImpl.kt": {
+    "mtime": 1767006877.5716724,
+    "ast_hash": "2b9a826285da7e81258ffc3395827d86",
+    "semantic_hash": "2b9a826285da7e81258ffc3395827d86"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/cloudinary/CloudinaryExceptions.kt": {
+    "mtime": 1766554239.561024,
+    "ast_hash": "9a2ab7bdc318cd89ddaee5e6d6fc6734",
+    "semantic_hash": "9a2ab7bdc318cd89ddaee5e6d6fc6734"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/dto/UserDto.kt": {
+    "mtime": 1766399631.230052,
+    "ast_hash": "3b1cca9ad185f811101218f42b07b063",
+    "semantic_hash": "3b1cca9ad185f811101218f42b07b063"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/firebase/dto/SketchDto.kt": {
+    "mtime": 1774424509.881772,
+    "ast_hash": "d8a8dbf5c81b5205b56dfc1f5127b19c",
+    "semantic_hash": "d8a8dbf5c81b5205b56dfc1f5127b19c"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/remote/model/ApiResponse.kt": {
+    "mtime": 1766399641.0839841,
+    "ast_hash": "113e2d82471b631e603286e6bc6b633c",
+    "semantic_hash": "113e2d82471b631e603286e6bc6b633c"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/AuthRepositoryImpl.kt": {
+    "mtime": 1766573075.32221,
+    "ast_hash": "ccd37d5fa970f0ac84dcb223d1740cfa",
+    "semantic_hash": "ccd37d5fa970f0ac84dcb223d1740cfa"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/DrawingRepositoryImpl.kt": {
+    "mtime": 1767335459.542874,
+    "ast_hash": "e1482effe6c7660fafe2d2fa6c0e707e",
+    "semantic_hash": "e1482effe6c7660fafe2d2fa6c0e707e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/PreferencesRepositoryImpl.kt": {
+    "mtime": 1766399828.0891724,
+    "ast_hash": "4dce8f97891a8685b15833e7fada04b9",
+    "semantic_hash": "4dce8f97891a8685b15833e7fada04b9"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SketchRepositoryImpl.kt": {
+    "mtime": 1774435702.3666875,
+    "ast_hash": "1e8fd5b63197658408eb88a7ba3e7939",
+    "semantic_hash": "1e8fd5b63197658408eb88a7ba3e7939"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/SyncSchedulerRepositoryImpl.kt": {
+    "mtime": 1767164976.5679681,
+    "ast_hash": "5d6045c1994b98768f487ab3ce9f774f",
+    "semantic_hash": "5d6045c1994b98768f487ab3ce9f774f"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/repository/UserRepositoryImpl.kt": {
+    "mtime": 1766399818.4189754,
+    "ast_hash": "6c422aa3771ba719c0aaeb204a2e2b87",
+    "semantic_hash": "6c422aa3771ba719c0aaeb204a2e2b87"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/data/sync/SketchSyncWorker.kt": {
+    "mtime": 1767094850.8557475,
+    "ast_hash": "27fe7427a776b9a33f8b8eabb2305038",
+    "semantic_hash": "27fe7427a776b9a33f8b8eabb2305038"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/AppModule.kt": {
+    "mtime": 1766399863.384374,
+    "ast_hash": "c881d67d36d8c469734dd9c7e039be2d",
+    "semantic_hash": "c881d67d36d8c469734dd9c7e039be2d"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/CloudinaryModule.kt": {
+    "mtime": 1774436306.680119,
+    "ast_hash": "fab517624276117aa9516cf702e69f41",
+    "semantic_hash": "fab517624276117aa9516cf702e69f41"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/DatabaseModule.kt": {
+    "mtime": 1774424927.738536,
+    "ast_hash": "f48bb4c3f92f718c717d7d1079735f60",
+    "semantic_hash": "f48bb4c3f92f718c717d7d1079735f60"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/FirebaseModule.kt": {
+    "mtime": 1766493491.3586078,
+    "ast_hash": "6c4b4856a126a3d6a1c430a29d60d2a5",
+    "semantic_hash": "6c4b4856a126a3d6a1c430a29d60d2a5"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/NetworkModule.kt": {
+    "mtime": 1766399730.3054657,
+    "ast_hash": "1d8ff53d311aacb9b570ec7f690c6fe6",
+    "semantic_hash": "1d8ff53d311aacb9b570ec7f690c6fe6"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/di/RepositoryModule.kt": {
+    "mtime": 1780569940.2588615,
+    "ast_hash": "6b0d15441d99ba89b2c0649005379401",
+    "semantic_hash": "6b0d15441d99ba89b2c0649005379401"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/AuthUser.kt": {
+    "mtime": 1766491040.395925,
+    "ast_hash": "2aaf4c80782fdf8ee6a2639f48bdf2d5",
+    "semantic_hash": "2aaf4c80782fdf8ee6a2639f48bdf2d5"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/BrushType.kt": {
+    "mtime": 1766985948.702789,
+    "ast_hash": "43d8fb45dce55fc6a6115327a5371d00",
+    "semantic_hash": "43d8fb45dce55fc6a6115327a5371d00"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/DrawingPath.kt": {
+    "mtime": 1767264498.8551216,
+    "ast_hash": "f33da5e1a3b7c36459321a5866e3a87a",
+    "semantic_hash": "f33da5e1a3b7c36459321a5866e3a87a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/EmojiElement.kt": {
+    "mtime": 1767264747.1415067,
+    "ast_hash": "62a52d95807648c271817920b21ecea2",
+    "semantic_hash": "62a52d95807648c271817920b21ecea2"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/ImageElement.kt": {
+    "mtime": 1767266858.7376955,
+    "ast_hash": "b4fbce99eae99a68188f57d12469bd71",
+    "semantic_hash": "b4fbce99eae99a68188f57d12469bd71"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/ShapeTool.kt": {
+    "mtime": 1767264483.2243712,
+    "ast_hash": "8b1f295cddc74d94ddf174156bf8b437",
+    "semantic_hash": "8b1f295cddc74d94ddf174156bf8b437"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/Sketch.kt": {
+    "mtime": 1774424432.910111,
+    "ast_hash": "aee3a0edae4eb7d9e15fa0c2c3aca225",
+    "semantic_hash": "aee3a0edae4eb7d9e15fa0c2c3aca225"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/ThemeMode.kt": {
+    "mtime": 1765974899.8659866,
+    "ast_hash": "7a06c0ee690a5fcca191564e340bb324",
+    "semantic_hash": "7a06c0ee690a5fcca191564e340bb324"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/User.kt": {
+    "mtime": 1765974898.8371325,
+    "ast_hash": "dfa692f4b29afeefac5228fe7ae5ac84",
+    "semantic_hash": "dfa692f4b29afeefac5228fe7ae5ac84"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/model/UserPreferences.kt": {
+    "mtime": 1765974900.923583,
+    "ast_hash": "aee843643a8432d00c5a8f715efbe13b",
+    "semantic_hash": "aee843643a8432d00c5a8f715efbe13b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/AuthRepository.kt": {
+    "mtime": 1766491094.1704237,
+    "ast_hash": "7e8ed209cbb3f1c7e13661abf5e6aa70",
+    "semantic_hash": "7e8ed209cbb3f1c7e13661abf5e6aa70"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/DrawingRepository.kt": {
+    "mtime": 1767335431.6328726,
+    "ast_hash": "1e1b075f5142a28327354ca49617e46e",
+    "semantic_hash": "1e1b075f5142a28327354ca49617e46e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/PreferencesRepository.kt": {
+    "mtime": 1765974912.69505,
+    "ast_hash": "bf65fdfc8cb713aba6e1c40485191a10",
+    "semantic_hash": "bf65fdfc8cb713aba6e1c40485191a10"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/SketchRepository.kt": {
+    "mtime": 1774424554.3039024,
+    "ast_hash": "86d790d4c1d86c790bd4e81a13acd270",
+    "semantic_hash": "86d790d4c1d86c790bd4e81a13acd270"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/SyncSchedulerRepository.kt": {
+    "mtime": 1767164968.0342038,
+    "ast_hash": "2c6a856fe3f218bea3b33a435132f3d1",
+    "semantic_hash": "2c6a856fe3f218bea3b33a435132f3d1"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/repository/UserRepository.kt": {
+    "mtime": 1765974911.6514468,
+    "ast_hash": "2e30275d55fe4f516d2ec5eed9067b78",
+    "semantic_hash": "2e30275d55fe4f516d2ec5eed9067b78"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/GetCurrentUserUseCase.kt": {
+    "mtime": 1766399763.8519828,
+    "ast_hash": "a94b7456ae378dbf0f26a7ba9cdfd692",
+    "semantic_hash": "a94b7456ae378dbf0f26a7ba9cdfd692"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/GetUserPreferencesUseCase.kt": {
+    "mtime": 1766399779.7881846,
+    "ast_hash": "47b500debc8c3bb37bac295ec680fb9a",
+    "semantic_hash": "47b500debc8c3bb37bac295ec680fb9a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/UpdateUserPreferencesUseCase.kt": {
+    "mtime": 1766399788.3720417,
+    "ast_hash": "683e36488c13d2570ad024978420373d",
+    "semantic_hash": "683e36488c13d2570ad024978420373d"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/UpdateUserUseCase.kt": {
+    "mtime": 1766399772.7922442,
+    "ast_hash": "dbd0c58d972759b48271fa6c0d007842",
+    "semantic_hash": "dbd0c58d972759b48271fa6c0d007842"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/auth/GetCurrentAuthUserUseCase.kt": {
+    "mtime": 1766491147.2677808,
+    "ast_hash": "7faa0a88464723cf29429b87457fbcc5",
+    "semantic_hash": "7faa0a88464723cf29429b87457fbcc5"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/auth/SignInWithGoogleUseCase.kt": {
+    "mtime": 1766491147.13028,
+    "ast_hash": "6a7a4ee92b1403fdbd681fd4ae146360",
+    "semantic_hash": "6a7a4ee92b1403fdbd681fd4ae146360"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/auth/SignOutUseCase.kt": {
+    "mtime": 1766491147.8446107,
+    "ast_hash": "e74d8e992aacefbc72e669af7502966c",
+    "semantic_hash": "e74d8e992aacefbc72e669af7502966c"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/drawing/SaveDrawingUseCase.kt": {
+    "mtime": 1767335674.0683658,
+    "ast_hash": "b9e4d8d50ccf6527b09c1ecdf047dfbd",
+    "semantic_hash": "b9e4d8d50ccf6527b09c1ecdf047dfbd"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/CreateSketchUseCase.kt": {
+    "mtime": 1766491160.4587312,
+    "ast_hash": "c286a71050d01af32b5d8ab5c0f58b5a",
+    "semantic_hash": "c286a71050d01af32b5d8ab5c0f58b5a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/DeleteSketchUseCase.kt": {
+    "mtime": 1766491160.8947399,
+    "ast_hash": "36e00fea482d9adf5b94f5144fc22308",
+    "semantic_hash": "36e00fea482d9adf5b94f5144fc22308"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/GetSketchByIdUseCase.kt": {
+    "mtime": 1774424761.0335875,
+    "ast_hash": "9a44f0f5d141cf6f11551030253d5298",
+    "semantic_hash": "9a44f0f5d141cf6f11551030253d5298"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/GetUserSketchesUseCase.kt": {
+    "mtime": 1766491160.321941,
+    "ast_hash": "87bd13c1163a639eb39a0fcb3df0791d",
+    "semantic_hash": "87bd13c1163a639eb39a0fcb3df0791d"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/SyncSketchesUseCase.kt": {
+    "mtime": 1766491161.5055199,
+    "ast_hash": "4d7b70c50d946694b54c95de04982f13",
+    "semantic_hash": "4d7b70c50d946694b54c95de04982f13"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/TriggerSketchSyncUseCase.kt": {
+    "mtime": 1767165029.411054,
+    "ast_hash": "1afce2ea4aaa946fcd19b31bd46c89bd",
+    "semantic_hash": "1afce2ea4aaa946fcd19b31bd46c89bd"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/domain/usecase/sketch/UpdateSketchUseCase.kt": {
+    "mtime": 1766987563.6321568,
+    "ast_hash": "1844d61ee0fa7504228f1c25346e313b",
+    "semantic_hash": "1844d61ee0fa7504228f1c25346e313b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/AuthViewModel.kt": {
+    "mtime": 1766493452.6884665,
+    "ast_hash": "1511511f0ac3ad59df7280d87c12f306",
+    "semantic_hash": "1511511f0ac3ad59df7280d87c12f306"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/common/Navigation.kt": {
+    "mtime": 1780570150.6277409,
+    "ast_hash": "7d456c1b14c03f362b24448398cc0526",
+    "semantic_hash": "7d456c1b14c03f362b24448398cc0526"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/common/components/GradientButton.kt": {
+    "mtime": 1766990240.888808,
+    "ast_hash": "0b825bf645f1c0844407bd4ab8ead8c0",
+    "semantic_hash": "0b825bf645f1c0844407bd4ab8ead8c0"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/auth/GoogleSignInHelper.kt": {
+    "mtime": 1766572952.9776392,
+    "ast_hash": "bc2aecfeb227fcee875ca96c5e6eae87",
+    "semantic_hash": "bc2aecfeb227fcee875ca96c5e6eae87"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/auth/LoginScreen.kt": {
+    "mtime": 1766491423.1850455,
+    "ast_hash": "867bad43533b4ff080d65170f9b0e88b",
+    "semantic_hash": "867bad43533b4ff080d65170f9b0e88b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/auth/LoginViewModel.kt": {
+    "mtime": 1766572999.701263,
+    "ast_hash": "2f85a2b86c816809d2f8e5924585da27",
+    "semantic_hash": "2f85a2b86c816809d2f8e5924585da27"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/BitmapExporter.kt": {
+    "mtime": 1780401114.073878,
+    "ast_hash": "97b0b0ed643dfc58a275f2bd619cab8f",
+    "semantic_hash": "97b0b0ed643dfc58a275f2bd619cab8f"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/BrushIconMapper.kt": {
+    "mtime": 1766755980.8858538,
+    "ast_hash": "5b2b116e5de5a363f7c8abbc34f795bd",
+    "semantic_hash": "5b2b116e5de5a363f7c8abbc34f795bd"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingCanvas.kt": {
+    "mtime": 1780403411.103443,
+    "ast_hash": "e5e12b0e5e94b1d8d144a40b31d57f65",
+    "semantic_hash": "e5e12b0e5e94b1d8d144a40b31d57f65"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingScreen.kt": {
+    "mtime": 1780576651.6826015,
+    "ast_hash": "34a5918cbb431983b1cedf80394780dc",
+    "semantic_hash": "34a5918cbb431983b1cedf80394780dc"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingToolbar.kt": {
+    "mtime": 1780576657.7608705,
+    "ast_hash": "d091454abbb095c8e7cbe16fd7daa2fe",
+    "semantic_hash": "d091454abbb095c8e7cbe16fd7daa2fe"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/DrawingViewModel.kt": {
+    "mtime": 1780576651.6564298,
+    "ast_hash": "6035dd4da3e974724658dfd67dc99651",
+    "semantic_hash": "6035dd4da3e974724658dfd67dc99651"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/EmojiOverlay.kt": {
+    "mtime": 1780387092.0835319,
+    "ast_hash": "46a2ea0415dabfe13869361e625b5f0b",
+    "semantic_hash": "46a2ea0415dabfe13869361e625b5f0b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/EmojiPicker.kt": {
+    "mtime": 1774506297.926032,
+    "ast_hash": "b7c8f29934d21b8ffd858ffe6d29110a",
+    "semantic_hash": "b7c8f29934d21b8ffd858ffe6d29110a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ExportOptionsDialog.kt": {
+    "mtime": 1767338420.8354843,
+    "ast_hash": "cd17d2f3e1b717b63254d300bd4dc143",
+    "semantic_hash": "cd17d2f3e1b717b63254d300bd4dc143"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageCropScreen.kt": {
+    "mtime": 1780570046.64121,
+    "ast_hash": "2ff487c3c4aa94a65c9416658cc5b63e",
+    "semantic_hash": "2ff487c3c4aa94a65c9416658cc5b63e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageCropViewModel.kt": {
+    "mtime": 1780573447.4673162,
+    "ast_hash": "de95f00ab9c788983f5e3c89b55de9fc",
+    "semantic_hash": "de95f00ab9c788983f5e3c89b55de9fc"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ImageOverlay.kt": {
+    "mtime": 1780402218.127466,
+    "ast_hash": "56e185c02a364a93b600bb04a4ee13db",
+    "semantic_hash": "56e185c02a364a93b600bb04a4ee13db"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/drawing/ShareHelper.kt": {
+    "mtime": 1774509818.1005957,
+    "ast_hash": "17755254df87071694f25583c0cf6d81",
+    "semantic_hash": "17755254df87071694f25583c0cf6d81"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/gallery/GalleryDialogs.kt": {
+    "mtime": 1767008077.2684205,
+    "ast_hash": "a0a338063575f7b8ab0ecad4be3d63c2",
+    "semantic_hash": "a0a338063575f7b8ab0ecad4be3d63c2"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/gallery/GalleryScreen.kt": {
+    "mtime": 1774507185.452202,
+    "ast_hash": "2e57a57eb91ddb7f3aed0988bf130e93",
+    "semantic_hash": "2e57a57eb91ddb7f3aed0988bf130e93"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/gallery/GalleryViewModel.kt": {
+    "mtime": 1766987744.3302994,
+    "ast_hash": "5a9baed2cc51c8e912af556277c7f24e",
+    "semantic_hash": "5a9baed2cc51c8e912af556277c7f24e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/home/HomeScreen.kt": {
+    "mtime": 1766400019.2377627,
+    "ast_hash": "c6dc72b552e66975a2b157aa357f55e8",
+    "semantic_hash": "c6dc72b552e66975a2b157aa357f55e8"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/home/HomeViewModel.kt": {
+    "mtime": 1766399917.281945,
+    "ast_hash": "584f6ea555806fcce5fc705a2094c0f5",
+    "semantic_hash": "584f6ea555806fcce5fc705a2094c0f5"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/profile/ProfileScreen.kt": {
+    "mtime": 1780398731.848282,
+    "ast_hash": "b7a4cd87ed73a805b836c50e794ba538",
+    "semantic_hash": "b7a4cd87ed73a805b836c50e794ba538"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/profile/ProfileViewModel.kt": {
+    "mtime": 1780398661.4100466,
+    "ast_hash": "b432c5cee75c180eb1e272877a6cdf80",
+    "semantic_hash": "b432c5cee75c180eb1e272877a6cdf80"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsScreen.kt": {
+    "mtime": 1767079518.1238048,
+    "ast_hash": "bea21f070c81b8fb40dbe18b6179deb7",
+    "semantic_hash": "bea21f070c81b8fb40dbe18b6179deb7"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/feature/settings/SettingsViewModel.kt": {
+    "mtime": 1766399936.6620846,
+    "ast_hash": "0365977d8dff3048dcb76d71a4e2a0d2",
+    "semantic_hash": "0365977d8dff3048dcb76d71a4e2a0d2"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/theme/Color.kt": {
+    "mtime": 1766990054.8585923,
+    "ast_hash": "2bdcbba054a7bbdd7fd88bedb75fdc99",
+    "semantic_hash": "2bdcbba054a7bbdd7fd88bedb75fdc99"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/theme/Shape.kt": {
+    "mtime": 1766989997.013417,
+    "ast_hash": "bebb655f055d62406ce1bbc5d733f2f1",
+    "semantic_hash": "bebb655f055d62406ce1bbc5d733f2f1"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/theme/Theme.kt": {
+    "mtime": 1767090021.1477082,
+    "ast_hash": "24f6e9007227977a51c4eb4829a83e97",
+    "semantic_hash": "24f6e9007227977a51c4eb4829a83e97"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/java/com/hotmail/arehmananis/sketchapp/presentation/theme/Type.kt": {
+    "mtime": 1766990110.867734,
+    "ast_hash": "2b85c66bf18100275b392518ed8b48a1",
+    "semantic_hash": "2b85c66bf18100275b392518ed8b48a1"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/test/java/com/hotmail/arehmananis/sketchapp/ExampleUnitTest.kt": {
+    "mtime": 1765959582.396316,
+    "ast_hash": "0ede010cf2b17d7e85f8fb3e3a46593e",
+    "semantic_hash": "0ede010cf2b17d7e85f8fb3e3a46593e"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/build.gradle.kts": {
+    "mtime": 1765976063.4059417,
+    "ast_hash": "1cb079cec521f1051c75ec03ed6c6b84",
+    "semantic_hash": "1cb079cec521f1051c75ec03ed6c6b84"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/gradlew": {
+    "mtime": 1765959581.0293305,
+    "ast_hash": "266606e78242737ef3da02a80ea0564d",
+    "semantic_hash": "266606e78242737ef3da02a80ea0564d"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/settings.gradle.kts": {
+    "mtime": 1773655924.0609896,
+    "ast_hash": "46ac11bbc973afe0412a0eb243bde0ba",
+    "semantic_hash": "46ac11bbc973afe0412a0eb243bde0ba"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.github/java-upgrade/20251222051029/progress.md": {
+    "mtime": 1766380230.07527,
+    "ast_hash": "5a9a2ecf6be3bd567ba0d7e556b5258f",
+    "semantic_hash": "5a9a2ecf6be3bd567ba0d7e556b5258f"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.github/workflows/build.yml": {
+    "mtime": 1767090363.9069657,
+    "ast_hash": "a78ad440dfcd808509fc7adfda0bf520",
+    "semantic_hash": "a78ad440dfcd808509fc7adfda0bf520"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/CLAUDE.md": {
+    "mtime": 1780641296.1492126,
+    "ast_hash": "6fedc4c4bae6ba6cd94e9190ac2876cc",
+    "semantic_hash": "6fedc4c4bae6ba6cd94e9190ac2876cc"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/FIREBASE_SETUP.md": {
+    "mtime": 1766576562.2297082,
+    "ast_hash": "701a9e332c08222430a59d0fbbaacf80",
+    "semantic_hash": "701a9e332c08222430a59d0fbbaacf80"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/README.md": {
+    "mtime": 1767091268.3279984,
+    "ast_hash": "56feab12f7b7f1b1b744aa51306ed5df",
+    "semantic_hash": "56feab12f7b7f1b1b744aa51306ed5df"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/TODO.md": {
+    "mtime": 1774506031.3871136,
+    "ast_hash": "1622b5a974bcce153890963b16c5a45b",
+    "semantic_hash": "1622b5a974bcce153890963b16c5a45b"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/docs/superpowers/plans/2026-06-02-stroke-preview-bubble.md": {
+    "mtime": 1780406333.3177156,
+    "ast_hash": "75b7fa46c27aa93b1331a3f0866c8552",
+    "semantic_hash": "75b7fa46c27aa93b1331a3f0866c8552"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/docs/superpowers/plans/2026-06-04-image-cropper.md": {
+    "mtime": 1780569372.6714797,
+    "ast_hash": "3dc2d86d70ca52cb9d61af091e9d6f8a",
+    "semantic_hash": "3dc2d86d70ca52cb9d61af091e9d6f8a"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/docs/superpowers/specs/2026-06-02-stroke-preview-bubble-design.md": {
+    "mtime": 1780403891.3580346,
+    "ast_hash": "b13245886d18a3f7060df4c9474a2956",
+    "semantic_hash": "b13245886d18a3f7060df4c9474a2956"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/docs/superpowers/specs/2026-06-04-image-cropper-design.md": {
+    "mtime": 1780568852.5920033,
+    "ast_hash": "63ac646ecd064f2a55cd298be418101f",
+    "semantic_hash": "63ac646ecd064f2a55cd298be418101f"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-hdpi/ic_launcher.webp": {
+    "mtime": 1765959581.7442808,
+    "ast_hash": "39d9bb21eb48f128a71c3f01ad3cd427",
+    "semantic_hash": "39d9bb21eb48f128a71c3f01ad3cd427"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp": {
+    "mtime": 1765959581.7491162,
+    "ast_hash": "70d6f58af3c76ee221c829b1ce9daa04",
+    "semantic_hash": "70d6f58af3c76ee221c829b1ce9daa04"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-mdpi/ic_launcher.webp": {
+    "mtime": 1765959581.7561588,
+    "ast_hash": "d2acce71c7b46e5e9540d23a9f7b2166",
+    "semantic_hash": "d2acce71c7b46e5e9540d23a9f7b2166"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp": {
+    "mtime": 1765959581.7601871,
+    "ast_hash": "6376acb48f96a855ee95c113cd7fd616",
+    "semantic_hash": "6376acb48f96a855ee95c113cd7fd616"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xhdpi/ic_launcher.webp": {
+    "mtime": 1765959581.7680357,
+    "ast_hash": "bd087d80b70bec05a43c745f29dc3ffc",
+    "semantic_hash": "bd087d80b70bec05a43c745f29dc3ffc"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp": {
+    "mtime": 1765959581.772368,
+    "ast_hash": "7479edd56ab712609f030054bffd7263",
+    "semantic_hash": "7479edd56ab712609f030054bffd7263"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp": {
+    "mtime": 1765959581.7795565,
+    "ast_hash": "ea180e8d1a2e8300cc998b987266b736",
+    "semantic_hash": "ea180e8d1a2e8300cc998b987266b736"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp": {
+    "mtime": 1765959581.7840326,
+    "ast_hash": "947842742b29eeda80ee0805e1600366",
+    "semantic_hash": "947842742b29eeda80ee0805e1600366"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp": {
+    "mtime": 1765959581.790934,
+    "ast_hash": "54ab624970c86c2146e76b93f27586f7",
+    "semantic_hash": "54ab624970c86c2146e76b93f27586f7"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp": {
+    "mtime": 1765959581.7952943,
+    "ast_hash": "9ee591be72fb336861a8044086054daa",
+    "semantic_hash": "9ee591be72fb336861a8044086054daa"
+  },
+  "/Users/abdul.rehman/Development/projects/SketchApp/.claude/settings.json": {
+    "mtime": 1780641296.1494832,
+    "ast_hash": "bfee062c3962c14264fd704e975a6b38",
+    "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
+  }
+}

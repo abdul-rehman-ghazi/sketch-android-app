@@ -813,6 +813,17 @@ class DrawingViewModel(
     private var imagePinchBaseWidth: Float? = null
     private var imagePinchBaseHeight: Float? = null
 
+    private fun snapRotation(degrees: Float, threshold: Float = 10f): Float {
+        val normalized = ((degrees % 360f) + 360f) % 360f
+        val snap = listOf(0f, 90f, 180f, 270f, 360f)
+            .minByOrNull { target ->
+                val diff = Math.abs(normalized - target)
+                minOf(diff, 360f - diff)
+            }!!
+        val diff = Math.abs(normalized - snap).let { minOf(it, 360f - it) }
+        return if (diff <= threshold) snap % 360f else normalized
+    }
+
     fun onImagePinchStart() {
         val imageId = _uiState.value.selectedImageId ?: return
         val image = _uiState.value.imageElements.find { it.id == imageId } ?: return
@@ -826,14 +837,17 @@ class DrawingViewModel(
         val baseRotation = imagePinchBaseRotation ?: return
         val baseWidth = imagePinchBaseWidth ?: return
         val baseHeight = imagePinchBaseHeight ?: return
-        val newWidth = (baseWidth * cumulativeZoom).coerceIn(50f, 2000f)
-        val newHeight = (baseHeight * cumulativeZoom).coerceIn(50f, 2000f)
+        val minZoom = maxOf(50f / baseWidth, 50f / baseHeight)
+        val maxZoom = minOf(2000f / baseWidth, 2000f / baseHeight)
+        val clampedZoom = cumulativeZoom.coerceIn(minZoom, maxZoom)
+        val newWidth = baseWidth * clampedZoom
+        val newHeight = baseHeight * clampedZoom
         _uiState.update {
             it.copy(imageElements = it.imageElements.map { img ->
                 if (img.id == imageId) img.copy(
                     width = newWidth,
                     height = newHeight,
-                    rotation = baseRotation + totalRotationDelta
+                    rotation = snapRotation(baseRotation + totalRotationDelta)
                 ) else img
             })
         }
