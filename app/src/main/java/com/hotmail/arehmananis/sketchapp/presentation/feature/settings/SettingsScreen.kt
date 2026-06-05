@@ -40,6 +40,7 @@ fun SettingsScreen(
         onThemeChange = viewModel::updateThemeMode,
         onNotificationsToggle = viewModel::toggleNotifications,
         onAnalyticsToggle = viewModel::toggleAnalytics,
+        onAutoSaveToggle = viewModel::toggleAutoSave,
         modifier = modifier
     )
 }
@@ -50,6 +51,7 @@ private fun SettingsScreenContent(
     onThemeChange: (ThemeMode) -> Unit,
     onNotificationsToggle: (Boolean) -> Unit,
     onAnalyticsToggle: (Boolean) -> Unit,
+    onAutoSaveToggle: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -95,6 +97,12 @@ private fun SettingsScreenContent(
                             description = "Help improve the app by sharing usage data",
                             checked = uiState.preferences.analyticsEnabled,
                             onCheckedChange = onAnalyticsToggle
+                        )
+                        SwitchSettingItem(
+                            title = "Auto Save",
+                            description = "Automatically save sketch 15 seconds after changes",
+                            checked = uiState.preferences.autoSaveEnabled,
+                            onCheckedChange = onAutoSaveToggle
                         )
                     }
                 }

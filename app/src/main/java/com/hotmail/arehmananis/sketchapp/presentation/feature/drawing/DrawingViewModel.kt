@@ -14,11 +14,15 @@ import com.hotmail.arehmananis.sketchapp.domain.model.PathPoint
 import com.hotmail.arehmananis.sketchapp.domain.model.ShapeTool
 import com.hotmail.arehmananis.sketchapp.domain.model.Sketch
 import com.hotmail.arehmananis.sketchapp.domain.model.SyncStatus
+import com.hotmail.arehmananis.sketchapp.domain.usecase.GetUserPreferencesUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.auth.GetCurrentAuthUserUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.drawing.SaveDrawingUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.CreateSketchUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.GetSketchByIdUseCase
 import com.hotmail.arehmananis.sketchapp.domain.usecase.sketch.TriggerSketchSyncUseCase
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -29,6 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.UUID
+import kotlin.time.Duration.Companion.seconds
 
 /**
  * ViewModel for drawing screen with undo/redo functionality
@@ -38,11 +43,33 @@ class DrawingViewModel(
     private val saveDrawingUseCase: SaveDrawingUseCase,
     private val createSketchUseCase: CreateSketchUseCase,
     private val getSketchByIdUseCase: GetSketchByIdUseCase,
-    private val triggerSketchSyncUseCase: TriggerSketchSyncUseCase
+    private val triggerSketchSyncUseCase: TriggerSketchSyncUseCase,
+    private val getUserPreferencesUseCase: GetUserPreferencesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DrawingUiState())
     val uiState: StateFlow<DrawingUiState> = _uiState.asStateFlow()
+
+    val autoSaveRequested = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    private var autoSaveJob: Job? = null
+    private var autoSaveEnabled = true
+
+    init {
+        viewModelScope.launch {
+            getUserPreferencesUseCase().collect { prefs ->
+                autoSaveEnabled = prefs.autoSaveEnabled
+            }
+        }
+    }
+
+    private fun scheduleAutoSave() {
+        autoSaveJob?.cancel()
+        if (!autoSaveEnabled) return
+        autoSaveJob = viewModelScope.launch {
+            delay(15.seconds)
+            autoSaveRequested.emit(Unit)
+        }
+    }
 
     // Unified undo/redo stacks
     private sealed class UndoAction {
@@ -124,6 +151,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     fun undo() {
@@ -235,6 +263,7 @@ class DrawingViewModel(
                 }
             }
         }
+        scheduleAutoSave()
     }
 
     fun redo() {
@@ -346,6 +375,7 @@ class DrawingViewModel(
                 }
             }
         }
+        scheduleAutoSave()
     }
 
     fun setBrush(brush: BrushType) {
@@ -473,7 +503,7 @@ class DrawingViewModel(
         }
     }
 
-    fun saveSketch(canvasWidth: Int, canvasHeight: Int, createBitmap: () -> Bitmap) {
+    fun saveSketch(canvasWidth: Int, canvasHeight: Int, createBitmap: () -> Bitmap, isAutoSave: Boolean = false) {
         viewModelScope.launch {
             _uiState.update { it.copy(isSaving = true, saveError = null) }
 
@@ -516,10 +546,11 @@ class DrawingViewModel(
                         // Save to database
                         createSketchUseCase(sketch).fold(
                             onSuccess = {
+                                autoSaveJob?.cancel()
                                 _uiState.update {
                                     it.copy(
                                         isSaving = false,
-                                        saveSuccess = true
+                                        saveSuccess = !isAutoSave
                                     )
                                 }
 
@@ -585,6 +616,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     fun selectEmoji(emojiId: String?) {
@@ -612,6 +644,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     // Pinch-to-zoom + rotate for selected emoji — one undo entry per gesture
@@ -653,6 +686,7 @@ class DrawingViewModel(
         }
         if (baseSize != emoji.size || baseRotation != emoji.rotation) {
             _uiState.update { it.copy(canUndo = true, canRedo = false) }
+            scheduleAutoSave()
         }
         pinchBaseSize = null
         pinchBaseRotation = null
@@ -665,6 +699,7 @@ class DrawingViewModel(
                 selectedEmojiId = null
             )
         }
+        scheduleAutoSave()
     }
 
     // Share options dialog
@@ -736,6 +771,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     fun selectImage(imageId: String?) {
@@ -755,6 +791,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     fun deleteImage(imageId: String) {
@@ -769,6 +806,7 @@ class DrawingViewModel(
                 canRedo = false
             )
         }
+        scheduleAutoSave()
     }
 
     private var imagePinchBaseRotation: Float? = null
@@ -810,6 +848,7 @@ class DrawingViewModel(
             undoStack.add(UndoAction.ImageResized(imageId, baseWidth, baseHeight, image.width, image.height))
             redoStack.clear()
             _uiState.update { it.copy(canUndo = true, canRedo = false) }
+            scheduleAutoSave()
         }
         imagePinchBaseRotation = null
         imagePinchBaseWidth = null

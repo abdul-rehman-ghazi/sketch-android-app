@@ -20,6 +20,7 @@ class PreferencesDataStore(private val context: Context) {
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val NOTIFICATIONS_ENABLED = booleanPreferencesKey("notifications_enabled")
         val ANALYTICS_ENABLED = booleanPreferencesKey("analytics_enabled")
+        val AUTO_SAVE_ENABLED = booleanPreferencesKey("auto_save_enabled")
     }
 
     val userPreferencesFlow: Flow<UserPreferences> = context.dataStore.data
@@ -29,7 +30,8 @@ class PreferencesDataStore(private val context: Context) {
                     preferences[PreferencesKeys.THEME_MODE] ?: ThemeMode.SYSTEM.name
                 ),
                 notificationsEnabled = preferences[PreferencesKeys.NOTIFICATIONS_ENABLED] ?: true,
-                analyticsEnabled = preferences[PreferencesKeys.ANALYTICS_ENABLED] ?: true
+                analyticsEnabled = preferences[PreferencesKeys.ANALYTICS_ENABLED] ?: true,
+                autoSaveEnabled = preferences[PreferencesKeys.AUTO_SAVE_ENABLED] ?: true
             )
         }
 
@@ -38,6 +40,7 @@ class PreferencesDataStore(private val context: Context) {
             preferences[PreferencesKeys.THEME_MODE] = userPreferences.themeMode.name
             preferences[PreferencesKeys.NOTIFICATIONS_ENABLED] = userPreferences.notificationsEnabled
             preferences[PreferencesKeys.ANALYTICS_ENABLED] = userPreferences.analyticsEnabled
+            preferences[PreferencesKeys.AUTO_SAVE_ENABLED] = userPreferences.autoSaveEnabled
         }
     }
 }

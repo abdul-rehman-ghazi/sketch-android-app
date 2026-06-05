@@ -60,6 +60,16 @@ class SettingsViewModel(
             }
         }
     }
+
+    fun toggleAutoSave(enabled: Boolean) {
+        viewModelScope.launch {
+            val currentState = _uiState.value
+            if (currentState is SettingsUiState.Success) {
+                val updatedPreferences = currentState.preferences.copy(autoSaveEnabled = enabled)
+                updateUserPreferencesUseCase(updatedPreferences)
+            }
+        }
+    }
 }
 
 sealed interface SettingsUiState {

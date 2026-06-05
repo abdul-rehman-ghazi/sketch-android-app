@@ -78,6 +78,28 @@ fun DrawingScreen(
         if (uiState.saveSuccess) onBack()
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.autoSaveRequested.collect {
+            viewModel.saveSketch(
+                canvasWidth = canvasWidth,
+                canvasHeight = canvasHeight,
+                createBitmap = {
+                    createBitmapFromPaths(
+                        paths = uiState.paths,
+                        emojiElements = uiState.emojiElements,
+                        imageElements = uiState.imageElements,
+                        originalWidth = canvasWidth,
+                        originalHeight = canvasHeight,
+                        targetWidth = canvasWidth,
+                        targetHeight = canvasHeight,
+                        transparentBackground = false
+                    )
+                },
+                isAutoSave = true
+            )
+        }
+    }
+
     var previousExportPath by remember { mutableStateOf<String?>(null) }
     LaunchedEffect(uiState.lastExportedPath) {
         uiState.lastExportedPath?.let { path ->
