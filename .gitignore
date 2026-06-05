@@ -25,3 +25,9 @@ google-services.json
 .env.*.local
 **/secrets/
 credentials.json
+
+# Graphify knowledge graph (machine-specific and regeneratable)
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+graphify-out/cache/
+graphify-out/cost.json
